@@ -16,3 +16,24 @@ HELP.md
 
 # OS X
 .DS_Store
+
+# dependencies
+book-reader-react-ui/node_modules
+book-reader-react-ui/.pnp
+book-reader-react-ui/.pnp.js
+
+# testing
+book-reader-react-ui/coverage
+
+# production
+book-reader-react-ui/build
+
+# misc
+book-reader-react-ui/.env.local
+book-reader-react-ui/.env.development.local
+book-reader-react-ui/.env.test.local
+book-reader-react-ui/.env.production.local
+
+book-reader-react-ui/npm-debug.log*
+book-reader-react-ui/yarn-debug.log*
+book-reader-react-ui/yarn-error.log*
