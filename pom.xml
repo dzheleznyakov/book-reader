@@ -8,7 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<modules>
-		<module>book-reader-web</module>
+		<module>book-reader-restful-api</module>
 		<module>book-reader-data</module>
 		<module>book-reader-react-ui</module>
 	</modules>

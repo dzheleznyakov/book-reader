@@ -1,11 +1,11 @@
-package zh.bookreader;
+package zh.bookreader.reactui;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BookReaderApplicationTests {
-	@Test
-	void contextLoads() {
-	}
+class ReactUiApplicationTest {
+    @Test
+    void contextLoads() {
+    }
 }

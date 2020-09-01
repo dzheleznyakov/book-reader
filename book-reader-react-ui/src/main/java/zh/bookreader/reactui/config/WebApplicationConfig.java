@@ -1,4 +1,4 @@
-package zh.bookreader.config;
+package zh.bookreader.reactui.config;
 
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
