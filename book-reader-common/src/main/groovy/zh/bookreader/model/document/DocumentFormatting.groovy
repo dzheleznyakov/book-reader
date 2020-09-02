@@ -1,0 +1,64 @@
+package zh.bookreader.model.document
+
+enum DocumentFormatting {
+    ITALIC,
+    BOLD,
+    EMPH,
+
+    SIMPLE,
+
+    UNORDERED_LIST,
+    ORDERED_LIST,
+    LIST_ITEM,
+
+    TITLE,
+
+    LISTING,
+
+    DEFINITION,
+    DEFINITION_TERM,
+    DEFINITION_DESCR,
+
+    FIGURE,
+    SIDEBAR,
+
+    TABLE_HEADER,
+    TABLE_BODY,
+    TABLE_ROW,
+    TABLE_HEADER_CELL,
+    TABLE_CELL,
+
+    CAPTION,
+
+    FOOTNOTE,
+    FOOTNOTE_REF,
+
+    CODE,
+    CODE_VARIABLE,
+    CODE_NAME,
+    CODE_CLASSNAME,
+    CODE_OPERATOR,
+    CODE_BOOLEAN,
+    CODE_NUMBER,
+    CODE_STRING,
+    CODE_REGEXP,
+    CODE_ESCAPED,
+    CODE_COMMENT,
+    CODE_KEYWORD,
+
+    EPIGRAPH,
+
+    INDEX_TERM,
+    INDEX_LOCATOR,
+
+    FRAMED,
+    SUP,
+
+    TIP,
+    NOTE,
+    CAUTION,
+    WARNING,
+    ERROR,
+
+    FEATURED
+}
