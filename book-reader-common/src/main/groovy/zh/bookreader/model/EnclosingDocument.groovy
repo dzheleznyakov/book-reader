@@ -1,4 +1,4 @@
-package zh.bookreader.model.document
+package zh.bookreader.model
 
 import com.google.common.collect.ImmutableList
 

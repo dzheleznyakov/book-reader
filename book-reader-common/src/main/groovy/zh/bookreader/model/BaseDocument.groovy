@@ -1,14 +1,15 @@
-package zh.bookreader.model.document
+package zh.bookreader.model
 
 import com.google.common.collect.ImmutableList
 import com.google.common.collect.ImmutableMap
+import com.google.common.collect.ImmutableSet
 import groovy.transform.PackageScope
 
 @PackageScope
 abstract class BaseDocument<CONTENT_TYPE> implements Document<CONTENT_TYPE> {
     final DocumentType documentType
     final String id
-    final List<DocumentFormatting> formatting
+    final Set<DocumentFormatting> formatting
     final Map<String, String> metadata
 
     protected BaseDocument(Builder<CONTENT_TYPE> builder) {
@@ -22,7 +23,7 @@ abstract class BaseDocument<CONTENT_TYPE> implements Document<CONTENT_TYPE> {
         final DocumentType documentType
         String id
         final ImmutableMap.Builder<String, String> metadata = ImmutableMap.builder()
-        final ImmutableList.Builder<DocumentFormatting> formatting = ImmutableList.builder()
+        final ImmutableSet.Builder<DocumentFormatting> formatting = ImmutableSet.builder()
 
         protected Builder(DocumentType documentType) {
             this.documentType = documentType

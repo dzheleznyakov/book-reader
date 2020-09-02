@@ -1,4 +1,4 @@
-package zh.bookreader.model.document
+package zh.bookreader.model
 
 class ImageDocument extends BaseDocument<Byte[]> {
     final Byte[] content

@@ -1,4 +1,4 @@
-package zh.bookreader.model.document
+package zh.bookreader.model
 
 class TextDocument extends BaseDocument<String> {
     final String content
