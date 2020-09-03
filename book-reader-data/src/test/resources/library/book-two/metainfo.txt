@@ -1,0 +1,5 @@
+Book Title=Book Title 2
+Authors=Author 2.1; Author 2.2
+Release Date=February 1970
+Topics=Test 3
+Chapter Files=intro.html,p01.html,p02.html
