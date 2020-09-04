@@ -1,4 +1,4 @@
-Book Title=Book Title 2
+Book Title=Book Title Two
 Authors=Author 2.1; Author 2.2
 Release Date=February 1970
 Topics=Test 3

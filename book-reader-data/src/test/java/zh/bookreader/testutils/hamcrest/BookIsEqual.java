@@ -13,7 +13,6 @@ import java.util.Objects;
 import java.util.function.Function;
 
 class BookIsEqual extends TypeSafeMatcher<Book> {
-
     private final Book book;
     private String fieldUnderTest = "";
     private Function<Book, ?> descriptionValue = b -> null;
@@ -41,6 +40,7 @@ class BookIsEqual extends TypeSafeMatcher<Book> {
         return equals(value.apply(book), value.apply(item));
     }
 
+    @SuppressWarnings("unchecked")
     private boolean equals(Object expected, Object actual) {
         if (actual == null)
             return actual == expected;

@@ -11,7 +11,7 @@ public interface BookService {
     List<Book> findAll();
 
     @Nonnull
-    Optional<Book> findById();
+    Optional<Book> findById(String id);
 
     @Nonnull
     List<Book> findByTitle(String title);

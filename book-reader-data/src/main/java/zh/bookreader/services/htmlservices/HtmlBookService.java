@@ -12,7 +12,10 @@ import java.io.File;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
+import static java.util.stream.Collectors.joining;
 
 @Slf4j
 @Component
@@ -35,21 +38,39 @@ public class HtmlBookService implements BookService {
     }
 
     @Nonnull
-    private Book getBook(File bookDir) {
-        Book book = new BookProxy(bookDir);
-        return book;
+    @Override
+    public Optional<Book> findById(@Nonnull String id) {
+        File libraryDir = new File(pathToLibrary);
+        File[] files = libraryDir.listFiles((dir, name) -> Objects.equals(name, id));
+        return files == null || files.length == 0
+                ? Optional.empty()
+                : Optional.of(getBook(files[0]));
     }
 
     @Nonnull
     @Override
-    public Optional<Book> findById() {
-        return Optional.empty();
+    public List<Book> findByTitle(@Nonnull String title) {
+        String query = cleanUpTitleQuery(title);
+        return titleQueryIsTooShort(query)
+                ? ImmutableList.of()
+                : findAll().stream()
+                        .filter(book -> book.getTitle().matches(buildTitleSearchRegex(query)))
+                        .collect(ImmutableList.toImmutableList());
     }
 
     @Nonnull
-    @Override
-    public List<Book> findByTitle(String title) {
-        return ImmutableList.of();
+    private String cleanUpTitleQuery(@Nonnull String title) {
+        return title.replaceAll("[^\\w\\d ]", "");
+    }
+
+    private boolean titleQueryIsTooShort(String query) {
+        return query.replaceAll("\\s", "").length() <= 2;
+    }
+
+    @Nonnull
+    private String buildTitleSearchRegex(String query) {
+        return Arrays.stream(query.split(" "))
+                .collect(joining(".*", "(?i).*", ".*"));
     }
 
     @Nonnull
@@ -62,5 +83,10 @@ public class HtmlBookService implements BookService {
     @Override
     public List<Book> findByTopic(String topic) {
         return ImmutableList.of();
+    }
+
+    @Nonnull
+    private Book getBook(File bookDir) {
+        return new BookProxy(bookDir);
     }
 }
