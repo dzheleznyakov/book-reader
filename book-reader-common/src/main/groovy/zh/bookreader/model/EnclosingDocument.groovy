@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList
 class EnclosingDocument extends BaseDocument<List<Document>> {
     final List<Document> content
 
-    private EnclosingDocument(Builder builder) {
+    private EnclosingDocument(DocumentBuilder<List<Document>> builder) {
         super(builder)
         content = builder.content.build()
     }
@@ -33,11 +33,11 @@ class EnclosingDocument extends BaseDocument<List<Document>> {
         return result
     }
 
-    static BaseDocument.Builder<List<Document>> builder(DocumentType documentType) {
+    static DocumentBuilder<List<Document>> builder(DocumentType documentType) {
         new Builder(documentType)
     }
 
-    static class Builder extends BaseDocument.Builder<List<Document>> {
+    static class Builder extends DocumentBuilder<List<Document>> {
         private final ImmutableList.Builder<Document> content = ImmutableList.builder()
 
         Builder(DocumentType documentType) {
@@ -45,7 +45,7 @@ class EnclosingDocument extends BaseDocument<List<Document>> {
         }
 
         @Override
-        BaseDocument.Builder<List<Document>> withContent(content) {
+        DocumentBuilder<List<Document>> withContent(content) {
             if (content)
                 this.content.addAll content
             this

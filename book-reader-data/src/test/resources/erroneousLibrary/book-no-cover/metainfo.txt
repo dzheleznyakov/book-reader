@@ -1,0 +1,10 @@
+Book Title=Err Book No Cover
+Authors=Author 1.1; Author 1.2
+Release Date=January 1970
+Topics=Test 1; Test 2
+Cover Page Image=media/square.jpg
+Resource #1 Label=Mock resource 1
+Resource #1 Value=42
+Resource #2 Value=forty two
+Resource #2 Label=Mock resource 2
+Chapter Files=preface.html,ch01.html,ch02.html,app.html

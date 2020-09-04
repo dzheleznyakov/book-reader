@@ -23,6 +23,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
@@ -83,19 +84,16 @@ class HtmlBookServiceTest {
 
     @BeforeEach
     void setUpCovers() {
+        Function<String, Chapter> getChapter = name -> {
+            Chapter ch = new Chapter();
+            ch.setName(name);
+            return ch;
+        };
         var chapters1 = CHAPTERS_NAMES_1.stream()
-                .map(name -> {
-                    Chapter ch = new Chapter();
-                    ch.setName(name);
-                    return ch;
-                })
+                .map(getChapter)
                 .collect(ImmutableList.toImmutableList());
         var chapters2 = CHAPTERS_NAMES_2.stream()
-                .map(name -> {
-                    Chapter ch = new Chapter();
-                    ch.setName(name);
-                    return ch;
-                })
+                .map(getChapter)
                 .collect(ImmutableList.toImmutableList());
 
         book1 = new Book();

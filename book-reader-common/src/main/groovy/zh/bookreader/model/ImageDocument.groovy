@@ -3,7 +3,7 @@ package zh.bookreader.model
 class ImageDocument extends BaseDocument<Byte[]> {
     final Byte[] content
 
-    private ImageDocument(Builder builder) {
+    private ImageDocument(DocumentBuilder<Byte[]> builder) {
         super(builder)
         content = builder.content
     }
@@ -31,11 +31,11 @@ class ImageDocument extends BaseDocument<Byte[]> {
         return result
     }
 
-    static BaseDocument.Builder<Byte[]> builder(DocumentType documentType) {
+    static DocumentBuilder<Byte[]> builder(DocumentType documentType) {
         new Builder(documentType)
     }
 
-    static class Builder extends BaseDocument.Builder<Byte[]> {
+    static class Builder extends DocumentBuilder<Byte[]> {
         private Byte[] content = []
 
         Builder(DocumentType documentType) {
@@ -43,7 +43,7 @@ class ImageDocument extends BaseDocument<Byte[]> {
         }
 
         @Override
-        BaseDocument.Builder<Byte[]> withContent(uri) {
+        DocumentBuilder<Byte[]> withContent(uri) {
             File file
             if (uri && (file = new File(uri)).exists())
                 content = file.bytes

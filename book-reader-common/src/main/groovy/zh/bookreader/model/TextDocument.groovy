@@ -3,7 +3,7 @@ package zh.bookreader.model
 class TextDocument extends BaseDocument<String> {
     final String content
 
-    private TextDocument(Builder builder) {
+    private TextDocument(DocumentBuilder<String> builder) {
         super(builder)
         content = builder.content
     }
@@ -27,11 +27,11 @@ class TextDocument extends BaseDocument<String> {
         return result
     }
 
-    static BaseDocument.Builder<String> builder(DocumentType documentType) {
+    static DocumentBuilder<String> builder(DocumentType documentType) {
         new Builder(documentType)
     }
 
-    static class Builder extends BaseDocument.Builder<String> {
+    static class Builder extends DocumentBuilder<String> {
         private String content
 
         Builder(DocumentType documentType) {
@@ -39,18 +39,18 @@ class TextDocument extends BaseDocument<String> {
         }
 
         @Override
-        BaseDocument.Builder<String> withContent(def content) {
+        DocumentBuilder<String> withContent(def content) {
             this.content = content.replaceAll(/\s*\n\s*/, ' ')
             return this
         }
 
         @Override
-        BaseDocument.Builder<String> withMetadata(Map<String, String> metadata) {
+        DocumentBuilder<String> withMetadata(Map<String, String> metadata) {
             this
         }
 
         @Override
-        BaseDocument.Builder<String> withId(String id) {
+        DocumentBuilder<String> withId(String id) {
             this
         }
 
