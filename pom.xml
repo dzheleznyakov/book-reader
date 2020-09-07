@@ -61,6 +61,7 @@
 				<version>${groovy-all.version}</version>
 				<type>pom</type>
 			</dependency>
+
 			<dependency>
 				<groupId>zh.bookreader</groupId>
 				<artifactId>book-reader-common</artifactId>

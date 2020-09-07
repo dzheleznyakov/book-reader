@@ -27,6 +27,11 @@ class TextDocument extends BaseDocument<String> {
         return result
     }
 
+    @Override
+    String toString() {
+        content
+    }
+
     static DocumentBuilder<String> builder(DocumentType documentType) {
         new Builder(documentType)
     }

@@ -1,0 +1,81 @@
+code     => CODE
+code.nv  => CODE; CODE_VARIABLE
+code.n   => CODE; CODE_NAME
+code.na  => CODE; CODE_NAME
+code.nb  => CODE; CODE_NAME
+code.nf  => CODE; CODE_NAME
+code.nn  => CODE; CODE_NAME
+code.nx  => CODE; CODE_NAME
+code.o       => CODE; CODE_OPERATOR
+code.p       => CODE; CODE_OPERATOR
+code.s-Affix => CODE; CODE_OPERATOR
+code.err => CODE; ERROR
+code.ne  => CODE; ERROR
+code.bp  => CODE; CODE_BOOLEAN
+code.kc  => CODE; CODE_BOOLEAN
+code.mf  => CODE; CODE_NUMBER
+code.mi  => CODE; CODE_NUMBER
+code.s1  => CODE; CODE_STRING
+code.s2  => CODE; CODE_STRING
+code.sr  => CODE; CODE_REGEXP
+code.se  => CODE; CODE_ESCAPED
+code.c1  => CODE; CODE_COMMENT
+code.cm  => CODE; CODE_COMMENT
+code.k   => CODE; CODE_KEYWORD
+code.kd  => CODE; CODE_KEYWORD
+code.kn  => CODE; CODE_KEYWORD
+code.classname => CODE; CODE_CLASSNAME
+
+div[warning] => WARNING
+div[caution] => CAUTION
+div[note] => NOTE
+div[tip] => TIP
+div.ormenabled[note] => FRAMED; NOTE
+
+h1 => TITLE
+h2 => TITLE
+h3 => TITLE
+h4 => TITLE
+h5 => TITLE
+h6 => TITLE
+
+h2.title => TITLE
+
+pre                 => LISTING
+pre[programlisting] => LISTING; CODE
+
+ul => UNORDERED_LIST
+ol => ORDERED_LIST
+li => LIST_ITEM
+ul.simplelist => UNORDERED_LIST; SIMPLE
+
+dl => UNORDERED_LIST; DEFINITION
+dt => DEFINITION_TERM
+dd => DEFINITION_DESCR
+
+figure => FIGURE
+aside[sidebar]  => SIDEBAR
+
+blockquote[epigraph] => EPIGRAPH
+
+caption      => CAPTION
+thead        => TABLE_HEADER
+tbody        => TABLE_BODY
+tr           => TABLE_ROW
+tr.footnotes => TABLE_ROW; FOOTNOTE
+th           => TABLE_HEADER_CELL
+td           => TABLE_CELL
+
+sup          => SUP
+
+em => EMPH
+em.hyperlink => EMPH
+
+strong => BOLD
+
+a.totri-footnote[noteref] => FOOTNOTE_REF
+a.totri-footnote          => FOOTNOTE
+div[footnotes]            => FOOTNOTE
+a[indexterm]              => INDEX_TERM
+a[index:locator]          => INDEX_LOCATOR
+span[index-term]          => INDEX_TERM

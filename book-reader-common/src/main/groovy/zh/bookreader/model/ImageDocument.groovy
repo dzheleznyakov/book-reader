@@ -15,7 +15,7 @@ class ImageDocument extends BaseDocument<Byte[]> {
         ImageDocument that = (ImageDocument) o
 
         if (!Arrays.equals(content, that.content)) return false
-        if (formattings != that.formattings) return false
+        if (formatting != that.formatting) return false
         if (id != that.id) return false
         if (metadata != that.metadata) return false
 

@@ -1,0 +1,157 @@
+code        => INLINED
+code.option => INLINED
+code.nx     => INLINED
+code.o      => INLINED
+code.err    => INLINED
+h1          => INLINED
+h2          => INLINED
+h3          => INLINED
+h4          => INLINED
+h5          => INLINED
+h6          => INLINED
+h2.title    => INLINED
+sup         => INLINED
+
+
+span => INLINED
+
+em => INLINED
+strong => INLINED
+
+p => PARAGRAPH
+
+div => BLOCK
+
+pre => BLOCK
+
+dl => BLOCK
+dt => BLOCK
+dd => BLOCK
+
+ul => BLOCK
+ol => BLOCK
+li => BLOCK
+
+figure => BLOCK
+aside  => BLOCK
+
+blockquote[epigraph] => BLOCK
+
+caption => INLINED
+table   => TABLE
+tbody   => TABLE
+thead   => TABLE
+th      => TABLE
+td      => TABLE
+tr      => TABLE
+
+a            => HREF
+a[xref]      => HREF
+a[indexterm] => HREF
+a.email      => EMAIL
+
+div.preface  => SECTION
+div.colophon => SECTION
+div.chapter  => SECTION
+div.index    => SECTION
+div.sect1    => SECTION
+div.sect2    => SECTION
+div.sect3    => SECTION
+div.sect4    => SECTION
+div.appendix => SECTION
+div.pagenumrestart[part] => SECTION
+div[part]    => SECTION
+
+section => SECTION
+
+img => IMAGE
+
+div.annotator-outer.annotator-viewer.viewer.annotator-hide                         => NULL
+div.annotator-modal-wrapper.annotator-editor-modal.annotator-editor.annotator-hide => NULL
+div.annotator-modal-wrapper.annotator-delete-confirm-modal                         => NULL
+div.annotator-adder                                                                => NULL
+div.annotator-outer                                                                => NULL
+a.js-close-delete-confirm.annotator-cancel.close                                   => NULL
+textarea.js-editor                                                                 => NULL
+ul.adders                                                                          => NULL
+li.copy                                                                            => NULL
+li.cancel                                                                          => NULL
+li.save                                                                            => NULL
+li.add-highlight                                                                   => NULL
+li.add-note                                                                        => NULL
+li.delete.annotator-hide                                                           => NULL
+div.delete-confirm                                                                 => NULL
+a.link-to-markdown                                                                 => NULL
+form                                                                               => NULL
+
+a.orm:hideurl => _
+div[warning] => _
+div[caution] => _
+div[tip] => _
+div[note] => _
+div.ormenabled[note] => _
+section[preface] => _
+section[appendix] => _
+section[sect1] => _
+section[sect2] => _
+em.hyperlink => _
+ul.simplelist => _
+section.pagebreak-before.less_space[sect1] => _
+section[chapter] => _
+div.figure => _
+div.chapter => _
+a.totri-footnote[noteref] => _
+a.totri-footnote => _
+a[index:locator] => _
+code.bp => _
+code.c1 => _
+code.classname => _
+code.cm => _
+code.k => _
+code.function => _
+code.keep-together => _
+code.parameter => _
+code.kc => _
+code.kd => _
+code.kn => _
+code.mf => _
+code.mi => _
+code.n => _
+code.na => _
+code.nb => _
+code.ne => _
+code.nv => _
+code.s-Affix => _
+code.varname => _
+code.nf => _
+code.nn => _
+code.p => _
+code.s1 => _
+code.s2 => _
+code.se => _
+code.sr => _
+p.pagebreak-after => _
+p.pagebreak-before => _
+p[footnote] => _
+div.sidebar => _
+aside[sidebar] => _
+div[equation] => _
+div[footnotes] => _
+div[index] => _
+div[indexdiv] => _
+section.abouttheauthor[colophon] => _
+section.pagebreak-before[sect1] => _
+section[colophon] => _
+section[index] => _
+section[sect3] => _
+section[sect4] => _
+tr.footnotes => _
+em.filename => _
+pre[programlisting] => _
+pre.pagebreak-before[programlisting] => _
+span.keep-together => _
+span.label => _
+span.command => _
+span.firstterm => _
+span.acronym => _
+span[index-term] => _
