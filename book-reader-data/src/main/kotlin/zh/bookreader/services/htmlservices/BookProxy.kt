@@ -1,6 +1,8 @@
 package zh.bookreader.services.htmlservices
 
 import zh.bookreader.model.Book
+import zh.bookreader.model.Document
+import zh.bookreader.model.EnclosingDocument
 import java.io.File
 import java.nio.charset.StandardCharsets
 import java.nio.file.Paths
@@ -85,5 +87,13 @@ class BookProxy(private val bookDir: File) : Book() {
         val isReadable = imageFile.exists() && imageFile.isFile
         return if (isReadable) imageFile.readBytes().toTypedArray()
         else arrayOf()
+    }
+
+    override fun getDescription(): List<Document<*>> {
+        val descrFilename = "$bookDir/cover.html"
+        val parser = HtmlDocumentParser(descrFilename)
+        val fileText = File(descrFilename).run { if (exists()) readText().trim() else "" }
+        val doc = parser.parseFileContent("<div>$fileText</div>", bookDir.absolutePath) as EnclosingDocument
+        return doc.content
     }
 }

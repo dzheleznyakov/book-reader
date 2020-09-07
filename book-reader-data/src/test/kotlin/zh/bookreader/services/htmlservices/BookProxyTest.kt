@@ -83,25 +83,25 @@ internal class BookProxyTest {
                 .withContent("Paragraph 3 content")
                 .build()
 
-        val par0: EnclosingDocument = EnclosingDocument.builder(PARAGRAPH)
-                .withContent(listOf(text0))
-                .build()
-        val par1: EnclosingDocument = EnclosingDocument.builder(PARAGRAPH)
-                .withContent(listOf(text1))
-                .build()
-        val par2: EnclosingDocument = EnclosingDocument.builder(PARAGRAPH)
-                .withContent(listOf(text2))
-                .build()
-        val par3: EnclosingDocument = EnclosingDocument.builder(PARAGRAPH)
-                .withContent(listOf(text3))
-                .build()
+        val par0: EnclosingDocument = getParagraph(text0)
+        val par1: EnclosingDocument = getParagraph(text1)
+        val par2: EnclosingDocument = getParagraph(text2)
+        val par3: EnclosingDocument = getParagraph(text3)
 
         val block: EnclosingDocument = EnclosingDocument.builder(BLOCK)
                 .withContent(listOf(par1, par2, par3))
+                .withMetadata(mapOf("&tag" to "div"))
                 .build()
 
         val expectedDescription: List<Document<*>> = listOf(par0, block)
 
         assertEquals(expectedDescription, book.description)
+    }
+
+    private fun getParagraph(text0: TextDocument): EnclosingDocument {
+        return EnclosingDocument.builder(PARAGRAPH)
+                .withContent(listOf(text0))
+                .withMetadata(mapOf("&tag" to "p"))
+                .build()
     }
 }

@@ -3,43 +3,43 @@ package zh.bookreader.services.htmlservices
 import zh.bookreader.model.Chapter
 
 class ChapterListProxy(private val toc: List<String>) : List<Chapter> {
-    override val size: Int = toc.size
+    override val size: Int
+        get() = toc.size
 
     override fun contains(element: Chapter) = toc.contains(element.name)
-
-    override fun containsAll(elements: Collection<Chapter>): Boolean {
-        return elements.map { it.name }.run { toc.containsAll(this) }
-    }
-
+    override fun containsAll(elements: Collection<Chapter>) = elements.map { it.name }.run { toc.containsAll(this) }
     override fun get(index: Int) = ChapterProxy(toc[index])
-
     override fun indexOf(element: Chapter) = toc.indexOf(element.name)
-
     override fun isEmpty() = size == 0
-
     override fun iterator() = ChapterProxyIterator(toc)
-
     override fun lastIndexOf(element: Chapter) = toc.lastIndexOf(element.name)
-
-    override fun listIterator(): ListIterator<Chapter> {
-        TODO("Not yet implemented")
-    }
-
-    override fun listIterator(index: Int): ListIterator<Chapter> {
-        TODO("Not yet implemented")
-    }
-
+    override fun listIterator() = ChapterProxyListIterator(toc)
+    override fun listIterator(index: Int) = ChapterProxyListIterator(toc, index)
     override fun subList(fromIndex: Int, toIndex: Int) = ChapterListProxy(toc.subList(fromIndex, toIndex))
 
     class ChapterProxyIterator(toc: List<String>) : Iterator<Chapter> {
-        private var tocIterator = toc.iterator()
+        private val tocIterator = toc.iterator()
+        override fun hasNext() = tocIterator.hasNext()
+        override fun next() = ChapterProxy(tocIterator.next())
+    }
 
-        override fun hasNext(): Boolean {
-            return tocIterator.hasNext()
+    class ChapterProxyListIterator : ListIterator<Chapter> {
+        private val tocListIterator: ListIterator<String>
+
+        constructor(toc: List<String>) {
+            tocListIterator = toc.listIterator()
         }
 
-        override fun next(): Chapter {
-            return ChapterProxy(tocIterator.next())
+        constructor(toc: List<String>, index: Int) {
+            tocListIterator = toc.listIterator(index)
         }
+
+        override fun hasNext() = tocListIterator.hasNext()
+        override fun hasPrevious() = tocListIterator.hasPrevious()
+        override fun next() = ChapterProxy(tocListIterator.next())
+        override fun nextIndex() = tocListIterator.nextIndex()
+        override fun previous() = ChapterProxy(tocListIterator.previous())
+        override fun previousIndex() = tocListIterator.previousIndex()
+
     }
 }
