@@ -6,9 +6,6 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import zh.bookreader.model.Book
 import zh.bookreader.model.Document
-import zh.bookreader.model.DocumentType.*
-import zh.bookreader.model.EnclosingDocument
-import zh.bookreader.model.TextDocument
 import java.io.File
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -32,7 +29,7 @@ internal class BookProxyTest {
     internal fun testBookMetadata() {
         with(book) {
             assertEquals("Book Title One", title)
-            assertEquals(listOf("Author 1.1", "Author 1.2"), authors)
+            assertEquals(listOf("Author One-One", "Author One-Two", "Author Both"), authors);
             assertEquals("January 1970", releaseDate)
             assertEquals(listOf("Test 1", "Test 2"), topics)
             assertEquals(mapOf(
@@ -70,38 +67,8 @@ internal class BookProxyTest {
     @Test
     @DisplayName("Test BookProxy can read book description")
     internal fun testBookDescription() {
-        val text0: TextDocument = TextDocument.builder(TEXT)
-                .withContent("A zero paragraph goes here")
-                .build()
-        val text1: TextDocument = TextDocument.builder(TEXT)
-                .withContent("Paragraph 1 content")
-                .build()
-        val text2: TextDocument = TextDocument.builder(TEXT)
-                .withContent("Paragraph 2 content")
-                .build()
-        val text3: TextDocument = TextDocument.builder(TEXT)
-                .withContent("Paragraph 3 content")
-                .build()
-
-        val par0: EnclosingDocument = getParagraph(text0)
-        val par1: EnclosingDocument = getParagraph(text1)
-        val par2: EnclosingDocument = getParagraph(text2)
-        val par3: EnclosingDocument = getParagraph(text3)
-
-        val block: EnclosingDocument = EnclosingDocument.builder(BLOCK)
-                .withContent(listOf(par1, par2, par3))
-                .withMetadata(mapOf("&tag" to "div"))
-                .build()
-
-        val expectedDescription: List<Document<*>> = listOf(par0, block)
+        val expectedDescription: List<Document<*>> = getBook1Description()
 
         assertEquals(expectedDescription, book.description)
-    }
-
-    private fun getParagraph(text0: TextDocument): EnclosingDocument {
-        return EnclosingDocument.builder(PARAGRAPH)
-                .withContent(listOf(text0))
-                .withMetadata(mapOf("&tag" to "p"))
-                .build()
     }
 }

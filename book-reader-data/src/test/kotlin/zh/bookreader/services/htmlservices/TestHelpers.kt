@@ -30,3 +30,37 @@ internal fun Pair<String, String>.toHtmlString(): String {
 
 internal const val TAG_TO_IGNORE = "<div class=\"annotator-modal-wrapper annotator-delete-confirm-modal\"></div>"
 
+fun getBook1Description(): List<Document<*>> {
+        val text0: TextDocument = TextDocument.builder(DocumentType.TEXT)
+                .withContent("A zero paragraph goes here")
+                .build()
+        val text1: TextDocument = TextDocument.builder(DocumentType.TEXT)
+                .withContent("Paragraph 1 content")
+                .build()
+        val text2: TextDocument = TextDocument.builder(DocumentType.TEXT)
+                .withContent("Paragraph 2 content")
+                .build()
+        val text3: TextDocument = TextDocument.builder(DocumentType.TEXT)
+                .withContent("Paragraph 3 content")
+                .build()
+
+        val par0: EnclosingDocument = getParagraph(text0)
+        val par1: EnclosingDocument = getParagraph(text1)
+        val par2: EnclosingDocument = getParagraph(text2)
+        val par3: EnclosingDocument = getParagraph(text3)
+
+        val block: EnclosingDocument = EnclosingDocument.builder(DocumentType.BLOCK)
+                .withContent(listOf(par1, par2, par3))
+                .withMetadata(mapOf("&tag" to "div"))
+                .build()
+
+        val expectedDescription: List<Document<*>> = listOf(par0, block)
+        return expectedDescription
+}
+
+internal fun getParagraph(text0: TextDocument): EnclosingDocument {
+        return EnclosingDocument.builder(DocumentType.PARAGRAPH)
+                .withContent(listOf(text0))
+                .withMetadata(mapOf("&tag" to "p"))
+                .build()
+}

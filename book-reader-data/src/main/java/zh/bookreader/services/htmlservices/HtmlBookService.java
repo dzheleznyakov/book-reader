@@ -50,33 +50,25 @@ public class HtmlBookService implements BookService {
     @Nonnull
     @Override
     public List<Book> findByTitle(@Nonnull String title) {
-        String query = cleanUpTitleQuery(title);
-        return titleQueryIsTooShort(query)
+        String query = cleanUpSearchQuery(title);
+        return searchQueryIsTooShort(query)
                 ? ImmutableList.of()
                 : findAll().stream()
-                        .filter(book -> book.getTitle().matches(buildTitleSearchRegex(query)))
+                        .filter(book -> book.getTitle().matches(buildSearchRegex(query)))
                         .collect(ImmutableList.toImmutableList());
-    }
-
-    @Nonnull
-    private String cleanUpTitleQuery(@Nonnull String title) {
-        return title.replaceAll("[^\\w\\d ]", "");
-    }
-
-    private boolean titleQueryIsTooShort(String query) {
-        return query.replaceAll("\\s", "").length() <= 2;
-    }
-
-    @Nonnull
-    private String buildTitleSearchRegex(String query) {
-        return Arrays.stream(query.split(" "))
-                .collect(joining(".*", "(?i).*", ".*"));
     }
 
     @Nonnull
     @Override
     public List<Book> findByAuthor(String author) {
-        return ImmutableList.of();
+        String query = cleanUpSearchQuery(author);
+        return searchQueryIsTooShort(author)
+                ? ImmutableList.of()
+                : findAll().stream()
+                        .filter(book -> book.getAuthors()
+                                .stream()
+                                .anyMatch(a -> a.matches(buildSearchRegex(query))))
+                        .collect(ImmutableList.toImmutableList());
     }
 
     @Nonnull
@@ -88,5 +80,20 @@ public class HtmlBookService implements BookService {
     @Nonnull
     private Book getBook(File bookDir) {
         return new BookProxy(bookDir);
+    }
+
+    @Nonnull
+    private String cleanUpSearchQuery(@Nonnull String title) {
+        return title.replaceAll("[^\\w\\d -]", "");
+    }
+
+    private boolean searchQueryIsTooShort(String query) {
+        return query.replaceAll("\\s", "").length() <= 2;
+    }
+
+    @Nonnull
+    private String buildSearchRegex(String query) {
+        return Arrays.stream(query.split(" "))
+                .collect(joining(".*", "(?i).*", ".*"));
     }
 }

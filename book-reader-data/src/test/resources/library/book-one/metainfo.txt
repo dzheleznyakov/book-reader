@@ -1,5 +1,5 @@
 Book Title=Book Title One
-Authors=Author 1.1; Author 1.2
+Authors=Author One-One; Author One-Two; Author Both
 Release Date=January 1970
 Topics=Test 1; Test 2
 Cover Page Image=media/square.jpg

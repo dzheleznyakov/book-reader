@@ -37,13 +37,15 @@ class BookIsEqual extends TypeSafeMatcher<Book> {
     private boolean equals(Book item, String fieldUnderTest, Function<Book, ?> value) {
         this.fieldUnderTest = fieldUnderTest;
         this.descriptionValue = value;
-        return equals(value.apply(book), value.apply(item));
+        Object expected = value.apply(book);
+        Object actual = value.apply(item);
+        return equals(expected, actual);
     }
 
     @SuppressWarnings("unchecked")
     private boolean equals(Object expected, Object actual) {
         if (actual == null)
-            return actual == expected;
+            return null == expected;
         if (actual.getClass().isArray())
                 return Arrays.equals((Object[]) expected, (Object[]) actual);
         if (actual instanceof Collection && expected instanceof Collection) {
@@ -57,14 +59,14 @@ class BookIsEqual extends TypeSafeMatcher<Book> {
     @Override
     public void describeTo(Description description) {
         Object fieldValue = descriptionValue.apply(book);
-        PrintUtils.print("Expected Book." + fieldUnderTest + " to be [" + fieldValue + "]", Color.RED);
         description.appendValue(fieldValue);
     }
 
     @Override
     protected void describeMismatchSafely(Book item, Description mismatchDescription) {
         Object fieldValue = descriptionValue.apply(item);
-        PrintUtils.println(", but it is [" + fieldValue + "]", Color.RED);
         mismatchDescription.appendText("was ").appendValue(fieldValue);
+        PrintUtils.print("Expected Book." + fieldUnderTest + " to be [" + fieldValue + "]", Color.RED);
+        PrintUtils.println(", but it is [" + fieldValue + "]", Color.RED);
     }
 }

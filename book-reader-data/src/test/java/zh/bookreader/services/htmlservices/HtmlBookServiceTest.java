@@ -28,6 +28,8 @@ import java.util.function.Function;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static zh.bookreader.services.htmlservices.TestHelpersKt.getBook1Description;
 import static zh.bookreader.testutils.TestUtils.box;
 import static zh.bookreader.testutils.hamcrest.ZhMatchers.isEmpty;
 import static zh.bookreader.testutils.hamcrest.ZhMatchers.isEqualTo;
@@ -39,8 +41,8 @@ class HtmlBookServiceTest {
     private static final String EMPTY_LIBRARY_PATH = "emptyLibrary";
     private static final String BOOK_TITLE_1 = "Book Title One";
     private static final String BOOK_TITLE_2 = "Book Title Two";
-    private static final List<String> AUTHORS_1 = ImmutableList.of("Author 1.1", "Author 1.2");
-    private static final List<String> AUTHORS_2 = ImmutableList.of("Author 2.1", "Author 2.2");
+    private static final List<String> AUTHORS_1 = ImmutableList.of("Author One-One", "Author One-Two", "Author Both");
+    private static final List<String> AUTHORS_2 = ImmutableList.of("Author Two-One", "Author Two-Two", "Author Both");
     private static final String BOOK_ID_1 = "book-one";
     private static final String BOOK_ID_2 = "book-two";
     private static final String RELEASE_DATE_1 = "January 1970";
@@ -105,6 +107,7 @@ class HtmlBookServiceTest {
         book1.setResources(RESOURCES_1);
         book1.setImage(IMAGE_1);
         book1.setChapters(chapters1);
+        book1.setDescription(getBook1Description());
 
         book2 = new Book();
         book2.setTitle(BOOK_TITLE_2);
@@ -115,6 +118,7 @@ class HtmlBookServiceTest {
         book2.setResources(RESOURCES_2);
         book2.setImage(IMAGE_2);
         book2.setChapters(chapters2);
+        book2.setDescription(ImmutableList.of());
     }
 
     @Nonnull
@@ -238,6 +242,75 @@ class HtmlBookServiceTest {
         @Test
         void testIgnoreNonAlphaNumericCharacters() {
             List<Book> books = bookService.findByTitle("Book# One!");
+
+            assertThat(books, hasSize(1));
+            assertThat(books.get(0), isEqualTo(book1));
+        }
+    }
+
+    @Nested
+    @DisplayName("Test HtmlBookService.findByAuthor")
+    class HtmlBookServiceTest_FindByAuthor {
+        @Test
+        void testFindByName_NameDoesNotExist() {
+            List<Book> books = bookService.findByAuthor("Fake Name");
+
+            assertThat(books, is(empty()));
+        }
+
+        @Test
+        @DisplayName("Test searching book by the author's full name")
+        void testFindByFullName() {
+            List<Book> books = bookService.findByAuthor("Author One-One");
+
+            assertThat(books.get(0), isEqualTo(book1));
+        }
+
+        @Test
+        void testFindByPartialName() {
+            List<Book> books = bookService.findByAuthor("Author One");
+
+            assertThat(books.get(0), isEqualTo(book1));
+        }
+
+        @Test
+        void testFindMultipleBooks() {
+            List<Book> books = bookService.findByAuthor("Author Both");
+
+            assertThat(books.get(0), isEqualTo(book1));
+            assertThat(books.get(1), isEqualTo(book2));
+        }
+
+        @ParameterizedTest(name = "Search by \"{0}\" should return empty list")
+        @DisplayName("Test search by too short name")
+        @ValueSource(strings = {"", "A", "Au"})
+        void testSearchByTooShortName(String name) {
+            List<Book> books = bookService.findByAuthor(name);
+
+            assertThat(books, is(empty()));
+        }
+
+        @Test
+        @DisplayName("Author search should ignore case")
+        void testAuthorSearchIgnoresCase() {
+            List<Book> books = bookService.findByAuthor("author one");
+
+            assertThat(books.get(0), isEqualTo(book1));
+        }
+
+        @Test
+        @DisplayName("Author search should ignore special characters")
+        void testAuthorSearchIgnoresSpecialCharacters() {
+            List<Book> books = bookService.findByAuthor("author & both*");
+
+            assertThat(books, hasSize(2));
+            assertThat(books.get(0), isEqualTo(book1));
+            assertThat(books.get(1), isEqualTo(book2));
+        }
+
+        @Test
+        void testAuthorSearch_QueryWithSeveralTokesn() {
+            List<Book> books = bookService.findByAuthor("Auth One-One");
 
             assertThat(books, hasSize(1));
             assertThat(books.get(0), isEqualTo(book1));

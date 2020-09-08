@@ -1,5 +1,5 @@
 Book Title=Book Title Two
-Authors=Author 2.1; Author 2.2
+Authors=Author Two-One; Author Two-Two; Author Both
 Release Date=February 1970
 Topics=Test 3
 Chapter Files=intro.html,p01.html,p02.html
