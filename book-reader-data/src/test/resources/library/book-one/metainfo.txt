@@ -1,7 +1,7 @@
 Book Title=Book Title One
 Authors=Author One-One; Author One-Two; Author Both
 Release Date=January 1970
-Topics=Test 1; Test 2
+Topics=Topic One; Topic Two
 Cover Page Image=media/square.jpg
 Resource #1 Label=Mock resource 1
 Resource #1 Value=42

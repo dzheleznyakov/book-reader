@@ -31,7 +31,7 @@ internal class BookProxyTest {
             assertEquals("Book Title One", title)
             assertEquals(listOf("Author One-One", "Author One-Two", "Author Both"), authors);
             assertEquals("January 1970", releaseDate)
-            assertEquals(listOf("Test 1", "Test 2"), topics)
+            assertEquals(listOf("Topic One", "Topic Two"), topics)
             assertEquals(mapOf(
                     "Mock resource 1" to "42",
                     "Mock resource 2" to "forty two"), resources)

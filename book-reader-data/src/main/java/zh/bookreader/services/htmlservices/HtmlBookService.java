@@ -3,6 +3,7 @@ package zh.bookreader.services.htmlservices;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import zh.bookreader.model.Book;
 import zh.bookreader.services.BookService;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiPredicate;
 
 import static java.util.stream.Collectors.joining;
 
@@ -50,29 +52,28 @@ public class HtmlBookService implements BookService {
     @Nonnull
     @Override
     public List<Book> findByTitle(@Nonnull String title) {
-        String query = cleanUpSearchQuery(title);
-        return searchQueryIsTooShort(query)
-                ? ImmutableList.of()
-                : findAll().stream()
-                        .filter(book -> doesQueryMatchTitle(query, book))
-                        .collect(ImmutableList.toImmutableList());
+        return findBooksByQuery(title, this::doesQueryMatchTitle);
     }
 
     @Nonnull
     @Override
     public List<Book> findByAuthor(String author) {
-        String query = cleanUpSearchQuery(author);
-        return searchQueryIsTooShort(author)
-                ? ImmutableList.of()
-                : findAll().stream()
-                        .filter(book -> doesQueryMatchAuthors(query, book))
-                        .collect(ImmutableList.toImmutableList());
+        return findBooksByQuery(author, this::doesQueryMatchAuthors);
     }
 
     @Nonnull
     @Override
     public List<Book> findByTopic(String topic) {
-        return ImmutableList.of();
+        return findBooksByQuery(topic, this::doesQueryMatchTopics);
+    }
+
+    private ImmutableList<Book> findBooksByQuery(@NotNull String rawQuery, BiPredicate<String, Book> bookFilter) {
+        String query = cleanUpSearchQuery(rawQuery);
+        return searchQueryIsTooShort(query)
+                ? ImmutableList.of()
+                : findAll().stream()
+                .filter(book -> bookFilter.test(query, book))
+                .collect(ImmutableList.toImmutableList());
     }
 
     @Nonnull
@@ -89,12 +90,6 @@ public class HtmlBookService implements BookService {
         return query.replaceAll("\\s", "").length() <= 2;
     }
 
-    @Nonnull
-    private String buildSearchRegex(String query) {
-        return Arrays.stream(query.split(" "))
-                .collect(joining(".*", "(?i).*", ".*"));
-    }
-
     private boolean doesQueryMatchTitle(String query, Book book) {
         return book.getTitle().matches(buildSearchRegex(query));
     }
@@ -103,5 +98,17 @@ public class HtmlBookService implements BookService {
         return book.getAuthors()
                 .stream()
                 .anyMatch(a -> a.matches(buildSearchRegex(query)));
+    }
+
+    private boolean doesQueryMatchTopics(String query, Book book) {
+        return book.getTopics()
+                .stream()
+                .anyMatch(a -> a.matches(buildSearchRegex(query)));
+    }
+
+    @Nonnull
+    private String buildSearchRegex(String query) {
+        return Arrays.stream(query.split(" "))
+                .collect(joining(".*", "(?i).*", ".*"));
     }
 }

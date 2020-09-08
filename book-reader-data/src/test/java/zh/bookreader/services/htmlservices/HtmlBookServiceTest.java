@@ -47,8 +47,8 @@ class HtmlBookServiceTest {
     private static final String BOOK_ID_2 = "book-two";
     private static final String RELEASE_DATE_1 = "January 1970";
     private static final String RELEASE_DATE_2 = "February 1970";
-    private static final List<String> TOPICS_1 = ImmutableList.of("Test 1", "Test 2");
-    private static final List<String> TOPICS_2 = ImmutableList.of("Test 3");
+    private static final List<String> TOPICS_1 = ImmutableList.of("Topic One", "Topic Two");
+    private static final List<String> TOPICS_2 = ImmutableList.of("Topic Three", "Topic One");
     private static final Byte[] IMAGE_1;
     private static final Byte[] IMAGE_2 = new Byte[0];
     private static final Map<String, String> RESOURCES_1 = ImmutableMap.of(
@@ -131,7 +131,7 @@ class HtmlBookServiceTest {
 
     @Nested
     @DisplayName("Test HtmlBookService.findAll()")
-    class HtmlBookServiceTest_FindAll {
+    class FindAll {
         @Test
         @DisplayName("Test parsing library: happy path")
         void testFindAll() {
@@ -154,7 +154,7 @@ class HtmlBookServiceTest {
 
     @Nested
     @DisplayName("Test HtmlBookService.findById()")
-    class HtmlBookServiceTest_FindById {
+    class FindById {
         @Test
         @DisplayName("Find the book by id: existing book")
         void findExistingBookById() {
@@ -174,7 +174,7 @@ class HtmlBookServiceTest {
 
     @Nested
     @DisplayName("Test HtmlBookService.findByTitle()")
-    class HtmlBookServiceTest_FindByTitle {
+    class FindByTitle {
         @Test
         @DisplayName("Test search by title with no match")
         void testNoMatch() {
@@ -240,6 +240,7 @@ class HtmlBookServiceTest {
         }
 
         @Test
+        @DisplayName("Special characters in the query should be ignored")
         void testIgnoreNonAlphaNumericCharacters() {
             List<Book> books = bookService.findByTitle("Book# One!");
 
@@ -249,9 +250,10 @@ class HtmlBookServiceTest {
     }
 
     @Nested
-    @DisplayName("Test HtmlBookService.findByAuthor")
-    class HtmlBookServiceTest_FindByAuthor {
+    @DisplayName("Test HtmlBookService.findByAuthor()")
+    class FindByAuthor {
         @Test
+        @DisplayName("Test search by name with no match")
         void testFindByName_NameDoesNotExist() {
             List<Book> books = bookService.findByAuthor("Fake Name");
 
@@ -267,6 +269,7 @@ class HtmlBookServiceTest {
         }
 
         @Test
+        @DisplayName("Test search by full author name")
         void testFindByPartialName() {
             List<Book> books = bookService.findByAuthor("Author One");
 
@@ -311,6 +314,81 @@ class HtmlBookServiceTest {
         @Test
         void testAuthorSearch_QueryWithSeveralTokesn() {
             List<Book> books = bookService.findByAuthor("Auth One-One");
+
+            assertThat(books, hasSize(1));
+            assertThat(books.get(0), isEqualTo(book1));
+        }
+    }
+
+    @Nested
+    @DisplayName("Test HtmlBookService.findByTopic()")
+    class FindByTopic {
+        @Test
+        @DisplayName("Test topic search with no match")
+        void testFindByNonExistentTopic() {
+            List<Book> books = bookService.findByTopic("Blah");
+
+            assertThat(books, is(empty()));
+        }
+
+        @Test
+        @DisplayName("Test search by full topic name")
+        void testFindByFullTopicName() {
+            List<Book> books = bookService.findByTopic("Topic Two");
+
+            assertThat(books, hasSize(1));
+            assertThat(books.get(0), isEqualTo(book1));
+        }
+
+        @ParameterizedTest(name = "Search by \"{0}\" should return empty list")
+        @DisplayName("Test search by too short topic")
+        @ValueSource(strings = {"", "T", "To"})
+        void testTooShortQuery(String query) {
+            List<Book> books = bookService.findByTopic(query);
+
+            assertThat(books, is(empty()));
+        }
+
+        @Test
+        void testSpecialCharactersAreIgnored() {
+            List<Book> books = bookService.findByTopic("Topic*% Two$£");
+
+            assertThat(books, hasSize(1));
+            assertThat(books.get(0), isEqualTo(book1));
+        }
+
+        @Test
+        @DisplayName("Find the book by topic matching several ones")
+        void testTopicMatchesSeveralBooks() {
+            List<Book> books = bookService.findByTopic("Topic One");
+
+            assertThat(books, hasSize(2));
+            assertThat(books.get(0), isEqualTo(book1));
+            assertThat(books.get(1), isEqualTo(book2));
+        }
+
+        @Test
+        @DisplayName("Find the book with two partially matched topics")
+        void testWithSeveralPartialTokens() {
+            List<Book> books = bookService.findByTopic("Top Thr");
+
+            assertThat(books, hasSize(1));
+            assertThat(books.get(0), isEqualTo(book2));
+        }
+
+        @Test
+        @DisplayName("Find the book by the query matching exactly one")
+        void testQueryMatchingOneBook() {
+            List<Book> books = bookService.findByTopic("Two");
+
+            assertThat(books, hasSize(1));
+            assertThat(books.get(0), isEqualTo(book1));
+        }
+
+        @Test
+        @DisplayName("Test that the search is case ignorant")
+        void testSearchIsCaseIgnorant() {
+            List<Book> books = bookService.findByTopic("TOPiC twO");
 
             assertThat(books, hasSize(1));
             assertThat(books.get(0), isEqualTo(book1));
