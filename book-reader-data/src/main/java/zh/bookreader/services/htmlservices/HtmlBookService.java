@@ -54,7 +54,7 @@ public class HtmlBookService implements BookService {
         return searchQueryIsTooShort(query)
                 ? ImmutableList.of()
                 : findAll().stream()
-                        .filter(book -> book.getTitle().matches(buildSearchRegex(query)))
+                        .filter(book -> doesQueryMatchTitle(query, book))
                         .collect(ImmutableList.toImmutableList());
     }
 
@@ -65,9 +65,7 @@ public class HtmlBookService implements BookService {
         return searchQueryIsTooShort(author)
                 ? ImmutableList.of()
                 : findAll().stream()
-                        .filter(book -> book.getAuthors()
-                                .stream()
-                                .anyMatch(a -> a.matches(buildSearchRegex(query))))
+                        .filter(book -> doesQueryMatchAuthors(query, book))
                         .collect(ImmutableList.toImmutableList());
     }
 
@@ -95,5 +93,15 @@ public class HtmlBookService implements BookService {
     private String buildSearchRegex(String query) {
         return Arrays.stream(query.split(" "))
                 .collect(joining(".*", "(?i).*", ".*"));
+    }
+
+    private boolean doesQueryMatchTitle(String query, Book book) {
+        return book.getTitle().matches(buildSearchRegex(query));
+    }
+
+    private boolean doesQueryMatchAuthors(String query, Book book) {
+        return book.getAuthors()
+                .stream()
+                .anyMatch(a -> a.matches(buildSearchRegex(query)));
     }
 }
