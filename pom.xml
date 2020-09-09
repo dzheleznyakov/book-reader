@@ -67,6 +67,11 @@
 				<artifactId>book-reader-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>zh.bookreader</groupId>
+				<artifactId>book-reader-data</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

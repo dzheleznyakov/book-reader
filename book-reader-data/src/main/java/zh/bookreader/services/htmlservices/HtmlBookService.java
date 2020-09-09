@@ -2,8 +2,10 @@ package zh.bookreader.services.htmlservices;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import zh.bookreader.model.Book;
 import zh.bookreader.services.BookService;
@@ -22,17 +24,23 @@ import static java.util.stream.Collectors.joining;
 @Slf4j
 @Component
 public class HtmlBookService implements BookService {
-    private final URI pathToLibrary;
+    @Value("zh.bookreader.library.path")
+    private String libraryPath;
+
+    private URI libraryUri;
+
+    public HtmlBookService() {
+    }
 
     @VisibleForTesting
-    HtmlBookService(URI pathToLibrary) {
-        this.pathToLibrary = pathToLibrary;
+    HtmlBookService(String libraryPath) {
+        this.libraryPath = libraryPath;
     }
 
     @Nonnull
     @Override
     public List<Book> findAll() {
-        File libraryDir = new File(pathToLibrary);
+        File libraryDir = new File(getLibraryUri());
         File[] books = libraryDir.listFiles(File::isDirectory);
         return books == null ? ImmutableList.of() : Arrays.stream(books)
                 .map(this::getBook)
@@ -42,7 +50,7 @@ public class HtmlBookService implements BookService {
     @Nonnull
     @Override
     public Optional<Book> findById(@Nonnull String id) {
-        File libraryDir = new File(pathToLibrary);
+        File libraryDir = new File(getLibraryUri());
         File[] files = libraryDir.listFiles((dir, name) -> Objects.equals(name, id));
         return files == null || files.length == 0
                 ? Optional.empty()
@@ -65,6 +73,16 @@ public class HtmlBookService implements BookService {
     @Override
     public List<Book> findByTopic(String topic) {
         return findBooksByQuery(topic, this::doesQueryMatchTopics);
+    }
+
+    @SneakyThrows
+    private URI getLibraryUri() {
+        if (libraryUri == null)
+            libraryUri = this.getClass()
+                    .getClassLoader()
+                    .getResource(libraryPath)
+                    .toURI();
+        return libraryUri;
     }
 
     private ImmutableList<Book> findBooksByQuery(@NotNull String rawQuery, BiPredicate<String, Book> bookFilter) {

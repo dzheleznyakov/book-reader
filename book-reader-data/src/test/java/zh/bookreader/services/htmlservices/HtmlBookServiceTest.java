@@ -38,8 +38,7 @@ class HtmlBookServiceTest {
 
     @BeforeEach
     void setUpService() throws URISyntaxException {
-        URI pathToLibrary = getPathToLibrary(BOOK_TEST_LIBRARY_PATH);
-        bookService = new HtmlBookService(pathToLibrary);
+        bookService = new HtmlBookService(BOOK_TEST_LIBRARY_PATH);
     }
 
     @BeforeEach
@@ -72,7 +71,7 @@ class HtmlBookServiceTest {
         @Test
         @DisplayName("Test parsing empty library")
         void testFindAll_NoBooksInLibrary() throws URISyntaxException {
-            bookService = new HtmlBookService(getPathToLibrary(EMPTY_LIBRARY_PATH));
+            bookService = new HtmlBookService(EMPTY_LIBRARY_PATH);
 
             List<Book> books = bookService.findAll();
             assertThat(books, empty());
