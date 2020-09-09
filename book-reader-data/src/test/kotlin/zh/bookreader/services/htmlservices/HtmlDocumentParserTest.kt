@@ -20,6 +20,7 @@ import zh.bookreader.services.htmlservices.hamcrest.isOfType
 import java.net.URI
 import zh.bookreader.model.DocumentType as DocType
 
+@Suppress("UNUSED_PARAMETER")
 internal class HtmlDocumentParserTest {
     private val parser = HtmlDocumentParser("/Users/dmitriy.zheleznyakov/.zh/BookParser/savedContent/mongodb-the-definitive-guide-3rd-edition/ch01.html")
 
@@ -218,10 +219,7 @@ internal class HtmlDocumentParserTest {
 
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test parsing an image node with closed or unclosed tag")
-    @ValueSource(strings = arrayOf(
-            "<img src=\"path/to/file\">",
-            "<img src=\"path/to/file\" />"
-    ))
+    @ValueSource(strings = ["<img src=\"path/to/file\">", "<img src=\"path/to/file\" />"])
     internal fun testParsingImageWithClosedOrUnclosedTag(htmlString: String) {
         assertDoesNotThrow { parser.parseFileContent(htmlString) }
     }

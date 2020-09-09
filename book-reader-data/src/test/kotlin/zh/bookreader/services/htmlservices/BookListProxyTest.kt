@@ -12,6 +12,7 @@ import java.nio.file.Paths
 
 @DisplayName("Test BookListProxy")
 internal class BookListProxyTest {
+    @Suppress("JAVA_CLASS_ON_COMPANION")
     private companion object Constants {
         private val LIBRARY_URI = javaClass.classLoader.getResource("library/").toURI()
         private val EMPTY_LIBRARY_URI = javaClass.classLoader.getResource("emptyLibrary/").toURI()
