@@ -26,11 +26,11 @@ class ChapterListProxy(private val toc: List<String>) : List<Chapter> {
     class ChapterProxyListIterator : ListIterator<Chapter> {
         private val tocListIterator: ListIterator<String>
 
-        constructor(toc: List<String>) {
+        internal constructor(toc: List<String>) {
             tocListIterator = toc.listIterator()
         }
 
-        constructor(toc: List<String>, index: Int) {
+        internal constructor(toc: List<String>, index: Int) {
             tocListIterator = toc.listIterator(index)
         }
 
