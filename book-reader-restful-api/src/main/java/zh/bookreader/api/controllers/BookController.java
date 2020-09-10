@@ -2,19 +2,17 @@ package zh.bookreader.api.controllers;
 
 import com.google.common.collect.ImmutableList;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import zh.bookreader.api.commands.BookOverviewCommand;
 import zh.bookreader.api.converters.BookToBookOverviewCommandConverter;
+import zh.bookreader.api.util.ApiController;
 import zh.bookreader.model.Book;
 import zh.bookreader.services.BookService;
 
 import java.util.List;
 import java.util.stream.IntStream;
 
-@RestController
-@RequestMapping(path = "/api", produces = "application/json;charset=UTF-8")
+@ApiController
 public class BookController {
     private final BookService bookService;
     private final BookToBookOverviewCommandConverter bookOverviewConverter;

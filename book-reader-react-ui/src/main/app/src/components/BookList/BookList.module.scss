@@ -1,0 +1,11 @@
+@import "../../shared/styles/variables.scss";
+
+.BookList {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: $toolbar-height 5px $footnote-height;
+    padding: 5px 0;
+    width: 100%;
+    height: 100%;
+}

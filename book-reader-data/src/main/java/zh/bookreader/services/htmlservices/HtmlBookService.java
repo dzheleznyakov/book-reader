@@ -13,6 +13,7 @@ import zh.bookreader.services.BookService;
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.net.URI;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -24,7 +25,7 @@ import static java.util.stream.Collectors.joining;
 @Slf4j
 @Component
 public class HtmlBookService implements BookService {
-    @Value("zh.bookreader.library.path")
+    @Value("${zh.bookreader.library.path}")
     private String libraryPath;
 
     private URI libraryUri;
@@ -78,10 +79,7 @@ public class HtmlBookService implements BookService {
     @SneakyThrows
     private URI getLibraryUri() {
         if (libraryUri == null)
-            libraryUri = this.getClass()
-                    .getClassLoader()
-                    .getResource(libraryPath)
-                    .toURI();
+            libraryUri = Paths.get(libraryPath).toUri();
         return libraryUri;
     }
 

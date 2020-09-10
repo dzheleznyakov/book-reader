@@ -10,6 +10,7 @@ const Layout = props => {
     <div className={classes.Layout}>
       <div className={classes.Toolbar}>This is Toolbar...</div>
       {children}
+      <div className={classes.Footer}>This is Footer...</div>
     </div>
   );
 };

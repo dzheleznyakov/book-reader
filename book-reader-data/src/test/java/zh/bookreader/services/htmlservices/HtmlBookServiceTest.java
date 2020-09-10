@@ -14,6 +14,7 @@ import zh.bookreader.model.Book;
 import javax.annotation.Nonnull;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ class HtmlBookServiceTest {
 
     @BeforeEach
     void setUpService() throws URISyntaxException {
-        bookService = new HtmlBookService(BOOK_TEST_LIBRARY_PATH);
+        bookService = new HtmlBookService(Paths.get(BOOK_TEST_LIBRARY_PATH).toString());
     }
 
     @BeforeEach

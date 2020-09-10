@@ -16,7 +16,7 @@ import static zh.bookreader.services.htmlservices.TestHelpersKt.getBook1Descript
 import static zh.bookreader.testutils.TestUtils.box;
 
 public class TestBookConstants {
-    public static final String BOOK_TEST_LIBRARY_PATH = "library";
+    public static final String BOOK_TEST_LIBRARY_PATH = "target/test-classes/library";
     public static final String EMPTY_LIBRARY_PATH = "emptyLibrary";
     public static final String BOOK_TITLE_1 = "Book Title One";
     public static final String BOOK_TITLE_2 = "Book Title Two";
