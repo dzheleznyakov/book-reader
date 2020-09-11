@@ -8,10 +8,10 @@ import classes from './Paginator.module.scss';
 
 const Paginator = props => {
     const [totalCount, setTotalCount] = useState(0);
-    const search = useSearch();
+    const queryParams = useSearch();
     const history = useHistory();
 
-    const page = +search.page || 1;
+    const page = +queryParams.page || 1;
     const numberOfPages = totalCount % PAGE_SIZE === 0 
         ? totalCount / PAGE_SIZE 
         : Math.round(totalCount / PAGE_SIZE) + 1;
@@ -26,7 +26,7 @@ const Paginator = props => {
     const { pathname = '' } = location;
     const toPage = calculatePage => () => {
         const pageToGo = calculatePage(page);
-        const updatedSearch = { ...search, page: pageToGo };
+        const updatedSearch = { ...queryParams, page: pageToGo };
         const prevPath = `${pathname}?` +
             Object.keys(updatedSearch).map(key => `${key}=${updatedSearch[key]}`).join('&');
         history.push(prevPath);

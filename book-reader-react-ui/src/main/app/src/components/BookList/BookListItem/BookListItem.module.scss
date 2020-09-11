@@ -1,12 +1,18 @@
+@import "../../../shared/styles/variables";
+
 .BookListItemWrapper {
     padding: 0.3rem 0;
+
+    &:hover {
+        background-color: $white-on-hover;
+    }
 }
 
 .BookListItem {
     display: flex;
     flex-direction: row;    
-    border-bottom: 1px solid #b8b1b1;
-    box-shadow: 0 2px 4px 0 #b8b1b1;
+    border-bottom: 1px solid $border-color-main;
+    box-shadow: $shadow-main;
 
     &:last-child {
         border-bottom-color: transparent;
@@ -33,7 +39,7 @@
     height: 3.375rem;
 
     & > a {
-        color: black;
+        color: inherit;
         text-decoration: none;
     }
 }
