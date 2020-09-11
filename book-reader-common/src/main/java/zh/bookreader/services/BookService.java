@@ -21,4 +21,6 @@ public interface BookService {
 
     @Nonnull
     List<Book> findByTopic(String topic);
+
+    int count();
 }

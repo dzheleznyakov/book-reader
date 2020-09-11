@@ -1,7 +1,6 @@
 package zh.bookreader.api.util;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +14,6 @@ import java.lang.annotation.Target;
 @RestController
 @ResponseBody
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping(path = "/api", produces = "application/json;charset=UTF-8")
+//@RequestMapping(produces = "application/json;charset=UTF-8")
 public @interface ApiController {
 }

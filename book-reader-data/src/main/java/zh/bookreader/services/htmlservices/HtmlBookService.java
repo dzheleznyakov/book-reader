@@ -76,6 +76,11 @@ public class HtmlBookService implements BookService {
         return findBooksByQuery(topic, this::doesQueryMatchTopics);
     }
 
+    @Override
+    public int count() {
+        return findAll().size();
+    }
+
     @SneakyThrows
     private URI getLibraryUri() {
         if (libraryUri == null)

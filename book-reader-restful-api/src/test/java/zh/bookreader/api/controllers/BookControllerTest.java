@@ -174,4 +174,28 @@ class BookControllerTest {
             return "$[" + i + "]" + prop;
         }
     }
+
+    @Nested
+    @DisplayName("Test getting books count (GET /api/books/count)")
+    class TestBookCount {
+        private static final int BOOK_COUNT = 42;
+
+        @BeforeEach
+        void setUpMocks() {
+            when(bookService.count()).thenReturn(BOOK_COUNT);
+        }
+
+        @AfterEach
+        void verifyMocks() {
+            verify(bookService, times(1)).count();
+        }
+
+        @Test
+        @DisplayName("Test count")
+        void testCount() throws Exception {
+            mockMvc.perform(get("/api/books/count"))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", is(BOOK_COUNT)));
+        }
+    }
 }

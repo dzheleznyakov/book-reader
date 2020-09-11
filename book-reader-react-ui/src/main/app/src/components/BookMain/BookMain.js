@@ -1,11 +1,13 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import classes from './BookMain.module.scss';
 
 const BookMain = props => {
     const location = useLocation();
-    console.log(location);
+    const params = useParams();
+    console.log(params);
+    
     return (
         <div style={{ marginTop: "100px"}}>
             <div>{location.pathname}</div>

@@ -11,8 +11,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import zh.bookreader.model.Book;
 
-import javax.annotation.Nonnull;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.List;
@@ -38,7 +36,7 @@ class HtmlBookServiceTest {
     private Book book2;
 
     @BeforeEach
-    void setUpService() throws URISyntaxException {
+    void setUpService() {
         bookService = new HtmlBookService(Paths.get(BOOK_TEST_LIBRARY_PATH).toString());
     }
 
@@ -46,14 +44,6 @@ class HtmlBookServiceTest {
     void setUpCovers() {
         book1 = TestBookConstants.getBook1();
         book2 = TestBookConstants.getBook2();
-    }
-
-    @Nonnull
-    private URI getPathToLibrary(String path) throws URISyntaxException {
-        return this.getClass()
-                .getClassLoader()
-                .getResource(path)
-                .toURI();
     }
 
     @Nested
@@ -319,6 +309,28 @@ class HtmlBookServiceTest {
 
             assertThat(books, hasSize(1));
             assertThat(books.get(0), isEqualTo(book1));
+        }
+    }
+
+    @Nested
+    @DisplayName("Test HtmlBookService.count()")
+    class Count {
+        @Test
+        @DisplayName("Test count")
+        void testCount() {
+            int count = bookService.count();
+
+            assertThat(count, is(2));
+        }
+
+        @Test
+        @DisplayName("Test count for not existing library")
+        void testCountNotExistingLibrary() {
+            bookService = new HtmlBookService(Paths.get("fake-folder/").toString());
+
+            int count = bookService.count();
+
+            assertThat(count, is(0));
         }
     }
 }

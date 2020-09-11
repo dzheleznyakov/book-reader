@@ -9,7 +9,9 @@ const Layout = props => {
   return (
     <div className={classes.Layout}>
       <div className={classes.Toolbar}>This is Toolbar...</div>
-      {children}
+      <div className={classes.Content}>
+        {children}
+      </div>
       <div className={classes.Footer}>This is Footer...</div>
     </div>
   );
