@@ -4,9 +4,6 @@ import { mount } from 'enzyme';
 import BookListItem from '../../../../components/BookList/BookListItem/BookListItem';
 import Image from '../../../../components/BookList/Image/Image';
 
-import classes from '../../../../components/BookList/BookListItem/BookListItem.module.scss';
-import { expect } from 'chai';
-
 describe("<BookListItem />", () => {
     const props = {
         id: 'mock-id',
