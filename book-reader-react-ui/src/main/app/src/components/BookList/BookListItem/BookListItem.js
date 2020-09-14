@@ -7,7 +7,7 @@ import Image from '../Image/Image';
 import classes from './BookListItem.module.scss';
 
 const BookListItem = props => {
-    const { id, image = [], title, authors = [], topics = [] } = props;
+    const { id, image, title, authors, topics } = props;
         return (
             <div className={classes.BookListItemWrapper}>
                 <div className={classes.BookListItem}>
@@ -16,8 +16,8 @@ const BookListItem = props => {
                         <DotDotDot clamp={4}>
                             <h1 className={classes.Title}><a href={`/books/${id}`}>{title}</a></h1>
                         </DotDotDot>
-                        <span>{authors.join(', ')}</span>
-                        <span className={classes.Topics}>{topics.join(', ')}</span>
+                        <span data-type="authors">{authors.join(', ')}</span>
+                        <span data-type="topics" className={classes.Topics}>{topics.join(', ')}</span>
                     </div>
                 </div>
             </div>

@@ -3,3 +3,18 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
+import { expect } from 'chai';
+import sinon from 'sinon';
+
+import Adapter from 'enzyme-adapter-react-16';
+import Enzyme from 'enzyme';
+
+Enzyme.configure({ adapter: new Adapter() })
+
+global.expect = expect;
+global.sinon = sinon;
+
+global.mockPackage = (path, override = {}) => jest.mock(path, () => ({
+    ...jest.requireActual(path),
+    ...override,
+}));
