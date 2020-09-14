@@ -9,6 +9,7 @@ export const fetchPage = (page) => {
     };
     return axios.get('/books', { params })
         .then(res => res.data)
+        .catch(err => console.error(err) || []);
 };
 
 export const fetchCount = () => axios.get('/books/count')

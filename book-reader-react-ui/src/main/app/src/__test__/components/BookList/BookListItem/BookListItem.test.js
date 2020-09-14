@@ -32,11 +32,13 @@ describe("<BookListItem />", () => {
     const getAuthors = () => wrapper.find('span[data-type="authors"]').text();
     const getTopics = () => wrapper.find('span[data-type="topics"]').text();
     const getImageBytes = () => wrapper.find(Image).prop('image');
+    const getBookUrl = () => wrapper.find('a').prop('href')
 
     test("render without errors", () => {    
         expect(getTitle()).to.be.equal(props.title);
         expect(getAuthors()).to.be.equal(props.authors.join(', '));
         expect(getTopics()).to.be.equal(props.topics.join(', '));
         expect(getImageBytes()).to.be.deep.equal(props.image);
+        expect(getBookUrl()).to.be.equal('/books/' + props.id);
     });
 });

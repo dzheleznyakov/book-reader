@@ -6,7 +6,6 @@ import { act } from '@testing-library/react';
 
 import Paginator from '../../../../components/BookList/Paginator/Paginator';
 import axios from '../../../../axios-api';
-import { expect } from 'chai';
 
 describe("<Paginator />", () => {
     let wrapper;
@@ -16,7 +15,6 @@ describe("<Paginator />", () => {
     let history;
 
     const sandbox = sinon.createSandbox();
-    let useSearchStub;
     let axiosGetStub;
 
     beforeEach(() => {
