@@ -1,6 +1,6 @@
-package zh.bookreader.model
+package zh.bookreader.model;
 
-enum DocumentType {
+public enum DocumentType {
     CHAPTER,
     SECTION,
     BLOCK,

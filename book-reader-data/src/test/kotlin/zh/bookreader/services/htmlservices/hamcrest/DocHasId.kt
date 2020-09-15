@@ -6,7 +6,7 @@ import zh.bookreader.model.Document
 import zh.bookreader.testutils.PrintUtils
 
 internal class DocHasId(private val id: String) : TypeSafeMatcher<Document<*>>() {
-    override fun matchesSafely(item: Document<*>) = item.id == if (id == "_") null else id
+    override fun matchesSafely(item: Document<*>) = item.id == if (id == "_") "" else id
 
     override fun describeTo(description: Description) {
         description.appendValue(id)

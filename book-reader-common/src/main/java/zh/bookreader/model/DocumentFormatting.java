@@ -1,6 +1,6 @@
-package zh.bookreader.model
+package zh.bookreader.model;
 
-enum DocumentFormatting {
+public enum DocumentFormatting {
     ITALIC,
     BOLD,
     EMPH,
