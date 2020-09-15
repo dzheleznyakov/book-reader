@@ -11,16 +11,16 @@ const Paginator = () => {
     const queryParams = useSearch();
     const history = useHistory();
 
+    useEffect(() => {
+        fetchCount().then(count => setTotalCount(count));
+    }, []);
+
     const page = +queryParams.page || 1;
     const numberOfPages = totalCount % PAGE_SIZE === 0 
         ? totalCount / PAGE_SIZE 
         : Math.floor(totalCount / PAGE_SIZE) + 1;
     const hasPrev = page > 1;
     const hasNext = page < numberOfPages;
-
-    useEffect(() => {
-        fetchCount().then(count => setTotalCount(count));
-    }, []);
 
     const { location } = history;
     const { pathname } = location;
