@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import Image from '../../../../components/BookList/Image/Image';
+import Image from '../Image';
 import { expect } from 'chai';
 
 describe("<Image />", () => {

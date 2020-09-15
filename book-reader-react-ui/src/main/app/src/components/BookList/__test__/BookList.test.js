@@ -4,8 +4,7 @@ import { createMemoryHistory } from 'history';
 import { mount } from 'enzyme';
 import { act } from '@testing-library/react';
 
-import BookList from '../../../components/BookList/BookList';
-import BookListItem from '../../../components/BookList/BookListItem/BookListItem';
+import BookList from '../BookList';
 import axios from '../../../axios-api';
 
 describe("<BookList />", () => {

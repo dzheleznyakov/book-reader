@@ -4,7 +4,7 @@ import { createMemoryHistory } from 'history';
 import { mount } from 'enzyme';
 import { act } from '@testing-library/react';
 
-import Paginator from '../../../../components/BookList/Paginator/Paginator';
+import Paginator from '../Paginator';
 import axios from '../../../../axios-api';
 
 describe("<Paginator />", () => {

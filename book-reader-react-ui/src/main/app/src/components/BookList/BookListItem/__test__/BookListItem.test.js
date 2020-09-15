@@ -1,8 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import BookListItem from '../../../../components/BookList/BookListItem/BookListItem';
-import Image from '../../../../components/BookList/Image/Image';
+import BookListItem from '../BookListItem';
+import Image from '../../Image/Image';
 
 describe("<BookListItem />", () => {
     const props = {

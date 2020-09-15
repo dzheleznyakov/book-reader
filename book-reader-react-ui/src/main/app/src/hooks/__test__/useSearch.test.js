@@ -10,7 +10,7 @@ describe('useSearch hook', () => {
     });
 
     mockPackage('react-router-dom', { useLocation: () => useLocationResult});
-    const useSearch = () => require('../../hooks/useSearch').useSearch();
+    const useSearch = () => require('../useSearch').useSearch();
 
     test('should return query params as object',  () => {
         useLocationResult = { search: '?page=42&otherParam=23' };
