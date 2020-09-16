@@ -62,6 +62,8 @@ public class EnclosingDocument extends BaseDocument<List<Document<?>>> {
         public DocumentBuilder<List<Document<?>>> withContent(Object content) {
             if (content instanceof Collection)
                 this.content.addAll((Collection<Document<?>>) content);
+            if (content instanceof Document<?>)
+                this.content.add((Document<?>) content);
             return this;
         }
 
