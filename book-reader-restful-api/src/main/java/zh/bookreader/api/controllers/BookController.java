@@ -2,9 +2,12 @@ package zh.bookreader.api.controllers;
 
 import com.google.common.collect.ImmutableList;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import zh.bookreader.api.commands.BookMainCommand;
 import zh.bookreader.api.commands.BookOverviewCommand;
+import zh.bookreader.api.converters.BookToBookMainCommandConverter;
 import zh.bookreader.api.converters.BookToBookOverviewCommandConverter;
 import zh.bookreader.api.util.ApiController;
 import zh.bookreader.model.Book;
@@ -20,10 +23,16 @@ import static zh.bookreader.api.controllers.ControllersConstants.CONTENT_TYPE;
 public class BookController {
     private final BookService bookService;
     private final BookToBookOverviewCommandConverter bookOverviewConverter;
+    private final BookToBookMainCommandConverter bookMainConverter;
 
-    public BookController(BookService bookService, BookToBookOverviewCommandConverter bookOverviewConverter) {
+    public BookController(
+            BookService bookService,
+            BookToBookOverviewCommandConverter bookOverviewConverter,
+            BookToBookMainCommandConverter bookMainConverter
+    ) {
         this.bookService = bookService;
         this.bookOverviewConverter = bookOverviewConverter;
+        this.bookMainConverter = bookMainConverter;
     }
 
     @GetMapping
@@ -52,7 +61,9 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public int getBook() {
-        return 0;
+    public BookMainCommand getBookMainPage(@PathVariable("id") String bookId) {
+        Book book = bookService.findById(bookId)
+                .orElse(null);
+        return bookMainConverter.convert(book);
     };
 }

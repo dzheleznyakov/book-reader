@@ -39,8 +39,7 @@ public class BookMainStemsFrom extends TypeSafeMatcher<BookMainCommand> {
                 && Objects.equals(book.getResources(), item.getResources())
                 && Arrays.equals(book.getImage(), item.getImage())
                 && Objects.equals(getToc(), item.getToc())
-                && descriptionMatches(item)
-                ;
+                && descriptionMatches(item);
     }
 
     private List<String> getToc() {

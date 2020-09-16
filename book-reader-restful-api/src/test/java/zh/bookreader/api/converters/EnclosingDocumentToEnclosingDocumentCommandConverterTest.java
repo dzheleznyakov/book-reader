@@ -8,9 +8,9 @@ import zh.bookreader.api.commands.EnclosingDocumentCommand;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static zh.bookreader.api.converters.Utils.PAR;
-import static zh.bookreader.api.converters.Utils.SEC_1;
-import static zh.bookreader.api.converters.Utils.SEC_2;
+import static zh.bookreader.api.ApiTestUtils.PAR;
+import static zh.bookreader.api.ApiTestUtils.SEC_1;
+import static zh.bookreader.api.ApiTestUtils.SEC_2;
 import static zh.bookreader.api.testtuils.hamcrest.DocumentMatchers.stemsFrom;
 
 class EnclosingDocumentToEnclosingDocumentCommandConverterTest {

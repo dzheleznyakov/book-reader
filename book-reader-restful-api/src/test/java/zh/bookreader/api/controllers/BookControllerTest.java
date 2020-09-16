@@ -13,15 +13,21 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import zh.bookreader.api.ApiTestUtils;
+import zh.bookreader.api.converters.BookToBookMainCommandConverter;
 import zh.bookreader.api.converters.BookToBookOverviewCommandConverter;
+import zh.bookreader.api.converters.EnclosingDocumentToEnclosingDocumentCommandConverter;
+import zh.bookreader.api.converters.TextDocumentToTextDocumentCommandConverter;
 import zh.bookreader.model.Book;
 import zh.bookreader.services.BookService;
 
 import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.times;
@@ -68,7 +74,12 @@ class BookControllerTest {
 
     @BeforeEach
     void setUpController() {
-        bookController = new BookController(bookService, new BookToBookOverviewCommandConverter());
+        TextDocumentToTextDocumentCommandConverter textDocConverter = new TextDocumentToTextDocumentCommandConverter();
+        EnclosingDocumentToEnclosingDocumentCommandConverter enclosingDocConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(textDocConverter);
+        BookToBookMainCommandConverter bookMainConverter = new BookToBookMainCommandConverter(textDocConverter, enclosingDocConverter);
+        bookController = new BookController(
+                bookService,
+                new BookToBookOverviewCommandConverter(), bookMainConverter);
     }
 
     @Nested
@@ -196,6 +207,46 @@ class BookControllerTest {
             mockMvc.perform(get("/api/books/count"))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$", is(BOOK_COUNT)));
+        }
+    }
+
+    @Nested
+    @DisplayName("Test getting book main page (GET /api/books/{id})")
+    class TestBookMainPage {
+        private static final String BOOK_ID = "bookId";
+        private final Book book = ApiTestUtils.getBook();
+
+        @BeforeEach
+        void setUpBook() {
+            book.setId(BOOK_ID);
+        }
+
+        @AfterEach
+        void verifyMocks() {
+            verify(bookService, times(1)).findById(BOOK_ID);
+        }
+
+        @Test
+        @DisplayName("Test fetching the book that does not exist")
+        void testGettingNonExistentBook() throws Exception {
+            when(bookService.findById(BOOK_ID))
+                    .thenReturn(Optional.empty());
+
+            mockMvc.perform(get("/api/books/{bookId}", BOOK_ID))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$").doesNotExist());
+
+        }
+
+        @Test
+        @DisplayName("Test fetching the book main page")
+        void testGettingBookMainPage() throws Exception {
+            when(bookService.findById(BOOK_ID))
+                    .thenReturn(Optional.of(book));
+
+            mockMvc.perform(get("/api/books/{bookId}", BOOK_ID))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.id", is(equalTo(BOOK_ID))));
         }
     }
 }

@@ -1,12 +1,17 @@
-package zh.bookreader.api.converters;
+package zh.bookreader.api;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import zh.bookreader.model.Book;
+import zh.bookreader.model.Chapter;
 import zh.bookreader.model.DocumentFormatting;
 import zh.bookreader.model.DocumentType;
 import zh.bookreader.model.EnclosingDocument;
 import zh.bookreader.model.TextDocument;
+import zh.bookreader.utils.ClassUtils;
 
-public class Utils {
+public class ApiTestUtils {
     public static final String TEXT_1 = "Mock text 1.";
     public static final String TEXT_2 = "Mock text 2.";
     public static final String PAR_1_ID = "mock-par-id";
@@ -36,4 +41,26 @@ public class Utils {
             .withFormatting(FORMATTING)
             .withId(SEC_2_ID)
             .build();
+
+    public static Book getBook() {
+        Chapter chapter1 = new Chapter();
+        chapter1.setName("Mock Chapter Name 1");
+
+        Chapter chapter2 = new Chapter();
+        chapter2.setName("Mock Chapter Name 2");
+
+        Book book = new Book();
+        book.setId("mock-book-id");
+        book.setTitle("Mock Book Title");
+        book.setReleaseDate("January 1970");
+        book.setAuthors(ImmutableList.of("Author One", "Author Two"));
+        book.setTopics(ImmutableList.of("Topic One", "Topic Two"));
+        book.setDescription(ImmutableList.of(TEXT_DOC_2, SEC_1));
+        book.setResources(ImmutableMap.of(
+                "Resource 1", "Value 1",
+                "Resource 2", "Value 2"));
+        book.setImage(ClassUtils.cast(new byte[]{0, 1, 2, 3}));
+        book.setChapters(ImmutableList.of(chapter1, chapter2));
+        return book;
+    }
 }
