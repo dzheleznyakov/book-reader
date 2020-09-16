@@ -17,10 +17,8 @@ public class Book {
     @Nonnull private String releaseDate;
     @Nonnull private List<String> authors = new ArrayList<>();
     @Nonnull private List<String> topics = new ArrayList<>();
-    @Nonnull private List<Document<?>> description;
+    @Nonnull private List<Document<?>> description = new ArrayList<>();
     @Nonnull private Map<String, String> resources = new HashMap<>();
     @Nonnull private Byte[] image = new Byte[0];
-
     @Nonnull private List<Chapter> chapters = new ArrayList<>();
-
 }

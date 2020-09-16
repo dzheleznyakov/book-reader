@@ -50,4 +50,9 @@ public class BookController {
     public int getBooksCount() {
         return bookService.count();
     }
+
+    @GetMapping("/{id}")
+    public int getBook() {
+        return 0;
+    };
 }
