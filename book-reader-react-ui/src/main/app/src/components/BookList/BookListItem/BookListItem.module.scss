@@ -48,3 +48,23 @@
     font-size: 0.8rem;
     font-style: italic;
 }
+
+.Url {
+    font-size: 1.2rem;
+    font-family: inherit;
+    font-weight: bold;
+    text-align: inherit;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:hover {
+        border-bottom-color: black;
+    }
+}

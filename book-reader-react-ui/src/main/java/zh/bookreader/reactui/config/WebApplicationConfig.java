@@ -14,8 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebApplicationConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         ViewControllerRegistration viewControllerRegistration = registry.addViewController("/notFound");
-        viewControllerRegistration.setViewName("redirect:/");
         viewControllerRegistration.setStatusCode(HttpStatus.OK);
+        viewControllerRegistration.setViewName("index.html");
     }
 
     @Bean
