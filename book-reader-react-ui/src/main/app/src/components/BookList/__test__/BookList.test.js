@@ -6,6 +6,7 @@ import { act } from '@testing-library/react';
 
 import BookList from '../BookList';
 import axios from '../../../axios-api';
+import { expect } from 'chai';
 
 describe("<BookList />", () => {
     let history;
@@ -79,5 +80,31 @@ describe("<BookList />", () => {
 
         const itemsList = renderedBookList.find('.BookListItem');
         expect(itemsList).to.have.length(0);
+    });
+
+    test("the main page shows spinner until the list is loaded", async () => {
+        let resolves;
+        axiosGetStub.returns(new Promise(r => {
+            resolves = r;
+        }));
+        await renderComponent();
+
+        let renderedBookList = bookList.render();
+
+        let itemsList = renderedBookList.find('.BookListItem');
+        let spinner = renderedBookList.find('.Spinner');
+        expect(itemsList).to.have.length(0);
+        expect(spinner).to.have.length(1);
+
+        await act(async () => {
+            resolves({ data: booksResponse });
+        });
+
+        renderedBookList = bookList.render();
+
+        itemsList = renderedBookList.find('.BookListItem');
+        spinner = renderedBookList.find('.Spinner');
+        expect(itemsList).to.have.length(numOfBooks);
+        expect(spinner).to.have.length(0);
     });
 });
