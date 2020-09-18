@@ -2,6 +2,7 @@ package zh.bookreader.services.htmlservices
 
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.hasSize
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -16,6 +17,7 @@ internal class BookListProxyTest {
     private companion object Constants {
         private val LIBRARY_URI = javaClass.classLoader.getResource("library/").toURI()
         private val EMPTY_LIBRARY_URI = javaClass.classLoader.getResource("emptyLibrary/").toURI()
+        private val ERRONEOUS_LIBRARY_URI = javaClass.classLoader.getResource("erroneousLibrary/").toURI()
     }
 
     private var list: List<Book> = listOf()
@@ -142,5 +144,14 @@ internal class BookListProxyTest {
         list = BookListProxy(Paths.get("fakeLibrary/").toUri())
 
         assertThat(list.isEmpty(), `is`(true))
+    }
+
+    @Test
+    @DisplayName("If a book has no metainfo, it is ignored")
+    internal fun testIgnoreBookWithNoMetainfo() {
+        list = BookListProxy(ERRONEOUS_LIBRARY_URI)
+
+        assertThat(list, hasSize(1))
+        assertThat(list[0].id, `is`(equalTo("book-no-cover")))
     }
 }

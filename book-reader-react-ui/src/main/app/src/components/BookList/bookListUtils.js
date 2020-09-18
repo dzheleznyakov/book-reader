@@ -2,7 +2,7 @@ import axios from '../../axios-api';
 
 export const PAGE_SIZE = 10
 
-export const fetchPage = (page) => {
+export const fetchPage = page => {
     const params = {
         offset: (page - 1) * PAGE_SIZE,
         limit: PAGE_SIZE,

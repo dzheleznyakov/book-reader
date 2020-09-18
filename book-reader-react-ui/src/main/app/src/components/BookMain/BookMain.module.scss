@@ -1,0 +1,18 @@
+@import "../../shared/styles/variables";
+
+.BookMainWrapper {
+    padding: 1rem;
+}
+
+.ImageWrapper {
+    width: 164px;
+    max-width: 164px;
+    height: 200px;
+    margin: 0.5rem;
+    box-shadow: $shadow-main;
+}
+
+.Image {
+    width: 144px;
+    max-height: 180px;
+}

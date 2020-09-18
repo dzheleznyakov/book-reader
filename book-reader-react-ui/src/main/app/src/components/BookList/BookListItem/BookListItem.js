@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import DotDotDot from 'react-dotdotdot';
 
-import Image from '../Image/Image';
+import Image from '../../UI/Image/Image';
 
 import classes from './BookListItem.module.scss';
 

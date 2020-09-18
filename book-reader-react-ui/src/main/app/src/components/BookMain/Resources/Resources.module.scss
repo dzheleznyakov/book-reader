@@ -1,0 +1,23 @@
+.ResourcesWrapper {
+    padding: 0 0.2rem;
+}
+
+.Title {
+    margin: 1.2rem 0 0.5rem;
+}
+
+.Resources {
+    padding: 0;
+    width: 100%;
+    margin-top: 0;
+
+    li {
+        padding-left: 0.5rem;
+        list-style: none;
+        margin-bottom: 0.3rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

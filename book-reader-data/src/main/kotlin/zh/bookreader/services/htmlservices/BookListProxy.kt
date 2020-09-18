@@ -10,6 +10,7 @@ class BookListProxy(private val libraryUri: URI) : List<Book> {
     private var catalog: List<Path> = File(libraryUri)
             .listFiles(File::isDirectory)
             ?.map(File::toPath)
+            ?.filter { dir -> dir.resolve("metainfo.txt").toFile().exists() }
             ?: listOf()
 
     private constructor(libraryUri: URI, catalog: List<Path>): this(libraryUri) {

@@ -4,7 +4,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 import BookListItem from '../BookListItem';
-import Image from '../../Image/Image';
+import Image from '../../../UI/Image/Image';
 import { expect } from 'chai';
 
 describe("<BookListItem />", () => {
