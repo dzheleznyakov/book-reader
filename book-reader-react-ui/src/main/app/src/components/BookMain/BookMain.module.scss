@@ -1,18 +1,42 @@
 @import "../../shared/styles/variables";
+@import "./bookMainVariables";
 
 .BookMainWrapper {
-    padding: 1rem;
+    position: relative;
+    padding: 1rem
+}
+
+@media (min-width: $pad-horizontal-breakpoint) {
+    .BookMainWrapper {
+        margin: auto;
+        padding: 2rem;
+        width: 75%
+    }
 }
 
 .ImageWrapper {
-    width: 164px;
-    max-width: 164px;
-    height: 200px;
-    margin: 0.5rem;
+    width: $image-width;
+    max-width: $max-image-width;
+    height: $image-height;
+    margin: $image-margin;
     box-shadow: $shadow-main;
 }
 
+@media (min-width: $mobile-horizontal-breakpoint) {
+    .ImageWrapper {
+        position: absolute;
+        margin: 0;
+    }
+}
+
 .Image {
-    width: 144px;
-    max-height: 180px;
+    width: calc(#{$image-width * 0.88});
+    max-height: calc(#{$image-height * 0.9});
+}
+
+@media (min-width: $mobile-horizontal-breakpoint) {
+    .MetaInfo {
+        display: flex;
+        flex-direction: column;
+    }
 }

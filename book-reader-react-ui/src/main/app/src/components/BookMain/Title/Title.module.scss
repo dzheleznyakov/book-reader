@@ -1,3 +1,14 @@
+@import "../../../shared/styles/variables";
+@import "../bookMainVariables";
+
 .Title {
     padding: 0.5rem 0;
+}
+
+@media (min-width: $mobile-horizontal-breakpoint) {
+    .Title {
+        width: calc(90% - #{$image-margin} - #{$max-image-width});
+        align-self: flex-end;
+        flex-basis: $image-height;
+    }
 }

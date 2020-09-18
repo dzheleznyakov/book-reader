@@ -36,7 +36,7 @@ const BookMain = props => {
                 imageWrapperClass={classes.ImageWrapper}
                 imageClass={classes.Image}
             />
-            <div>
+            <div className={classes.MetaInfo}>
                 <Title>{bookInfo.title}</Title>
                 <Authors>{bookInfo.authors}</Authors>
                 <ReleaseDate>{bookInfo.releaseDate}</ReleaseDate>
