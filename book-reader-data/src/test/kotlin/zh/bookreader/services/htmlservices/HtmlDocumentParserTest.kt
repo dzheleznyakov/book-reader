@@ -50,6 +50,7 @@ internal class HtmlDocumentParserTest {
             "<span class=\"label\">some text</span>         ,   ->   , some text,  _",
             "<em>some text</em>                             ,   ->   , some text,  EMPH",
             "<strong>some text</strong>                     ,   ->   , some text,  BOLD",
+            "<b>some text</b>                               ,   ->   , some text,  BOLD",
             "<sup>some text</sup>                           ,   ->   , some text,  SUP",
             "<span data-type=\"index-term\">some text</span>,   ->   , some text,  INDEX_TERM"
     )

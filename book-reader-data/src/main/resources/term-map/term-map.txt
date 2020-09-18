@@ -17,6 +17,7 @@ span => INLINED
 
 em => INLINED
 strong => INLINED
+b => INLINED
 
 p => PARAGRAPH
 

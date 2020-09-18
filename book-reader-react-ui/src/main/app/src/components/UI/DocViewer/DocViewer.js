@@ -1,20 +1,18 @@
 import React from 'react';
 
-import viewMapper from './viewMapper';
-import contentMapper from './contentMapper';
+import Views from './Views/Views';
+
+import classes from './DocViewer.module.scss';
 
 const DocViewer = props => {
     const { docs } = props;
 
-    const views = docs.map((doc, i) => {
-        const type = doc.documentType;
-        const docContent = doc.content;
-        const View = viewMapper(type);
-        const content = contentMapper(type, docContent);
-        return View({ key: i, children: content });
-    })
-
-    return <div>{views}</div>;
+    return (
+        <div className={classes.DocViewer}>
+            <h2 className={classes.Title}>Description:</h2>
+            <Views docs={docs} />
+        </div>
+    );
 };
 
 export default DocViewer;

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import DocViewer from './DocViewer';
+import Views from './Views';
 
-const mapper = (type, content) => {
+const mapper = (type, formatting, content) => {
     if (type === 'TEXT') {
         return content;
     }
-    return <DocViewer docs={content} />
+    return <Views docs={content} />
 };
 
 export default mapper;

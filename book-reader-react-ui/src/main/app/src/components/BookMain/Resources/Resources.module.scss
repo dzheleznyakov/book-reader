@@ -3,7 +3,7 @@
 }
 
 .Title {
-    margin: 1.2rem 0 0.5rem;
+    margin: 0 0 0.5rem;
 }
 
 .Resources {
@@ -15,6 +15,7 @@
         padding-left: 0.5rem;
         list-style: none;
         margin-bottom: 0.3rem;
+        overflow-wrap: anywhere;
 
         &:last-child {
             margin-bottom: 0;
