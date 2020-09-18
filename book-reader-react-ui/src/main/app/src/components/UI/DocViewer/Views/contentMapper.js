@@ -1,12 +1,11 @@
 import React from 'react';
 
 import Views from './Views';
+import types from './types';
 
-const mapper = (type, formatting, content) => {
-    if (type === 'TEXT') {
-        return content;
-    }
-    return <Views docs={content} />
-};
+const mapper = (type, content) => (type === types.TEXT
+    ? content
+    : <Views docs={content} />
+);
 
 export default mapper;

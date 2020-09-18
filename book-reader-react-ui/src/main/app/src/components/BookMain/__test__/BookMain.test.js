@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { createMemoryHistory } from 'history';
 import { act } from '@testing-library/react';
 
@@ -8,7 +8,6 @@ import BookMain from '../BookMain';
 import axios from '../../../axios-api';
 
 import bookResponse from './bookResponse.json';
-import { expect } from 'chai';
 
 describe("<BookMain />", () => {
     const bookId = bookResponse.id;

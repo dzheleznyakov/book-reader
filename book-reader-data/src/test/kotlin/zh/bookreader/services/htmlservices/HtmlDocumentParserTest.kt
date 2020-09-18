@@ -22,7 +22,7 @@ import zh.bookreader.model.DocumentType as DocType
 
 @Suppress("UNUSED_PARAMETER")
 internal class HtmlDocumentParserTest {
-    private val parser = HtmlDocumentParser("/Users/dmitriy.zheleznyakov/.zh/BookParser/savedContent/mongodb-the-definitive-guide-3rd-edition/ch01.html")
+    private val parser = HtmlDocumentParser("/")
 
     @Test
     @DisplayName("Test parsing a plain text string")

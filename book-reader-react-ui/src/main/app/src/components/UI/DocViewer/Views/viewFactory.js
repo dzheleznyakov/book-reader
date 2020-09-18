@@ -13,9 +13,10 @@ Array.prototype.has = function (item) {
 const getView = Tag => 
     props => <Tag key={props.key} className={props.className}>{props.children}</Tag>;
 
-const mapByDefault = (type, formatting) => {
-    console.debug('View [%s] is not recognised', `${type}.${formatting.join('.')}`);
-    return getView('div');
+const mapByDefault = (type, formatting, tag = 'div') => {
+    const ft = formatting.length ? `.${formatting.join('.')}` : '';
+    console.debug('View [%s] is not recognised', `${type}${ft}`);
+    return getView(tag);
 };
 
 const mapBlock = formatting => {
@@ -33,13 +34,15 @@ const mapInlined = formatting => {
         return getView('span');
     if (formatting.has(styles.BOLD))
         return getView('strong');
-    return mapByDefault(types.INLINED, formatting);
+    if (formatting.has(styles.EMPH))
+        return getView('em');
+    return mapByDefault(types.INLINED, formatting, 'span');
 };
 
 const mapParagraph = formatting => {
     if (!formatting.length)
         return getView('p');
-    return mapByDefault(types.PARAGRAPH, formatting);
+    return mapByDefault(types.PARAGRAPH, formatting, 'p');
 };
 
 const mapper = (type, formatting) => {
