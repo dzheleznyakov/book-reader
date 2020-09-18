@@ -31,7 +31,7 @@ describe("<BookMain />", () => {
 
     const sandbox = sinon.createSandbox();
 
-    let axiosStub;
+    let axiosGetStub;
 
     let history;
     let wrapper;
@@ -41,7 +41,7 @@ describe("<BookMain />", () => {
                 .returns('https://mock-url.net')
         global.URL.createObjectURL = mockCreateObjectURL;
 
-        axiosStub = sandbox.stub(axios, 'get')
+        axiosGetStub = sandbox.stub(axios, 'get')
             .resolves({ data: bookResponse });
         history = createMemoryHistory({ initialEntries: [`/books/${bookId}`] });
     });
@@ -73,5 +73,32 @@ describe("<BookMain />", () => {
                 expect(bookMainText).to.contain(bookResponse.resources[resource]);
             })
         responseParagraphs.forEach(par => expect(bookMainText).to.contain(par));
+    });
+
+    test("the page shows spinner until the book is loaded", async () => {
+        let resolves;
+        axiosGetStub.returns(new Promise(r => {
+            resolves = r;
+        }));
+        await renderComponent();
+
+        const bookMain = wrapper.find(BookMain);
+        let renderedBookMain = bookMain.render();
+
+        let bookInfo = renderedBookMain.find('[data-type="book-info"]');
+        let spinner = renderedBookMain.find('.Spinner');
+        expect(bookInfo).to.have.length(0);
+        expect(spinner).to.have.length(1);
+
+        await act(async () => {
+            resolves({ data: bookResponse });
+        });
+
+        renderedBookMain = bookMain.render();
+
+        bookInfo = renderedBookMain.find('[data-type="book-info"]');
+        spinner = renderedBookMain.find('.Spinner');
+        expect(bookInfo).to.have.length(1);
+        expect(spinner).to.have.length(0);
     });
 });

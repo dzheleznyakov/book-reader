@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+import Spinner from '../UI/Spinner/Spinner';
 import Title from './Title/Title';
 import Authors from './Authors/Authors';
 import ReleaseDate from './ReleaseDate/ReleaseDate';
@@ -17,14 +18,19 @@ const BookMain = props => {
     const { id } = params;
 
     const [bookInfo, setBookInfo] = useState();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchBookMainPage(id)
-            .then(info => setBookInfo(info));
+            .then(info => {
+                setLoading(false);
+                setBookInfo(info);
+            });
     }, [id]);
 
+    const spinner = loading ? <Spinner /> : null;
     const bookInfoComp = bookInfo ? (
-        <div>
+        <div data-type="book-info">
             <Image 
                 image={bookInfo.image} 
                 imageWrapperClass={classes.ImageWrapper}
@@ -43,6 +49,7 @@ const BookMain = props => {
     
     return (
         <div className={classes.BookMainWrapper}>
+            {spinner}
             {bookInfoComp}
         </div>
     );
