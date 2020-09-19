@@ -249,4 +249,11 @@ class BookControllerTest {
                     .andExpect(jsonPath("$.id", is(equalTo(BOOK_ID))));
         }
     }
+
+    @Nested
+    @DisplayName("Test getting book chapter page (GET /api/books/{id}/chapter{chapterId})")
+    class TestBookChapter {
+        private static final String BOOK_ID = "book-id";
+        private static final String CHAPTER_ID = "chapter-id";
+    }
 }

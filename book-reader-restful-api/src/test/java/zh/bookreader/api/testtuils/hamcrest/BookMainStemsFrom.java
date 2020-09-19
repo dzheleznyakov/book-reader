@@ -45,7 +45,7 @@ public class BookMainStemsFrom extends TypeSafeMatcher<BookMainCommand> {
     private List<String> getToc() {
         return book.getChapters()
                 .stream()
-                .map(Chapter::getName)
+                .map(Chapter::getId)
                 .collect(ImmutableList.toImmutableList());
     }
 

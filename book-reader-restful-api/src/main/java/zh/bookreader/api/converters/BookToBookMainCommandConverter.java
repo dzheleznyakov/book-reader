@@ -67,7 +67,7 @@ public class BookToBookMainCommandConverter implements Converter<Book, BookMainC
     private List<String> getToc(Book book) {
         return book.getChapters()
                 .stream()
-                .map(Chapter::getName)
+                .map(Chapter::getId)
                 .filter(Objects::nonNull)
                 .collect(ImmutableList.toImmutableList());
     }

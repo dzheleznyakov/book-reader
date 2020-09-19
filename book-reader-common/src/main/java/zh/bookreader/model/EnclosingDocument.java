@@ -1,11 +1,11 @@
 package zh.bookreader.model;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 public class EnclosingDocument extends BaseDocument<List<Document<?>>> {
     private final List<Document<?>> content;
@@ -15,25 +15,39 @@ public class EnclosingDocument extends BaseDocument<List<Document<?>>> {
         content = builder.getContent();
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (getClass() != obj.getClass()) return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EnclosingDocument)) return false;
 
-        final EnclosingDocument that = (EnclosingDocument) obj;
+        EnclosingDocument that = (EnclosingDocument) o;
 
-        if (!Objects.equals(content, that.content)) return false;
-        if (!Objects.equals(formatting, that.formatting)) return false;
-        if (!Objects.equals(id, that.id)) return false;
-        return Objects.equals(metadata, that.metadata);
+        if (!content.equals(that.content)) return false;
+        if (documentType != that.documentType) return false;
+        if (!id.equals(that.id)) return false;
+        if (!formatting.equals(that.formatting)) return false;
+        return metadata.equals(that.metadata);
     }
 
+    @Override
     public int hashCode() {
-        int result;
-        result = (content != null ? content.hashCode() : 0);
-        result = 31 * result + (formatting != null ? formatting.hashCode() : 0);
-        result = 31 * result + (id != null ? id.hashCode() : 0);
-        result = 31 * result + (metadata != null ? metadata.hashCode() : 0);
+        int result = content.hashCode();
+        result = 31 * result + documentType.hashCode();
+        result = 31 * result + id.hashCode();
+        result = 31 * result + formatting.hashCode();
+        result = 31 * result + metadata.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("content", content)
+                .add("documentType", documentType)
+                .add("id", id)
+                .add("formatting", formatting)
+                .add("metadata", metadata)
+                .toString();
     }
 
     @Nonnull

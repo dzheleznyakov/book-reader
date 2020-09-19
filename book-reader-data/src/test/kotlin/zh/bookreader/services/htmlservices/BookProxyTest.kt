@@ -9,6 +9,7 @@ import zh.bookreader.model.Document
 import java.io.File
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+@DisplayName("Test BookProxy")
 internal class BookProxyTest {
     private val bookWithNoCoverPath = "erroneousLibrary/book-no-cover"
     private val bookPath = "library/book-one"
@@ -59,9 +60,9 @@ internal class BookProxyTest {
     @Test
     @DisplayName("Test BookProxy has right chapters")
     internal fun testToc() {
-        val expectedChapterNames: List<String> = listOf("preface.html", "ch01.html", "ch02.html", "app.html")
-        val actualChapterNames = book.chapters.map { it.name }
-        assertEquals(expectedChapterNames, actualChapterNames)
+        val expectedChapterIds: List<String> = listOf("preface", "ch01", "ch02", "app")
+        val actualChapterIds = book.chapters.map { it.id }
+        assertEquals(expectedChapterIds, actualChapterIds)
     }
 
     @Test

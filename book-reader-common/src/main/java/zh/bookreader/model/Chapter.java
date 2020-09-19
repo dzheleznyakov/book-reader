@@ -8,6 +8,6 @@ import java.util.List;
 @Getter
 @Setter
 public class Chapter {
-    private String name;
+    private String id;
     private Document<List<Document<?>>> content;
 }

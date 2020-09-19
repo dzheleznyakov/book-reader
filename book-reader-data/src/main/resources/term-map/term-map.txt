@@ -16,6 +16,7 @@ sup         => INLINED
 span => INLINED
 
 em => INLINED
+i => INLINED
 strong => INLINED
 b => INLINED
 

@@ -44,10 +44,10 @@ public class ApiTestUtils {
 
     public static Book getBook() {
         Chapter chapter1 = new Chapter();
-        chapter1.setName("Mock Chapter Name 1");
+        chapter1.setId("Mock Chapter Name 1");
 
         Chapter chapter2 = new Chapter();
-        chapter2.setName("Mock Chapter Name 2");
+        chapter2.setId("Mock Chapter Name 2");
 
         Book book = new Book();
         book.setId("mock-book-id");

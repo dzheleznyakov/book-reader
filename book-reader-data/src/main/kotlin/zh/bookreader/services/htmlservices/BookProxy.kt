@@ -28,7 +28,7 @@ class BookProxy(private val bookDir: File) : Book() {
         isCoverPageImage() -> { this@BookProxy.coverImagePath = getCoverPageImage() }
         isResourceLabel() -> { cacheResourceLabel() }
         isResourceValue() -> { cacheResourceValue() }
-        isChapters() -> { this@BookProxy.chapters = ChapterListProxy(getChapters()) }
+        isChapters() -> { this@BookProxy.chapters = ChapterListProxy(bookDir, getChapters()) }
         else -> {}
     }
 

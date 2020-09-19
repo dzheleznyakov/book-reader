@@ -68,6 +68,7 @@ td           => TABLE_CELL
 
 sup          => SUP
 
+i => EMPH
 em => EMPH
 em.hyperlink => EMPH
 

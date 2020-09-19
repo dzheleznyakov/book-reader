@@ -34,10 +34,10 @@ public class TestBookConstants {
             "Mock resource 1", "42",
             "Mock resource 2", "forty two");
     private static final Map<String, String> RESOURCES_2 = ImmutableMap.of();
-    private static final List<String> CHAPTERS_NAMES_1 = ImmutableList.of(
-            "preface.html", "ch01.html", "ch02.html", "app.html");
-    private static final List<String> CHAPTERS_NAMES_2 = ImmutableList.of(
-            "intro.html", "p01.html", "p02.html");
+    private static final List<String> CHAPTERS_IDS_1 = ImmutableList.of(
+            "preface", "ch01", "ch02", "app");
+    private static final List<String> CHAPTERS_IDS_2 = ImmutableList.of(
+            "intro", "p01", "p02");
 
     static {
         String image1Path = "library/book-one/media/square.jpg";
@@ -53,7 +53,7 @@ public class TestBookConstants {
     }
 
     public static Book getBook1() {
-        var chapters1 = CHAPTERS_NAMES_1.stream()
+        var chapters1 = CHAPTERS_IDS_1.stream()
                 .map(TestBookConstants::getChapter)
                 .collect(ImmutableList.toImmutableList());
 
@@ -71,7 +71,7 @@ public class TestBookConstants {
     }
 
     public static Book getBook2() {
-        var chapters2 = CHAPTERS_NAMES_2.stream()
+        var chapters2 = CHAPTERS_IDS_2.stream()
                 .map(TestBookConstants::getChapter)
                 .collect(ImmutableList.toImmutableList());
 
@@ -90,7 +90,7 @@ public class TestBookConstants {
 
     private static Chapter getChapter(String name) {
         Chapter ch = new Chapter();
-        ch.setName(name);
+        ch.setId(name);
         return ch;
     }
 }
