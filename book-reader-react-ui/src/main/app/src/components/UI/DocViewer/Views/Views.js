@@ -9,10 +9,16 @@ const Views = props => {
     const { docs } = props;
 
     const views = docs.map((doc, i) => {
-        const { documentType: type, content: docContent, formatting = [] } = doc;
+        const { id, documentType: type, content: docContent, formatting = [] } = doc;
         const View = viewMapper(type, formatting);
         const content = contentMapper(type, docContent);
-        return View({ key: i, children: content });
+        const viewProps = { 
+            key: i, 
+            children: content, 
+            id: id || undefined
+        }
+        // console.log(JSON.stringify(docContent));
+        return View(viewProps);
     })
 
     return (

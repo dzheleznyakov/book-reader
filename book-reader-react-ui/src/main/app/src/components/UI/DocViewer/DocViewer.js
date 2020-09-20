@@ -11,7 +11,6 @@ const DocViewer = props => {
 
     return (
         <div className={classes.DocViewer}>
-            <h2 className={classes.Title}>Description:</h2>
             <Views docs={docs} />
         </div>
     );

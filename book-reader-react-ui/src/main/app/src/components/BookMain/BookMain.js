@@ -41,6 +41,7 @@ const BookMain = props => {
                 <Authors>{bookInfo.authors}</Authors>
                 <ReleaseDate>{bookInfo.releaseDate}</ReleaseDate>
                 <Topics>{bookInfo.topics}</Topics>
+                <h2 className={classes.Title}>Description:</h2>
                 <DocViewer docs={bookInfo.description} />
                 <Resources>{bookInfo.resources}</Resources>
             </div>
