@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import zh.bookreader.api.commands.ChapterCommand;
+import zh.bookreader.api.commands.ChapterNavigationCommand;
+import zh.bookreader.api.converters.ChapterListToChapterNavigationConverter;
 import zh.bookreader.api.converters.ChapterToChapterCommandConverter;
 import zh.bookreader.api.util.ApiController;
 import zh.bookreader.model.Book;
@@ -20,10 +22,16 @@ import static zh.bookreader.api.controllers.ControllersConstants.CONTENT_TYPE;
 public class ChapterController {
     private final ChapterToChapterCommandConverter chapterConverter;
     private final BookService bookService;
+    private final ChapterListToChapterNavigationConverter navigationConverter;
 
-    public ChapterController(ChapterToChapterCommandConverter chapterConverter, BookService bookService) {
+    public ChapterController(
+            ChapterToChapterCommandConverter chapterConverter,
+            BookService bookService,
+            ChapterListToChapterNavigationConverter navigationConverter
+    ) {
         this.chapterConverter = chapterConverter;
         this.bookService = bookService;
+        this.navigationConverter = navigationConverter;
     }
 
     @GetMapping("/{chapterId}")
@@ -42,5 +50,17 @@ public class ChapterController {
                 .orElse(null);
 
         return chapterConverter.convert(chapter);
+    }
+
+    @GetMapping("/{chapterId}/navigation")
+    public ChapterNavigationCommand getChapterNavigation(
+            @PathVariable("id") String bookId,
+            @PathVariable("chapterId") String chapterId
+    ) {
+        Book book = bookService
+                .findById(bookId)
+                .orElse(null);
+
+        return book == null ? null : navigationConverter.convert(chapterId, book.getChapters());
     }
 }
