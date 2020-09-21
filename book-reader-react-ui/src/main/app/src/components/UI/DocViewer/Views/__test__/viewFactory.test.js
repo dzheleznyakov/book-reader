@@ -1,18 +1,28 @@
 import React from 'react';
+import { Router } from 'react-router-dom';
 import { shallow } from 'enzyme';
+import { createMemoryHistory } from 'history';
 
 import viewFactory from '../viewFactory';
 import types from '../types';
 import styles from '../styles';
 
 describe("docFactory()", () => {
+    const history = createMemoryHistory({ initialEntries: ['/test/path'] });
+
     const assertTypeView = type => 
         (formatting, tag) => assertView(type, formatting, tag);
 
     const assertView = (type, formatting, tag) => {
         const View = viewFactory(type, formatting);
-        const view = shallow(<View>content</View>);
-        expect(view.html()).to.be.equal(`<${tag}>content</${tag}>`);
+        const view = tag === 'a'
+            ? shallow(<Router history={history}><View>content</View></Router>)
+            : shallow(<View>content</View>);
+        
+        if (tag === 'a')
+            expect(view.html()).to.be.equal(`<a href="">content</a>`);
+        else
+            expect(view.html()).to.be.equal(`<${tag}>content</${tag}>`);
     };
 
     test("TEXT docs", () => {

@@ -19,4 +19,5 @@ public class EnclosingDocumentCommand implements DocumentCommand {
     private List<? extends DocumentCommand> content;
     private String id;
     private Set<String> formatting;
+    private String href;
 }

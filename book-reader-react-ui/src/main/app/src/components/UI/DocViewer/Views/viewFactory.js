@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import types from './types';
 import styles from './styles';
@@ -17,8 +18,16 @@ Array.prototype.hasOnly = function (item) {
     return this.length === 1 && this[0] === item;
 };
 
-const getView = Tag => 
-    props => <Tag {...props} />;
+const getAnchorView = () => props => {
+    const { href } = props;
+    return !href || href.indexOf("http") === 0 || href.indexOf("mailto:") === 0
+        ? <a {...props} />
+        : <Link to={props.href} {...props} />;
+};
+
+const getView = Tag => (
+    Tag === 'a' ? getAnchorView() : props => <Tag {...props} />
+);
 
 const mapByDefault = (type, formatting, tag = 'div') => {
     const ft = formatting.length ? `.${formatting.join('.')}` : '';
@@ -26,8 +35,11 @@ const mapByDefault = (type, formatting, tag = 'div') => {
     return getView(tag);
 };
 
+const isSection = formatting => !formatting.length || formatting.hasOnly(styles.LEVEL_0) || formatting.hasOnly(styles.LEVEL_1)
+    || formatting.hasOnly(styles.LEVEL_2);
+
 const mapSection = formatting => {
-    if (!formatting.length)
+    if (isSection(formatting))
         return getView('section');
     return mapByDefault(types.SECTION, formatting, 'section');
 };
@@ -52,7 +64,7 @@ const mapBlock = formatting => {
     if (formatting.hasOnly(styles.CAUTION))
         return getView('div');
     if (formatting.has(styles.FRAMED) && formatting.has(styles.NOTE))
-        return getView('dl');
+        return getView('div');
     if (formatting.has(styles.UNORDERED_LIST) && formatting.has(styles.SIMPLE))
         return getView('ul');
     return mapByDefault(types.BLOCK, formatting);

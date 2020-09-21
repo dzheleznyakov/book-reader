@@ -14,4 +14,7 @@ export default {
     CAUTION: 'CAUTION',
     FRAMED: 'FRAMED',
     SIMPLE: 'SIMPLE',
+    LEVEL_0: 'LEVEL_0',
+    LEVEL_1: 'LEVEL_1',
+    LEVEL_2: 'LEVEL_2',
 };

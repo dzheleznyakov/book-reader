@@ -1,0 +1,14 @@
+@import "../../shared/styles/variables";
+
+.Chapter {
+    padding: 0.5rem 1rem 1rem;
+    line-height: 1.6;
+}
+
+@media (min-width: $pad-horizontal-breakpoint) {
+    .Chapter {
+        margin: auto;
+        padding: 2rem;
+        width: 75%
+    }
+}

@@ -81,3 +81,22 @@ div[footnotes]            => FOOTNOTE
 a[indexterm]              => INDEX_TERM
 a[index:locator]          => INDEX_LOCATOR
 span[index-term]          => INDEX_TERM
+
+div.preface  => LEVEL_0
+div.chapter  => LEVEL_0
+div.index    => LEVEL_0
+div.colophon => LEVEL_0
+div.sect1 => LEVEL_1
+div.sect2 => LEVEL_2
+div.sect3 => LEVEL_3
+div.sect4 => LEVEL_4
+
+section[preface]  => LEVEL_0
+section[chapter]  => LEVEL_0
+section[index]    => LEVEL_0
+section[colophon] => LEVEL_0
+section[appendix] => LEVEL_0
+section[sect1] => LEVEL_1
+section[sect2] => LEVEL_2
+section[sect3] => LEVEL_3
+section[sect4] => LEVEL_4

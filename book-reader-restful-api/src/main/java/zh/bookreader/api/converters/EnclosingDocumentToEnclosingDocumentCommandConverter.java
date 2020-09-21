@@ -15,6 +15,7 @@ import zh.bookreader.model.TextDocument;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Component
@@ -28,11 +29,14 @@ public class EnclosingDocumentToEnclosingDocumentCommandConverter implements Con
 
     @Override
     public EnclosingDocumentCommand convert(@Nullable EnclosingDocument doc) {
+//        log.info("Doc type=[{}], metadata=[{}]", doc.getDocumentType(), doc.getMetadata());
+
         return doc == null ? null : EnclosingDocumentCommand.builder()
                 .documentType(convertDocumentType(doc))
                 .content(convertContent(doc))
                 .id(doc.getId())
                 .formatting(convertFormatting(doc))
+                .href(getHref(doc))
                 .build();
 
     }
@@ -64,5 +68,15 @@ public class EnclosingDocumentToEnclosingDocumentCommandConverter implements Con
             return this.convert((EnclosingDocument) doc);
         log.warn("Document type is not supported: [{}]", doc.getClass());
         return null;
+    }
+
+    private String getHref(EnclosingDocument doc) {
+        Map<String, String> metadata = doc.getMetadata();
+        String href = metadata.get("@href");
+        if (href == null)
+            return href;
+        return Objects.equals(metadata.get("type"), "xref")
+                ? href.replace(".html", "")
+                : href;
     }
 }

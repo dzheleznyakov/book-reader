@@ -1,0 +1,75 @@
+@mixin href-style {
+    border-bottom: 1px dotted black;
+    text-decoration: none;
+    color: inherit;
+}
+
+$blue: #2719c2;
+$red: #ce2b2b;
+
+.Level-0 {
+    & > h1 {
+        font-size: 2rem;
+        border-bottom: 1px solid black;
+        padding-bottom: 1rem;
+    }
+}
+
+.Level-1 {
+    & > h1 {
+        margin: 0.2rem 0 0.1rem;
+        font-size: 1.5rem;
+        color: $blue;
+    }
+}
+
+.Level-2 {
+    & > h1 {
+        margin: 0;
+        padding: 1rem 0 0;
+        font-size: 1.2rem;
+
+        & + p:first-of-type {
+            margin-top: 0.5rem;
+        }
+    }
+}
+
+.Term {
+    font-style: italic;
+}
+
+.Tip, .Note, .Caution {
+    border: 1px solid black;
+    padding: 1rem;
+    margin: 1rem;
+
+    & > h1 {
+        margin: 0;
+        text-align: center;
+        font-size: 1.1rem;
+        font-family: 'Courier New', Courier, monospace;
+    }
+}
+
+.Caution {
+    & > h1 {
+        color: $red;
+    }
+}
+
+.Href {
+    @include href-style;
+}
+
+.Email {
+    @include href-style;
+    color: $blue;
+    font-weight: 600;
+}
+
+ul.Simple-List, ol.Simple-List {
+    & > li {
+        list-style: none;
+    }
+}

@@ -102,7 +102,7 @@ class HtmlDocumentParser(private val fileName: String) {
                     .build()
 
     private fun parseNode(node: Node, dirPath: String): Document<*> {
-        log.info("Processing a node <{}>", node.nodeName)
+        log.debug("Processing a node <{}>", node.nodeName)
         return when (node.getDocumentType()) {
             DocumentType.NULL -> Document.NULL
             DocumentType.TEXT -> node.toTextDocument()
@@ -202,5 +202,5 @@ class HtmlDocumentParser(private val fileName: String) {
         return TagLiteral(nodeName, cssClasses, dataType)
     }
 
-    private fun Node.attribute(name: String) = attributes.getNamedItem(name)?.nodeValue
+    private fun Node.attribute(name: String) = attributes?.getNamedItem(name)?.nodeValue
 }
