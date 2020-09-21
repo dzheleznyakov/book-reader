@@ -203,7 +203,8 @@ class ChapterControllerTest {
                     .thenReturn(Optional.empty());
 
             mockMvc.perform(get(URL_TEMPLATE, BOOK_ID, CHAPTER_ID))
-                    .andExpect(status().isOk());
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$").doesNotExist());
         }
     }
 }
