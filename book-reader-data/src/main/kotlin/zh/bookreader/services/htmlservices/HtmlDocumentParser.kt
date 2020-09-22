@@ -65,6 +65,11 @@ class HtmlDocumentParser(private val fileName: String) {
             if (attrs.endsWith('/')) "<img${attrs}>"
             else "<img${attrs}/>"
         }
+        text = text.replace(Regex("<col([^>]*)>")) { mr ->
+            val (attrs) = mr.destructured
+            if (attrs.endsWith('/')) "<col${attrs}>"
+            else "<col${attrs}/>"
+        }
         text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE html [<!ENTITY nbsp \"&#160;\">\n]><body>${text}</body>"
 
         val xmlInput = InputSource(StringReader(text))

@@ -8,7 +8,7 @@
 .Toolbar {
     width: 100%;
     height: $toolbar-height;
-    background-color: yellowgreen;
+    background-color: white;
     border-bottom: 2px solid black;
     position: fixed;
     z-index: 10;
@@ -19,7 +19,7 @@
 .Footer {
     width: 100%;
     height: $footnote-height;
-    background-color: yellowgreen;
+    background-color: white;
     border-top: 2px solid black;
     position: fixed;
     bottom: 0;
