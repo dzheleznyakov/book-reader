@@ -1,10 +1,9 @@
 package zh.bookreader.services.htmlservices
 
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Node
+import org.jsoup.nodes.TextNode
 import org.slf4j.LoggerFactory
-import org.w3c.dom.NamedNodeMap
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
-import org.xml.sax.InputSource
 import zh.bookreader.model.Document
 import zh.bookreader.model.DocumentFormatting
 import zh.bookreader.model.DocumentType
@@ -12,13 +11,11 @@ import zh.bookreader.model.EnclosingDocument
 import zh.bookreader.model.ImageDocument
 import zh.bookreader.model.TextDocument
 import java.io.File
-import java.io.StringReader
 import java.lang.Enum.valueOf
 import java.net.MalformedURLException
 import java.net.URI
 import java.net.URL
 import java.nio.file.Paths
-import javax.xml.parsers.DocumentBuilderFactory
 
 class HtmlDocumentParser(private val fileName: String) {
     private val log = LoggerFactory.getLogger(javaClass)
@@ -60,66 +57,32 @@ class HtmlDocumentParser(private val fileName: String) {
     fun parse() = File(fileName).run { parseFileContent(readText(), parent) }
 
     internal fun parseFileContent(fileText: String, dirPath: String = "."): Document<*> {
-        var text = fileText.replace(Regex("<img([^>]*)>")) { mr ->
-            val (attrs) = mr.destructured
-            if (attrs.endsWith('/')) "<img${attrs}>"
-            else "<img${attrs}/>"
-        }
-        text = text.replace(Regex("<col([^>]*)>")) { mr ->
-            val (attrs) = mr.destructured
-            if (attrs.endsWith('/')) "<col${attrs}>"
-            else "<col${attrs}/>"
-        }
-        text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE html [<!ENTITY nbsp \"&#160;\">\n]><body>${text}</body>"
-
-        val xmlInput = InputSource(StringReader(text))
-        val doc = DocumentBuilderFactory
-                .newInstance()
-                .run {
-                    isValidating = false
-                    isNamespaceAware = false
-                    newDocumentBuilder()
-                }
-                .parse(xmlInput)
-
-        val rootChildren = doc.childNodes
-        var bodyOptional: Node? = null
-        val length = rootChildren.length
-        for (i in 0 until length) {
-            val nodeName = rootChildren.item(i).nodeName
-            if (nodeName == "body")
-                bodyOptional = rootChildren.item(i)
-        }
-        if (bodyOptional == null || bodyOptional.childNodes.length == 0)
+        val doc = Jsoup.parse("<div>$fileText</div>")
+        val body = doc.body()
+        if (body.childNodeSize() == 0)
             return Document.NULL
-        val content = bodyOptional.childNodes.item(0)
 
-        return parse(content, dirPath)
+        return parseElement(body.childNode(0), dirPath)
+                .run { when {
+                    this is EnclosingDocument && this.content.size == 1 -> this.content[0]
+                    this is EnclosingDocument && this.content.isEmpty() -> Document.NULL
+                    else -> this
+                } }
     }
 
-    private fun parse(content: Node, dirPath: String) =
-            if (content.nodeName == "#text") parseText(content.textContent)
-            else parseNode(content, dirPath)
-
-    private fun parseText(text: String): TextDocument =
-            TextDocument.builder(DocumentType.TEXT)
-                    .withContent(text)
-                    .build()
-
-    private fun parseNode(node: Node, dirPath: String): Document<*> {
-        log.debug("Processing a node <{}>", node.nodeName)
-        return when (node.getDocumentType()) {
+    private fun parseElement(element: Node, dirPath: String): Document<*> {
+        log.debug("Processing a node <{}>", element.nodeName())
+        return when (element.getDocumentType()) {
             DocumentType.NULL -> Document.NULL
-            DocumentType.TEXT -> node.toTextDocument()
-            DocumentType.IMAGE -> node.toImageDocument(dirPath)
-            else -> node.toEnclosingDocument(dirPath)
+            DocumentType.TEXT -> element.toTextDocument()
+            DocumentType.IMAGE -> element.toImageDocument(dirPath)
+            else -> element.toEnclosingDocument(dirPath)
         }
     }
 
     private fun Node.toTextDocument(): TextDocument =
             TextDocument.builder(getDocumentType())
                     .withContent(getContentAsText())
-                    .withFormatting(getContentFormatting())
                     .build()
 
     private fun Node.toImageDocument(dirPath: String): ImageDocument =
@@ -138,25 +101,16 @@ class HtmlDocumentParser(private val fileName: String) {
                     .withFormatting(getContentFormatting())
                     .build()
 
-    private fun Node.getContentAsDocuments(dirPath: String) = childNodes
-            .map { node -> parse(node, dirPath) }
+    private fun Node.getContentAsDocuments(dirPath: String) = childNodes()
+            .map { child -> parseElement(child, dirPath) }
             .filter { doc -> doc != Document.NULL }
 
-    private fun <E> NodeList.map(mapper: (Node) -> E): List<E> {
-        val resList = mutableListOf<E>()
-        for (i in 0 until length)
-            resList += mapper(item(i))
-        return resList
-    }
+    private fun Node.getContentAsText() = (this as TextNode).text()
 
-    private fun Node.getContentAsText() = textContent
-
-    private fun Node.getId():String {
-        return attribute("id") ?: ""
-    }
+    private fun Node.getId() = attr("id")
 
     private fun Node.getImageSource(dirPath: String): URI {
-        val src = this.attribute("src")
+        val src = attr("src")
         try {
             return URL(src).toURI()
         } catch (ex: MalformedURLException) {
@@ -165,32 +119,28 @@ class HtmlDocumentParser(private val fileName: String) {
     }
 
     private fun Node.getMetadata(): Map<String, String> {
-        val metadata = mutableMapOf("&tag" to nodeName)
-        attributes.forEach { key, value ->
-            if (key.startsWith(METADATA_PREFIX))
-                metadata += key.substring(METADATA_PREFIX.length) to value
-            else if (key != "id")
-                metadata += "@$key" to value
+        val metadata = mutableMapOf("&tag" to nodeName())
+        attributes().forEach {
+            if (it.key.startsWith(METADATA_PREFIX))
+                metadata += it.key.substring(METADATA_PREFIX.length) to it.value
+            else if (it.key != "id")
+                metadata += "@${it.key}" to it.value
         }
         return metadata
-    }
-
-    private fun NamedNodeMap.forEach(consumer: (String, String) -> Unit) {
-        for (i in 0 until length)
-            consumer(item(i).nodeName, item(i).nodeValue)
     }
 
     private fun Node.getContentFormatting(): List<DocumentFormatting> {
         val tagKey = toTagLiteral().toString()
         return if (tagsToFormattings[tagKey] != null) tagsToFormattings[tagKey] as List<DocumentFormatting>
-               else tagsToFormattings[nodeName] ?: listOf()
+               else tagsToFormattings[nodeName()] ?: listOf()
     }
 
     private fun Node.getDocumentType(): DocumentType {
         val tagKey = toTagLiteral().toString()
         return when {
+            tagKey == "#text" -> DocumentType.TEXT
             tagsToTypes[tagKey] != null -> tagsToTypes[tagKey] as DocumentType
-            tagsToTypes[nodeName] != null -> tagsToTypes[nodeName] as DocumentType
+            tagsToTypes[nodeName()] != null -> tagsToTypes[nodeName()] as DocumentType
             else -> {
                 log.warn("Tag literal [{}] is not recognised", tagKey)
                 DocumentType.NULL
@@ -199,13 +149,10 @@ class HtmlDocumentParser(private val fileName: String) {
     }
 
     private fun Node.toTagLiteral(): TagLiteral {
-        val cssClasses = attribute("class")
-                ?.split(" ")
-                ?.toList()
-                ?: listOf()
-        val dataType = attribute("data-type") ?: ""
-        return TagLiteral(nodeName, cssClasses, dataType)
+        val cssClasses = attr("class")
+                .split(" ")
+                .filter { css -> css != "" }
+                .toList()
+        return TagLiteral(nodeName(), cssClasses, attr("data-type"))
     }
-
-    private fun Node.attribute(name: String) = attributes?.getNamedItem(name)?.nodeValue
 }
