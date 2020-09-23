@@ -8,6 +8,8 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
 import zh.bookreader.model.Document
+import zh.bookreader.model.DocumentType.TABLE
+import zh.bookreader.model.EnclosingDocument
 import zh.bookreader.services.htmlservices.hamcrest.containsMetadata
 import zh.bookreader.services.htmlservices.hamcrest.hasContent
 import zh.bookreader.services.htmlservices.hamcrest.hasFormatting
@@ -197,21 +199,61 @@ internal class HtmlDocumentParserTest {
         assertThat(doc, hasContent(expectedContent))
     }
 
+    @Test
+    internal fun testParsingTableNode() {
+        val doc = parser.parseFileContent("<table>mock text</table>")
+
+        assertThat(doc, isOfType(TABLE))
+        assertThat(doc, hasTextContent("mock text"))
+        assertThat(doc, hasFormatting("_"))
+    }
+
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test parsing a table node")
     @CsvSource(
-            "<table>mock text</table>,                 ->   , TABLE,   mock text, _",
-            "<thead>mock text</thead>,                 ->   , TABLE,   mock text, TABLE_HEADER",
-            "<tbody>mock text</tbody>,                 ->   , TABLE,   mock text, TABLE_BODY",
-            "<tr>mock text</tr>,                       ->   , TABLE,   mock text, TABLE_ROW",
-            "<tr class=\"footnotes\">mock text</tr>,   ->   , TABLE,   mock text, TABLE_ROW; FOOTNOTE",
-            "<th>mock text</th>,                       ->   , TABLE,   mock text, TABLE_HEADER_CELL",
-            "<td>mock text</td>,                       ->   , TABLE,   mock text, TABLE_CELL",
-            "<caption>mock text</caption>,             ->   , INLINED, mock text, CAPTION"
+            "<table><thead>mock text</thead></table>,               ->   , TABLE,   mock text, TABLE_HEADER",
+            "<table><tbody>mock text</tbody></table>,               ->   , TABLE,   mock text, TABLE_BODY",
+            "<table><caption>mock text</caption></table>,           ->   , INLINED, mock text, CAPTION"
     )
-    internal fun testParsingTableNode(htmlString: String, _d: String,
+    internal fun testParsingInternalTableNode(htmlString: String, _d: String,
                                       eType: String, eText: String, eFormatting: String) {
-        val doc = parser.parseFileContent(htmlString)
+        val table = parser.parseFileContent(htmlString) as EnclosingDocument
+        val doc = table.content[0]
+
+        assertThat(doc, isOfType(eType))
+        assertThat(doc, hasTextContent(eText))
+        assertThat(doc, hasFormatting(eFormatting))
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @DisplayName("Test parsing a table node")
+    @CsvSource(
+            "<table><tr>mock text</tr></table>,                     ->   , TABLE,   mock text, TABLE_ROW",
+            "<table><tr class=\"footnotes\">mock text</tr></table>, ->   , TABLE,   mock text, TABLE_ROW; FOOTNOTE"
+    )
+    internal fun testParsingTableRowNode(htmlString: String, _d: String,
+                                              eType: String, eText: String, eFormatting: String) {
+        val table = parser.parseFileContent(htmlString) as EnclosingDocument
+        val tbody = table.content[0] as EnclosingDocument
+        val doc = tbody.content[0]
+
+        assertThat(doc, isOfType(eType))
+        assertThat(doc, hasTextContent(eText))
+        assertThat(doc, hasFormatting(eFormatting))
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @DisplayName("Test parsing a table node")
+    @CsvSource(
+            "<table><th>mock text</th></table>,                     ->   , TABLE,   mock text, TABLE_HEADER_CELL",
+            "<table><td>mock text</td></table>,                     ->   , TABLE,   mock text, TABLE_CELL"
+    )
+    internal fun testParsingTableCellNode(htmlString: String, _d: String,
+                                         eType: String, eText: String, eFormatting: String) {
+        val table = parser.parseFileContent(htmlString) as EnclosingDocument
+        val tbody = table.content[0] as EnclosingDocument
+        val tr = tbody.content[0] as EnclosingDocument
+        val doc = tr.content[0]
 
         assertThat(doc, isOfType(eType))
         assertThat(doc, hasTextContent(eText))

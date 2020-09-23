@@ -7,12 +7,13 @@ import classes from './NavigationBar.module.scss';
 
 const NavigationBar = props => {
     const nav = useSelector(state => state.navigation.nav);
+    console.log(nav);
     const navigation = nav.length 
         ? nav
             .filter(n => n.url)
-            .map(n => (
+            .map((n, i) => console.log(i) || (
                 <NavLink 
-                    key={n.url} 
+                    key={i} 
                     className={classes.ChapterNavUrl} 
                     to={n.url}
                 >
