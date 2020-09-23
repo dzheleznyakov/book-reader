@@ -6,4 +6,5 @@ export default {
     INLINED: 'INLINED',
     HREF: 'HREF',
     EMAIL: 'EMAIL',
+    IMAGE: 'IMAGE',
 }

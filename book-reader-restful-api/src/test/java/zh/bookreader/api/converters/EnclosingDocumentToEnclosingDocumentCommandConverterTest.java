@@ -4,12 +4,18 @@ import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import zh.bookreader.api.commands.DocumentCommand;
 import zh.bookreader.api.commands.EnclosingDocumentCommand;
+import zh.bookreader.api.commands.ImageDocumentCommand;
 import zh.bookreader.model.DocumentType;
 import zh.bookreader.model.EnclosingDocument;
+import zh.bookreader.model.ImageDocument;
+
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static zh.bookreader.api.ApiTestUtils.PAR;
@@ -28,7 +34,8 @@ class EnclosingDocumentToEnclosingDocumentCommandConverterTest {
     @BeforeEach
     void setUpConverter() {
         TextDocumentToTextDocumentCommandConverter textDocConverter = new TextDocumentToTextDocumentCommandConverter();
-        converter = new EnclosingDocumentToEnclosingDocumentCommandConverter(textDocConverter);
+        ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
+        converter = new EnclosingDocumentToEnclosingDocumentCommandConverter(textDocConverter, imageDocConverter);
     }
 
     @Test
@@ -91,5 +98,19 @@ class EnclosingDocumentToEnclosingDocumentCommandConverterTest {
         EnclosingDocumentCommand command = converter.convert(hrefDoc);
 
         assertThat(command.getHref(), is(equalTo("mock-link#pos")));
+    }
+
+    @Test
+    void testConvertingEnclosingDocumentWithImage() {
+        ImageDocument imageDocument = ImageDocument.builder(DocumentType.IMAGE)
+                .build();
+        EnclosingDocument doc = EnclosingDocument.builder(DocumentType.BLOCK)
+                .withContent(imageDocument)
+                .build();
+
+        EnclosingDocumentCommand command = converter.convert(doc);
+
+        List<? extends DocumentCommand> content = command.getContent();
+        assertThat(content.get(0), is(instanceOf(ImageDocumentCommand.class)));
     }
 }

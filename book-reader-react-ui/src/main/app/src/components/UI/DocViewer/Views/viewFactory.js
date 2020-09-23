@@ -22,7 +22,7 @@ const getAnchorView = () => props => {
     const { href } = props;
     return !href || href.indexOf("http") === 0 || href.indexOf("mailto:") === 0
         ? <a {...props} />
-        : <Link to={props.href} {...props} />;
+        : <Link to={href} {...props} />;
 };
 
 const getView = Tag => (
@@ -105,6 +105,17 @@ const mapEmail = formatting => {
     return mapByDefault(types.EMAIL, formatting, 'a');
 };
 
+const mapImage = formatting => props => {
+    const { width, height, id, key, className, image } = props;
+
+    const bytes = new Uint8Array(image);
+    const blob = new Blob([bytes], { type: "image/jpeg" });
+    const urlCreator = window.URL || window.webkitURL;
+    const imageUrl = urlCreator.createObjectURL(blob);
+
+    return <img id={id} key={key} className={className} src={imageUrl} width={width} height={height} />;
+};
+
 const mapper = (type, formatting) => {
     switch(type) {
         case types.TEXT: return props => props.children;
@@ -114,6 +125,7 @@ const mapper = (type, formatting) => {
         case types.INLINED: return mapInlined(formatting);
         case types.HREF: return mapHref(formatting);
         case types.EMAIL: return mapEmail(formatting);
+        case types.IMAGE: return mapImage(formatting);
         default: return mapByDefault(type, formatting);
     }    
 };

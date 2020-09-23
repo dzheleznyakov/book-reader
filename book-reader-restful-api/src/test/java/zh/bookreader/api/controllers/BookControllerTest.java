@@ -17,6 +17,7 @@ import zh.bookreader.api.ApiTestUtils;
 import zh.bookreader.api.converters.BookToBookMainCommandConverter;
 import zh.bookreader.api.converters.BookToBookOverviewCommandConverter;
 import zh.bookreader.api.converters.EnclosingDocumentToEnclosingDocumentCommandConverter;
+import zh.bookreader.api.converters.ImageDocumentToImageDocumentCommandConverter;
 import zh.bookreader.api.converters.TextDocumentToTextDocumentCommandConverter;
 import zh.bookreader.model.Book;
 import zh.bookreader.services.BookService;
@@ -75,7 +76,9 @@ class BookControllerTest {
     @BeforeEach
     void setUpController() {
         TextDocumentToTextDocumentCommandConverter textDocConverter = new TextDocumentToTextDocumentCommandConverter();
-        EnclosingDocumentToEnclosingDocumentCommandConverter enclosingDocConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(textDocConverter);
+        ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
+        EnclosingDocumentToEnclosingDocumentCommandConverter enclosingDocConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(
+                textDocConverter, imageDocConverter);
         BookToBookMainCommandConverter bookMainConverter = new BookToBookMainCommandConverter(textDocConverter, enclosingDocConverter);
         bookController = new BookController(
                 bookService,

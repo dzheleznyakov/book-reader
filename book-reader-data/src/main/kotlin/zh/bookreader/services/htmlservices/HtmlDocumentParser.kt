@@ -111,10 +111,10 @@ class HtmlDocumentParser(private val fileName: String) {
 
     private fun Node.getImageSource(dirPath: String): URI {
         val src = attr("src")
-        try {
-            return URL(src).toURI()
+        return try {
+            URL(src).toURI()
         } catch (ex: MalformedURLException) {
-            return Paths.get(dirPath, src).toUri()
+            Paths.get(dirPath, src).toUri()
         }
     }
 

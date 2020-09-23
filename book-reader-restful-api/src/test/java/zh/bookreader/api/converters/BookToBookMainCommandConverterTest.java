@@ -20,7 +20,9 @@ class BookToBookMainCommandConverterTest {
     @BeforeEach
     void setUpConverter() {
         TextDocumentToTextDocumentCommandConverter textConverter = new TextDocumentToTextDocumentCommandConverter();
-        EnclosingDocumentToEnclosingDocumentCommandConverter enclosingConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(textConverter);
+        ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
+        EnclosingDocumentToEnclosingDocumentCommandConverter enclosingConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(
+                textConverter, imageDocConverter);
         converter = new BookToBookMainCommandConverter(textConverter, enclosingConverter);
     }
 

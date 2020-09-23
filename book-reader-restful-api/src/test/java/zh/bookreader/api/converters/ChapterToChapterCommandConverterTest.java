@@ -26,7 +26,9 @@ class ChapterToChapterCommandConverterTest {
     @BeforeEach
     void setUpConverter() {
         TextDocumentToTextDocumentCommandConverter textDocConverter = new TextDocumentToTextDocumentCommandConverter();
-        EnclosingDocumentToEnclosingDocumentCommandConverter enclosingDocConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(textDocConverter);
+        ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
+        EnclosingDocumentToEnclosingDocumentCommandConverter enclosingDocConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(
+                textDocConverter, imageDocConverter);
         converter = new ChapterToChapterCommandConverter(enclosingDocConverter);
     }
 

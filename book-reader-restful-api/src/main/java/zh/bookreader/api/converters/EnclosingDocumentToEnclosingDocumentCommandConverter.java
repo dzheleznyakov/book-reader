@@ -10,6 +10,7 @@ import zh.bookreader.api.commands.EnclosingDocumentCommand;
 import zh.bookreader.model.Document;
 import zh.bookreader.model.DocumentFormatting;
 import zh.bookreader.model.EnclosingDocument;
+import zh.bookreader.model.ImageDocument;
 import zh.bookreader.model.TextDocument;
 
 import javax.annotation.Nonnull;
@@ -22,15 +23,18 @@ import java.util.Objects;
 @Slf4j
 public class EnclosingDocumentToEnclosingDocumentCommandConverter implements Converter<EnclosingDocument, EnclosingDocumentCommand> {
     private final TextDocumentToTextDocumentCommandConverter textDocConverter;
+    private final ImageDocumentToImageDocumentCommandConverter imageDocConverter;
 
-    public EnclosingDocumentToEnclosingDocumentCommandConverter(TextDocumentToTextDocumentCommandConverter textDocConverter) {
+    public EnclosingDocumentToEnclosingDocumentCommandConverter(
+            TextDocumentToTextDocumentCommandConverter textDocConverter,
+            ImageDocumentToImageDocumentCommandConverter imageDocConverter
+    ) {
         this.textDocConverter = textDocConverter;
+        this.imageDocConverter = imageDocConverter;
     }
 
     @Override
     public EnclosingDocumentCommand convert(@Nullable EnclosingDocument doc) {
-//        log.info("Doc type=[{}], metadata=[{}]", doc.getDocumentType(), doc.getMetadata());
-
         return doc == null ? null : EnclosingDocumentCommand.builder()
                 .documentType(convertDocumentType(doc))
                 .content(convertContent(doc))
@@ -64,6 +68,8 @@ public class EnclosingDocumentToEnclosingDocumentCommandConverter implements Con
     private <D extends Document<?>> DocumentCommand convert(D doc) {
         if (doc instanceof TextDocument)
             return textDocConverter.convert((TextDocument) doc);
+        if (doc instanceof ImageDocument)
+            return imageDocConverter.convert((ImageDocument) doc);
         if (doc instanceof EnclosingDocument)
             return this.convert((EnclosingDocument) doc);
         log.warn("Document type is not supported: [{}]", doc.getClass());
