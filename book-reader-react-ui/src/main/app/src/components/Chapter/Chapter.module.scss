@@ -7,8 +7,15 @@
 
 @media (min-width: $pad-horizontal-breakpoint) {
     .Chapter {
-        margin: auto;
+        margin: 0 auto;
         padding: 2rem;
         width: 75%
+    }
+}
+
+@media (min-width: $mobile-horizontal-breakpoint) {
+    .Chapter {
+        max-width: 800px;
+        margin: 0 auto;
     }
 }

@@ -72,6 +72,7 @@ class HtmlDocumentParser(private val fileName: String) {
 
     private fun parseElement(element: Node, dirPath: String): Document<*> {
         log.debug("Processing a node <{}>", element.nodeName())
+
         return when (element.getDocumentType()) {
             DocumentType.NULL -> Document.NULL
             DocumentType.TEXT -> element.toTextDocument()
@@ -105,7 +106,7 @@ class HtmlDocumentParser(private val fileName: String) {
             .map { child -> parseElement(child, dirPath) }
             .filter { doc -> doc != Document.NULL }
 
-    private fun Node.getContentAsText() = (this as TextNode).text()
+    private fun Node.getContentAsText() = (this as TextNode).wholeText
 
     private fun Node.getId() = attr("id")
 
@@ -132,7 +133,7 @@ class HtmlDocumentParser(private val fileName: String) {
     private fun Node.getContentFormatting(): List<DocumentFormatting> {
         val tagKey = toTagLiteral().toString()
         return if (tagsToFormattings[tagKey] != null) tagsToFormattings[tagKey] as List<DocumentFormatting>
-               else tagsToFormattings[nodeName()] ?: listOf()
+        else tagsToFormattings[nodeName()] ?: listOf()
     }
 
     private fun Node.getDocumentType(): DocumentType {

@@ -7,4 +7,5 @@ export default {
     HREF: 'HREF',
     EMAIL: 'EMAIL',
     IMAGE: 'IMAGE',
+    TABLE: 'TABLE',
 }

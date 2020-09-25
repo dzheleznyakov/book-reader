@@ -59,7 +59,7 @@ public class TextDocument extends BaseDocument<String> {
         @Override
         public DocumentBuilder<String> withContent(Object content) {
             if (content instanceof String)
-                this.content = ((String) content).replaceAll("\\s*\n\\s*", " ");
+                this.content = (String) content;
             return this;
         }
 

@@ -1,3 +1,5 @@
+@import "../../../../shared/styles/variables";
+
 @mixin href-style {
     border-bottom: 1px dotted black;
     text-decoration: none;
@@ -6,6 +8,32 @@
 
 $blue: #2719c2;
 $red: #ce2b2b;
+$err-color: #aa0000;
+
+$listing-border-color: #dddddd;
+$listing-background-color: #fbfbfb;
+
+$table-border: 1px solid #515151;
+
+.Level-Ind {
+    line-height: 2;
+
+    & > h1 {
+        font-size: 2rem;
+        border-bottom: 1px solid black;
+        padding-bottom: 1rem;
+    }
+
+    & div > h1 {
+        margin: 0.2rem 0 0.1rem;
+        font-size: 1.5rem;
+        color: $blue;
+    }
+
+    li {
+        list-style: none;
+    }
+}
 
 .Level-0 {
     & > h1 {
@@ -35,11 +63,40 @@ $red: #ce2b2b;
     }
 }
 
+.Level-3 {
+    & > h1 {
+        font-size: 1.1rem;
+        color: #555555;
+        margin: 1.5rem 0 0.5rem;
+
+        & + p:first-of-type {
+            margin-top: 0;
+        }
+    }
+}
+
+.Level-4 {
+    & > h1 {
+        font-weight: normal;
+        font-style: italic;
+        font-size: 1rem;
+        margin: 1rem 0 0.4rem;
+
+        & + p:first-of-type {
+            margin-top: 0;
+        }
+    }
+}
+
 .Term {
     font-style: italic;
 }
 
-.Tip, .Note, .Caution {
+.IndexTerm {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.Tip, .Note, .Caution, .Warning {
     border: 1px solid black;
     padding: 1rem;
     margin: 1rem;
@@ -49,12 +106,21 @@ $red: #ce2b2b;
         text-align: center;
         font-size: 1.1rem;
         font-family: 'Courier New', Courier, monospace;
+        text-transform: uppercase;
     }
 }
 
 .Caution {
     & > h1 {
         color: $red;
+    }
+}
+
+.Warning {
+    border-color: #bc8f8f;
+    
+    & > h1 {
+        color: $err-color;
     }
 }
 
@@ -71,5 +137,178 @@ $red: #ce2b2b;
 ul.Simple-List, ol.Simple-List {
     & > li {
         list-style: none;
+    }
+}
+
+div.Figure {
+    width: fit-content;
+    margin: 0 auto;
+    padding: 1rem;
+
+    h1 {
+        text-align: center;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    @media (min-width: $mobile-horizontal-breakpoint) {
+        img {
+            max-height: 75vh;
+            width: auto;
+        }
+    }
+}
+
+pre.Listing {
+    padding: 0.8rem 1.5rem;
+    border-top: 1px solid $listing-border-color;
+    border-bottom: 1px solid $listing-border-color;
+    background-color: $listing-background-color;
+    font-size: 1.1rem;
+    overflow-x: scroll;
+}
+
+code {
+    font-size: 0.8rem;
+
+    &.Op {
+        color: black;
+    }
+
+    &.Str {
+        color: #c30;
+    }
+
+    &.Num {
+        color: #f60;
+    }
+
+    &.Name {
+        color: #008;
+    }
+
+    &.Bool {
+        color: #069;
+        font-weight: bold;
+    }
+
+    &.Kw {
+        color: #069;
+        font-weight: bold;
+    }
+
+    &.Comm {
+        color: #35586C;
+        font-style: italic;
+    }
+
+    &.ClName {
+        color: #333333;
+    }
+
+    &.Regexp {
+        color: #33aaaa;
+    }
+
+    &.Var {
+        color: #003333;
+    }
+
+    &.Esc {
+        color: #cc3300;
+    }
+}
+
+.Table {
+    width: 90%;
+    min-width: 50%;
+    margin: 1rem auto;
+    border-top: $table-border;
+    border-collapse: collapse;
+}
+
+.TableBody {
+    vertical-align: baseline;
+
+    tr:nth-of-type(even) {
+        background-color: #f7f7f7;
+    }
+}
+
+.TableHeader {
+    background-color: #e8edff;
+    vertical-align: baseline;
+    font-size: 100%;
+    border-bottom: $table-border;
+}
+
+.TableRow {
+    border-bottom: 1px solid #ddd;
+}
+
+.TableHeaderCell {
+    padding: 10px;
+    text-align: left;
+}
+
+.TableCell {
+    padding: 10px;
+}
+
+.Caption {
+    font-size: 1rem;
+    font-style: italic;
+    margin: 10px 0;
+}
+
+.Err {
+    color: $err-color;
+}
+
+.FootnoteRef {
+    color: #8e0012;
+}
+
+a.Footnote {
+    color: #8e0012;
+}
+
+div.Footnote {
+    border-top: 1px solid black;
+    margin-top: 2rem;
+
+    & > p:first-of-type {
+        margin-top: 0.5rem;
+    }
+}
+
+blockquote.Epigraph {
+    margin: 10px;
+    page-break-inside: avoid;
+    font-size: 95%;
+
+    p {
+        font-style: italic;
+    }
+}
+
+aside.Sidebar {
+    margin: 1.5rem 0;
+    border: 1px solid #dcdcdc;
+    background-color: #f7f7f7;
+
+    & > * {
+        padding: 1rem
+    }
+
+    h1 {
+        text-transform: uppercase;
+        font-size: 1rem;
+        font-weight: 800;
+        text-align: center;
+        margin: 0.5rem 0;
     }
 }

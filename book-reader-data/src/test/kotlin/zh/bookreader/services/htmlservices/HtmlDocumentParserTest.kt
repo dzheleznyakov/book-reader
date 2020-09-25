@@ -140,7 +140,7 @@ internal class HtmlDocumentParserTest {
             "<div class=\"preface\">mock text</div>,     ->   , SECTION,   mock text, LEVEL_0",
             "<div class=\"colophon\">mock text</div>,    ->   , SECTION,   mock text, LEVEL_0",
             "<div class=\"chapter\">mock text</div>,     ->   , SECTION,   mock text, LEVEL_0",
-            "<div class=\"index\">mock text</div>,       ->   , SECTION,   mock text, LEVEL_0",
+            "<div class=\"index\">mock text</div>,       ->   , SECTION,   mock text, LEVEL_IND",
             "<div class=\"sect1\">mock text</div>,       ->   , SECTION,   mock text, LEVEL_1",
             "<div class=\"sect2\">mock text</div>,       ->   , SECTION,   mock text, LEVEL_2",
             "<div class=\"sect3\">mock text</div>,       ->   , SECTION,   mock text, LEVEL_3",
@@ -343,11 +343,19 @@ internal class HtmlDocumentParserTest {
     }
 
     @Test
-    @DisplayName("Line breaks in text nodes are removed")
-    internal fun testLineBreaksInTextRemoved() {
+    @DisplayName("Line breaks in text nodes are preserved")
+    internal fun testLineBreaksInTextPreserved() {
         val doc = parser.parseFileContent("line 1\n line 2")
 
-        assertThat(doc, hasTextContent("line 1 line 2"))
+        assertThat(doc, hasTextContent("line 1\n line 2"))
+    }
+
+    @Test
+    @DisplayName("Special characters in text nodes are preserved")
+    internal fun testSpecialCharactersInTextPreserved() {
+        val doc = parser.parseFileContent("> line 1")
+
+        assertThat(doc, hasTextContent("> line 1"))
     }
 
     @Test
