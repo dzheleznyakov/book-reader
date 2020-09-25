@@ -21,7 +21,7 @@ Array.prototype.hasOnly = function (item) {
 const getAnchorView = () => props => {
     const { href } = props;
     return !href || href.indexOf("http") === 0 || href.indexOf("mailto:") === 0
-        ? <a {...props} />
+        ? <a {...props} /> // eslint-disable-line jsx-a11y/anchor-has-content
         : <Link to={href} {...props} />;
 };
 
@@ -34,9 +34,6 @@ const mapByDefault = (type, formatting, tag = 'div') => {
     console.debug('View [%s] is not recognised', `${type}${ft}`);
     return getView(tag);
 };
-
-const isSection = formatting => !formatting.length || formatting.hasOnly(styles.LEVEL_0) || formatting.hasOnly(styles.LEVEL_1)
-    || formatting.hasOnly(styles.LEVEL_2);
 
 const mapSection = formatting => getView('section');
 
@@ -135,7 +132,17 @@ const mapImage = formatting => props => {
     const urlCreator = window.URL || window.webkitURL;
     const imageUrl = urlCreator.createObjectURL(blob);
 
-    return <img id={id} key={key} className={className} src={imageUrl} width={width} height={height} />;
+    return (
+        <img 
+            id={id} 
+            key={key} 
+            className={className} 
+            src={imageUrl} 
+            alt="Illustration"
+            width={width} 
+            height={height}
+        />
+    );
 };
 
 const mapTable = formatting => {

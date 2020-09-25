@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import classes from './NavigationBar.module.scss';
 
-const NavigationBar = props => {
+const NavigationBar = () => {
     const nav = useSelector(state => state.navigation.nav);
     const navigation = nav.length 
         ? nav
@@ -26,9 +25,5 @@ const NavigationBar = props => {
         </div>
     );
 };
-
-NavigationBar.propTypes = {};
-
-NavigationBar.defaultProps = {};
 
 export default NavigationBar;

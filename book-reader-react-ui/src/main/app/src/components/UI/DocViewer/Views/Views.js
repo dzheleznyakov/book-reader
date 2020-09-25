@@ -5,8 +5,6 @@ import viewMapper from './viewFactory';
 import contentMapper from './contentMapper';
 import docShape from '../docShape';
 import classFactory from './classFactory';
-import types from './types';
-import styles from './styles';
 
 const Views = props => {
     const { docs } = props;
@@ -20,9 +18,6 @@ const Views = props => {
             image = docContent;
         }
 
-        // if (formatting.length === 1 && formatting[0] === styles.LISTING) {
-        //     const t = true;
-        // }
         const viewProps = { 
             key: i, 
             children: content, 
