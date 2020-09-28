@@ -1,5 +1,6 @@
 package zh.bookreader.services.htmlservices
 
+import zh.bookreader.model.Chapter
 import zh.bookreader.model.Document
 import zh.bookreader.model.DocumentFormatting
 import zh.bookreader.model.DocumentType
@@ -67,20 +68,35 @@ fun getChapter01Content(): Document<List<Document<*>>> {
                 .build()
 }
 
-private fun getBlock(content: List<EnclosingDocument>): EnclosingDocument {
+fun getBlock(content: List<EnclosingDocument>): EnclosingDocument {
         return EnclosingDocument.builder(DocumentType.BLOCK)
                 .withContent(content)
                 .withMetadata(mapOf("&tag" to "div"))
                 .build()
 }
 
-internal fun getParagraph(text0: TextDocument): EnclosingDocument =
+fun getHeader(text: String): EnclosingDocument =
+        EnclosingDocument.builder(DocumentType.BLOCK)
+                .withContent(getText(text))
+                .withFormatting(setOf(DocumentFormatting.TITLE))
+                .withMetadata(mapOf("&tag" to "h1"))
+                .build()
+
+fun getParagraph(textDoc: TextDocument): EnclosingDocument =
         EnclosingDocument.builder(DocumentType.PARAGRAPH)
-                .withContent(listOf(text0))
+                .withContent(listOf(textDoc))
                 .withMetadata(mapOf("&tag" to "p"))
                 .build()
 
-private fun getText(content: String): TextDocument =
+fun getParagraph(text: String): EnclosingDocument =
+        EnclosingDocument.builder(DocumentType.PARAGRAPH)
+                .withContent(getText(text))
+                .withMetadata(mapOf("&tag" to "p"))
+                .build()
+
+fun getText(content: String): TextDocument =
         TextDocument.builder(DocumentType.TEXT)
                 .withContent(content)
                 .build()
+
+fun getChapter(document: EnclosingDocument) = Chapter().apply { content = document }
