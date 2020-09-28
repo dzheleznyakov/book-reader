@@ -15,13 +15,14 @@ describe("docFactory()", () => {
 
     const assertView = (type, formatting, tag) => {
         const View = viewFactory(type, formatting);
-        const view = tag === 'a'
-            ? shallow(<Router history={history}><View>content</View></Router>)
-            : shallow(<View>content</View>);
+        const view = //tag === 'a'
+            //? 
+            shallow(<Router history={history}><View>content</View></Router>)
+            //: shallow(<View>content</View>);
         
-        if (tag === 'a')
-            expect(view.html()).to.be.equal(`<a href="">content</a>`);
-        else
+        // if (tag === 'a')
+        //     expect(view.html()).to.be.equal(`<a href="">content</a>`);
+        // else
             expect(view.html()).to.be.equal(`<${tag}>content</${tag}>`);
     };
 

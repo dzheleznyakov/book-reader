@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useHash } from '../../../../hooks';
 import types from './types';
 import styles from './styles';
 
@@ -18,16 +19,21 @@ Array.prototype.hasOnly = function (item) {
     return this.length === 1 && this[0] === item;
 };
 
-const getAnchorView = () => props => {
-    const { href } = props;
-    return !href || href.indexOf("http") === 0 || href.indexOf("mailto:") === 0
-        ? <a {...props} /> // eslint-disable-line jsx-a11y/anchor-has-content
-        : <Link to={href} {...props} />;
-};
+const getView = Tag => props => {
+    const ref = useRef();
+    const { id, href } = props;
+    const hash = useHash();
 
-const getView = Tag => (
-    Tag === 'a' ? getAnchorView() : props => <Tag {...props} />
-);
+    useEffect(() => {
+        if (hash && hash.substring(1) === id && ref)
+            ref.current.scrollIntoView({ behavior: 'smooth' });
+    }, [hash, id, ref]);
+
+    if (Tag === 'a' && href && href.indexOf("http") !== 0 && href.indexOf("mailto:") !== 0)
+        return <Link to={href.replace('.html', '')} {...props} />;
+
+    return <Tag {...props} ref={ref} />;
+}
 
 const mapByDefault = (type, formatting, tag = 'div') => {
     const ft = formatting.length ? `.${formatting.join('.')}` : '';
@@ -35,7 +41,7 @@ const mapByDefault = (type, formatting, tag = 'div') => {
     return getView(tag);
 };
 
-const mapSection = formatting => getView('section');
+const mapSection = () => getView('section');
 
 const mapBlock = formatting => {
     if (!formatting.length)
@@ -131,6 +137,14 @@ const mapImage = formatting => props => {
     const blob = new Blob([bytes], { type: "image/jpeg" });
     const urlCreator = window.URL || window.webkitURL;
     const imageUrl = urlCreator.createObjectURL(blob);
+
+    const ref = useRef();
+    const hash = useHash();
+
+    useEffect(() => {
+        if (hash && hash.substring(1) === id && ref)
+            ref.current.scrollIntoView({ behavior: 'smooth' });
+    }, [hash, id, ref]);
 
     return (
         <img 
