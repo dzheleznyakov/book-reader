@@ -13,6 +13,7 @@ const Views = props => {
         const { id, documentType: type, content: docContent, formatting = [], href, width, height } = doc;
         const View = viewMapper(type, formatting);
         const content = contentMapper(type, docContent);
+
         let image;
         if (Array.isArray(docContent) && docContent.length && Number.isInteger(docContent[0])) {
             image = docContent;
