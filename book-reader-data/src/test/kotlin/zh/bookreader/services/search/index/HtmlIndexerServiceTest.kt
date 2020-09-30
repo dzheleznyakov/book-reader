@@ -9,7 +9,6 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import zh.bookreader.model.Book
-import zh.bookreader.model.Document
 import zh.bookreader.services.htmlservices.HtmlBookService
 import zh.bookreader.services.htmlservices.getBlock
 import zh.bookreader.services.htmlservices.getChapter
@@ -95,7 +94,6 @@ internal class HtmlIndexerServiceTest {
     @Nested
     @DisplayName("Test index()")
     inner class IndexTest {
-        private val pathToIndexFile = "$pathToTestIndexFolder/$INDEX_FILE_NAME"
         private val book1Id = "book-1-id"
         private val book2Id = "book-2-id"
 
@@ -112,14 +110,11 @@ internal class HtmlIndexerServiceTest {
             title = ""
             description = emptyList()
         }
-        private val description1 = mutableListOf<Document<*>>()
-
         private val book2 = Book().apply {
             id = book2Id
             title = ""
             description = emptyList()
         }
-        private val description2 = mutableListOf<Document<*>>()
 
         private val books = listOf(book1, book2)
 
@@ -127,14 +122,14 @@ internal class HtmlIndexerServiceTest {
         @DisplayName("Book title is indexed")
         internal fun titleIsIndexed() {
             book1.title = "Book Uno"
-            book2.title = "Book Two Two"
+            book2.title = "Book Dos Dos"
 
             assertIndex("#map" +
                     "\n0:$book1Id,1:$book2Id" +
                     "\n#index" +
                     "\nbook=>0:1[-1:1]1:1[-1:1]" +
                     "\nuno=>0:1[-1:1]" +
-                    "\ntwo=>1:2[-1:2]")
+                    "\ndos=>1:2[-1:2]")
         }
 
         @Test

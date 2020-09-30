@@ -14,6 +14,5 @@ import java.lang.annotation.Target;
 @RestController
 @ResponseBody
 @CrossOrigin(origins = "http://localhost:3000")
-//@RequestMapping(produces = "application/json;charset=UTF-8")
 public @interface ApiController {
 }

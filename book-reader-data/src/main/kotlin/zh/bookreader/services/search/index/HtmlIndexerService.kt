@@ -1,7 +1,7 @@
 package zh.bookreader.services.search.index
 
 import com.google.common.annotations.VisibleForTesting
-import lombok.extern.slf4j.Slf4j
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import zh.bookreader.model.Book
 import zh.bookreader.model.Document
@@ -12,31 +12,25 @@ import zh.bookreader.services.IndexerService
 import zh.bookreader.services.search.INDEX_FILE_NAME
 import zh.bookreader.services.search.LIBRARY_REL_PATH
 import zh.bookreader.services.search.SEARCH_INDEX_REL_PATH
-import zh.bookreader.services.search.STOP_WORDS_LIST_PATH
 import zh.bookreader.services.search.USER_HOME_PATH
-import java.io.File
+import zh.bookreader.services.search.getStopWords
 import java.io.OutputStream
 import java.nio.file.Paths
 import java.util.LinkedList
 import java.util.concurrent.atomic.AtomicInteger
 
-@Component
-@Slf4j
+@Component("htmlIndexerService")
 class HtmlIndexerService(private val bookService: BookService) : IndexerService {
+    private val log = LoggerFactory.getLogger(this.javaClass)
     private var pathToIndex = Paths.get(USER_HOME_PATH, SEARCH_INDEX_REL_PATH)
     private var pathToLibrary = Paths.get(USER_HOME_PATH, LIBRARY_REL_PATH)
     private var pathToIndexFile = pathToIndex.resolve(INDEX_FILE_NAME)
 
     @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-    private val stopwords = this.javaClass.classLoader.getResource(STOP_WORDS_LIST_PATH)
-            .toURI()
-            .run { File(this) }
-            .run {
-                this.readLines()
-                        .filter { it.isNotEmpty() }
-                        .toHashSet()
-            }
+    private val stopWords = getStopWords()
+
     private val idMap = mutableMapOf<Int, String>()
+
     private val index = mutableMapOf<String, IndexEntry>()
 
     override fun index() {
@@ -53,6 +47,8 @@ class HtmlIndexerService(private val bookService: BookService) : IndexerService 
         val output = indexFile.outputStream()
         val books = bookService.findAll() ?: listOf()
         index(output, books)
+        idMap.clear()
+        index.clear()
     }
 
     @VisibleForTesting
@@ -78,7 +74,9 @@ class HtmlIndexerService(private val bookService: BookService) : IndexerService 
 
     @VisibleForTesting
     internal fun index(output: OutputStream, books: List<Book>) {
+        log.info("Staring building index from the library")
         books.buildIndex()
+        log.info("Persisting the built index")
         output.writeIdMap()
                 .writeIndex()
                 .flush()
@@ -115,10 +113,11 @@ class HtmlIndexerService(private val bookService: BookService) : IndexerService 
     }
 
     private fun indexText(text: String, bookNum: Int, chNum: Int) =
-            text.split(" ", ",", ".", ";", ":", "-", "\"", "\\", "?", "!", "/", "|", "+", "*", "^", "%", "'")
+            text.split(Regex("\\W|\\d|_"))
+                    .map { it.trim() }
                     .filter { it.isNotEmpty() }
                     .map { it.toLowerCase() }
-                    .filter { !stopwords.contains(it) }
+                    .filter { !stopWords.contains(it) }
                     .forEach { word -> indexWord(word, bookNum, chNum) }
 
     private fun indexWord(word: String, bookNum: Int, chNum: Int) {

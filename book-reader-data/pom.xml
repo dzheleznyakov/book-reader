@@ -36,7 +36,6 @@
             <version>1.13.1</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
@@ -70,6 +69,18 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
             <version>${hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.kotest</groupId>
+            <artifactId>kotest-runner-junit5-jvm</artifactId>
+            <version>4.2.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.kotest</groupId>
+            <artifactId>kotest-extensions-spring-jvm</artifactId>
+            <version>4.2.5</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
