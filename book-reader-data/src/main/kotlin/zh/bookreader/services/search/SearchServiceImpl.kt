@@ -108,27 +108,46 @@ class SearchServiceImpl(
                 .filterNotNull()
                 .map { (word, entry) -> word to entry.bookEntries }
                 .filterNotNull()
-                .flatMap { (word, bookEntries) -> bookEntries.toPairs().map { pair -> word to pair }.asSequence() }
+                .toBookEntriesByWords()
                 .groupBy { (_, bookIdToEntry) -> bookIdToEntry.first }
                 .toPairs()
-                .filter { (_, entry) -> entry.map { (word) -> word }.toSet() == wordsSet }
-                .sortedByDescending { (_, bookEntries) -> bookEntries.map { it.second.second }.map(BookEntry::getScore).max() }
+                .filter { (_, entry) -> entry.toWordSet() == wordsSet }
+                .sortedByDescending { (_, bookEntriesByWords) -> bookEntriesByWords.maxBookScore() }
                 .map { (id, entry) -> SearchHit().apply {
                     bookId = idMap[id]
                     chapterNums = toChapterNums(wordsSet, entry)
                 } }
     }
 
-    private fun toChapterNums(wordsSet: Set<String>, entry: List<Pair<String, Pair<Int, BookEntry>>>): List<Int> {
-        return entry.map { it.first to it.second.second }
-                .asSequence()
-                .flatMap { (word, bookEntry) -> bookEntry.chapters.map { pair -> word to pair }.asSequence() }
-                .groupBy { (_, chapterEntry) -> chapterEntry.key }
-                .filter { (_, entry) -> entry.map { (word) -> word }.toSet() == wordsSet }
+    private fun List<Pair<String, Pair<Int, BookEntry>>>.maxBookScore() = this
+            .map { (_, bookEntryById) -> bookEntryById  }
+            .map { (_, bookEntry) -> bookEntry }
+            .map(BookEntry::getScore)
+            .max()
+
+    private fun Sequence<Pair<String, Map<Int, BookEntry>>>.toBookEntriesByWords() = flatMap { (word, bookEntriesByIds) ->
+        bookEntriesByIds
                 .toPairs()
-                .sortedByDescending { (_, chapterEntries) -> chapterEntries.map { it.second.value }.min() }
-                .map { it.first }
+                .map { pair -> word to pair }
+                .asSequence()
     }
+    private fun toChapterNums(wordsSet: Set<String>, entry: List<Pair<String, Pair<Int, BookEntry>>>) =
+            entry.map { (word, bookEntriesByIds) -> word to bookEntriesByIds.second }
+                .asSequence()
+                .flatMap { (word, bookEntry) -> bookEntry.toChaptersByWordsSequence(word) }
+                .groupBy { (_, chapterEntry) -> chapterEntry.key }
+                .filter { (_, chapterByWords) -> chapterByWords.toWordSet() == wordsSet }
+                .toPairs()
+                .sortedByDescending { (_, wordsToChapterEntries) -> wordsToChapterEntries.minChapterScore() }
+                .map { (chapterNum) -> chapterNum }
+
+    private fun BookEntry.toChaptersByWordsSequence(word: String) = chapters
+            .map { chapterEntry -> word to chapterEntry }
+            .asSequence()
+
+    private fun List<Pair<String, *>>.toWordSet() = map { (word) -> word }.toSet()
+
+    private fun List<Pair<String, Map.Entry<Int, Int>>>.minChapterScore() = map { it.second.value }.min()
 
     @Suppress("UNCHECKED_CAST")
     private fun <A, B> Sequence<Pair<A?, B?>>.filterNotNull(): Sequence<Pair<A, B>> = this
