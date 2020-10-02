@@ -1,6 +1,11 @@
 package zh.bookreader.services;
 
+import zh.bookreader.services.util.SearchHit;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+
 public interface SearchService {
-//    @Nonnull
-//    Map<String, List<String>> find(List<String> query);
+    @Nonnull
+    List<SearchHit> find(List<String> query);
 }
