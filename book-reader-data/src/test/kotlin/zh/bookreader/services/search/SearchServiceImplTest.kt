@@ -196,6 +196,24 @@ internal class SearchServiceImplTest {
                     "\nbar=>0:3[0:1,1:2]")
         }
 
+        @Test
+        @DisplayName("Querying is case insensitive")
+        internal fun testInputQuery_CaseShouldBeIgnored() {
+            assertBookIds(listOf(BOOK_0_ID), listOf("fOO", "BaR"),
+                    indexStringPrefix +
+                    "\nfoo=>0:1[0:1]" +
+                    "\nbar=>0:1[0:1]")
+        }
+
+        @Test
+        @DisplayName("Non-letter characters in query are ignored")
+        internal fun testInputQuery_IgnoreNonLetterCharacters() {
+            assertBookIds(listOf(BOOK_0_ID), listOf("fo0o", "B_ar!"),
+                    indexStringPrefix +
+                            "\nfoo=>0:1[0:1]" +
+                            "\nbar=>0:1[0:1]")
+        }
+
         private fun assertBookIds(expectedBookIds: List<String>, query: List<String>, indexFileContent: String) {
             loadIndex(indexFileContent)
             val actualBookIds = service.find(query).map(SearchHit::getBookId)

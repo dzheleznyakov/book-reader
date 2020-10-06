@@ -102,8 +102,11 @@ class SearchServiceImpl(
         if (query == null || query.isEmpty())
             return emptyList()
 
-        val wordsSet = query.toSet()
-        return query.asSequence()
+        val wordsSet = query
+                .map(String::toLowerCase)
+                .map { it.replace(Regex("\\W|\\d|_"), "") }
+                .toSet()
+        return wordsSet.asSequence()
                 .map { word -> word to index[word] }
                 .filterNotNull()
                 .map { (word, entry) -> word to entry.bookEntries }

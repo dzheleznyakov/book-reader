@@ -85,7 +85,7 @@ class HtmlIndexerService(private val bookService: BookService) : IndexerService 
     private fun List<Book>.buildIndex() = indices.forEach { n ->
         this[n].apply {
             try {
-                println("Indexing book[${id}] [${n + 1}/${this@buildIndex.size}]")
+                log.info("Indexing book[${id}] [${n + 1}/${this@buildIndex.size}]")
                 idMap[n] = id
                 indexTitle(n)
                 indexDescription(n)
