@@ -215,6 +215,21 @@ class SearchControllerTest {
             assertThat(length, is(DEFAULT_QUERY_LENGTH));
         }
 
+        @Test
+        @DisplayName("Result show total result count")
+        void testTotalCount() throws Exception {
+            int offset = 0;
+            int limit = 10;
+            int totalCount = 50;
+            stubSearchService(totalCount);
+            stubBookService(offset, offset + limit);
+
+            mockMvc.perform(get(URL_PATTERN, "foo bar", offset, limit))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$", is(notNullValue())))
+                    .andExpect(jsonPath("$.totalCount", is(totalCount)));
+        }
+
         private void stubSearchService(int n) {
             when(searchService.find(anyList()))
                     .thenReturn(getSearchHitList(n));
@@ -251,12 +266,12 @@ class SearchControllerTest {
 
         @Nonnull
         private ResultMatcher nThElementHasId(int index, String id) {
-            return jsonPath("$[" + index + "].bookId", is(equalTo(id)));
+            return jsonPath("$.results[" + index + "].bookId", is(equalTo(id)));
         }
 
         @Nonnull
         private ResultMatcher resultHasSize(int i) {
-            return jsonPath("$", hasSize(i));
+            return jsonPath("$.results", hasSize(i));
         }
 
         @Nonnull

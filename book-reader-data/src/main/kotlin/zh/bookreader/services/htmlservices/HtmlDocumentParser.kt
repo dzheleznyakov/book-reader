@@ -143,7 +143,7 @@ class HtmlDocumentParser(private val fileName: String) {
             tagsToTypes[tagKey] != null -> tagsToTypes[tagKey] as DocumentType
             tagsToTypes[nodeName()] != null -> tagsToTypes[nodeName()] as DocumentType
             else -> {
-                log.warn("Tag literal [{}] is not recognised", tagKey)
+//                log.warn("Tag literal [{}] is not recognised", tagKey)
                 DocumentType.NULL
             }
         }

@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import zh.bookreader.api.commands.SearchHitCommand;
 import zh.bookreader.api.converters.SearchHitToSearchHitCommandConverter;
+import zh.bookreader.api.model.SearchResult;
 import zh.bookreader.api.util.ApiController;
 import zh.bookreader.services.SearchService;
+import zh.bookreader.services.util.SearchHit;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,19 +30,28 @@ public class SearchController {
     }
 
     @GetMapping
-    public List<SearchHitCommand> search(
+    public SearchResult search(
             @RequestParam("q") String query,
             @RequestParam(name = "offset", defaultValue = "0") int offset,
             @RequestParam(name = "limit", defaultValue = "10") int limit
     ) {
         String[] queryTokens = preProcess(query).split(" ");
-        return searchService.find(ImmutableList.copyOf(queryTokens))
+        List<SearchHit> searchHits = searchService.find(ImmutableList.copyOf(queryTokens));
+        return SearchResult.builder()
+                .results(getResults(offset, limit, searchHits))
+                .totalCount(searchHits.size())
+                .build();
+    }
+
+    private List<SearchHitCommand> getResults(int offset, int limit, List<SearchHit> searchHits) {
+        List<SearchHitCommand> results = searchHits
                 .stream()
                 .skip(offset)
                 .limit(limit)
                 .map(searchHitConverter::convert)
                 .filter(Objects::nonNull)
                 .collect(ImmutableList.toImmutableList());
+        return results;
     }
 
     private String preProcess(String query) {
