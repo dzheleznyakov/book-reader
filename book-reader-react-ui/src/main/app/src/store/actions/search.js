@@ -16,7 +16,7 @@ export const setSearchSuccess = ({ totalCount, results }) => ({
     results,
 });
 
-export const setSearchError = (err) => ({
+export const setSearchError = (error) => ({
     type: actionTypes.SET_SEARCH_ERROR,
-    err,
+    error,
 });
