@@ -216,7 +216,7 @@ class SearchControllerTest {
         }
 
         @Test
-        @DisplayName("Result show total result count")
+        @DisplayName("Result shows total search count")
         void testTotalCount() throws Exception {
             int offset = 0;
             int limit = 10;

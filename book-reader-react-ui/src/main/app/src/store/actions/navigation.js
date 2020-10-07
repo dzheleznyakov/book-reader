@@ -6,7 +6,7 @@ export const fetchChapterNavigation = (bookId, chapterId) => ({
     chapterId,
 });
 
-export const setNavigation = (mode, nav) => ({
+export const setNavigation = (mode, nav = []) => ({
     type: actionTypes.SET_NAVIGATION,
     mode,
     nav,

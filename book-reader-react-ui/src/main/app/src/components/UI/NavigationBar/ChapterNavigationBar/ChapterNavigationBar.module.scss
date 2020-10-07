@@ -1,0 +1,14 @@
+@import "../../../../shared/styles/variables";
+
+.ChapterNavUrl {
+    text-decoration: none;
+    color: $link-color;
+    font-weight: 600;
+    height: fit-content;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+        border-bottom-color: $link-color;
+    }
+}

@@ -13,7 +13,7 @@ import { fetchBookMainPage } from './bookMainUtils';
 
 import classes from './BookMain.module.scss';
 
-const BookMain = props => {
+const BookMain = () => {
     const params = useParams();
     const { id } = params;
 
