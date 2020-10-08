@@ -6,7 +6,6 @@ import classes from './ChapterNavigationBar.module.scss';
 
 const ChapterNavigationBar = props => {
     const { nav } = props;
-    console.log('!!', props);
     const navigation = nav.length 
         ? nav
             .filter(n => n.url)

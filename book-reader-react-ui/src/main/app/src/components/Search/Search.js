@@ -8,6 +8,7 @@ import SearchResult from './SearchResult/SearchResult';
 import { useSearch } from '../../hooks';
 import * as actions from '../../store/actions';
 import localStorageKeys from '../../shared/keys/localStorageKeys';
+import navModes from '../UI/NavigationBar/navigationModes';
 
 import classes from './Search.module.scss';
 
@@ -27,6 +28,10 @@ const Search = () => {
         const offset = limit * (page - 1);
         dispatch(actions.search(query, offset, limit));
     }, [dispatch, page, query]);
+
+    useEffect(() => {
+        dispatch(actions.setNavigation(navModes.MAIN));
+    }, [dispatch]);
 
     const view = fetching ? <Spinner /> : <SearchResult items={results} />;
 

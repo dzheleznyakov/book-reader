@@ -1,21 +1,15 @@
-import React/*, { useEffect, useState }*/ from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 
-// import { fetchCount, PAGE_SIZE } from '../bookListUtils';
 import { useSearch } from '../../../hooks';
 
 import classes from './Paginator.module.scss';
 
 const Paginator = props => {
     const { totalCount, pageSize } = props;
-    // const [totalCount, setTotalCount] = useState(0);
     const queryParams = useSearch();
     const history = useHistory();
-
-    // useEffect(() => {
-    //     fetchCount().then(count => setTotalCount(count));
-    // }, []);
 
     const page = +queryParams.page || 1;
     const numberOfPages = totalCount % pageSize === 0 
