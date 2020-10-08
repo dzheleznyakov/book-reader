@@ -43,6 +43,7 @@ public class SearchHitToSearchHitCommandConverter implements Converter<SearchHit
                 .authors(book.getAuthors())
                 .topics(book.getTopics())
                 .image(book.getImage())
+                .title(book.getTitle())
                 .chapterIds(getChapterIds(book, hit))
                 .build();
     }

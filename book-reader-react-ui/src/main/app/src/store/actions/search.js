@@ -1,8 +1,15 @@
 import * as actionTypes from '../actionTypes/search';
 
-export const search = query => ({
+export const setSearchQuery = (query) => ({
+    type: actionTypes.SET_SEARCH_QUERY,
+    query,
+});
+
+export const search = (query, offset, limit) => ({
     type: actionTypes.SEARCH,
     query,
+    offset,
+    limit,
 });
 
 export const setSearchStart = query => ({

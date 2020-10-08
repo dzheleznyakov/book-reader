@@ -1,7 +1,8 @@
 import * as actionTypes from '../actionTypes/navigation';
+import modes from '../../components/UI/NavigationBar/navigationModes';
 
 const initialState = {
-    mode: null,
+    mode: modes.MAIN,
     nav: [],
 };
 

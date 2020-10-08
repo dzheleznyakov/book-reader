@@ -16,10 +16,15 @@ const asyncChapter = asyncComponent(() => {
   return import('./components/Chapter/Chapter');
 })
 
+const asyncSearch = asyncComponent(() => {
+  return import('./components/Search/Search');
+});
+
 const App = () => {
   const routes = (
     <Switch>
       <Route exact path="/books" component={asyncBookList} />
+      <Route exact path="/search" component={asyncSearch} />
       <Route exact path="/books/:id" component={asyncBookMain} />
       <Route exact path="/books/:id/chapters/:chapterId" component={asyncChapter} />
       <Redirect to="/books" />

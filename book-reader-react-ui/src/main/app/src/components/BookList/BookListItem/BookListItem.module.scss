@@ -8,11 +8,14 @@
     }
 }
 
+.BookListCard {
+    box-shadow: $shadow-main;
+}
+
 .BookListItem {
     display: flex;
     flex-direction: row;    
     border-bottom: 1px solid $border-color-main;
-    box-shadow: $shadow-main;
 
     &:last-child {
         border-bottom-color: transparent;
@@ -20,7 +23,7 @@
 }
 
 @media (min-width: 500px) {
-    .BookListItem {
+    .BookListCard {
         max-width: 600px;
         margin: 0 auto;
     }
