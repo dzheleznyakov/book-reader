@@ -10,6 +10,7 @@ import Topics from './Topics/Topics';
 import Resources from './Resources/Resources';
 import Image from '../UI/Image/Image';
 import DocViewer from '../UI/DocViewer/DocViewer';
+import ReadButton from './ReadButton/ReadButton';
 import { fetchBookMainPage } from './bookMainUtils';
 import navModes from '../UI/NavigationBar/navigationModes';
 import * as actions from '../../store/actions';
@@ -49,6 +50,7 @@ const BookMain = () => {
                 <Authors>{bookInfo.authors}</Authors>
                 <ReleaseDate>{bookInfo.releaseDate}</ReleaseDate>
                 <Topics>{bookInfo.topics}</Topics>
+                <ReadButton toc={bookInfo.toc} />
                 <h2 className={classes.Title}>Description:</h2>
                 <DocViewer docs={bookInfo.description} />
                 <Resources>{bookInfo.resources}</Resources>

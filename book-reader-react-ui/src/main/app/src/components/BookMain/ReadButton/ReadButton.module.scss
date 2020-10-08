@@ -1,0 +1,10 @@
+@import "../../../shared/styles/variables";
+
+.ReadButton {
+    max-width: 300px;
+    margin: 2rem 0;
+    padding: 2px 20px;
+    font-size: 1.2rem;
+    border-color: $border-color-main;
+    background-color: #eaedf3;
+}
