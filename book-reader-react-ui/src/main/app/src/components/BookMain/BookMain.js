@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Spinner from '../UI/Spinner/Spinner';
 import Title from './Title/Title';
@@ -11,33 +11,33 @@ import Resources from './Resources/Resources';
 import Image from '../UI/Image/Image';
 import DocViewer from '../UI/DocViewer/DocViewer';
 import ReadButton from './ReadButton/ReadButton';
-import { fetchBookMainPage } from './bookMainUtils';
 import navModes from '../UI/NavigationBar/navigationModes';
 import * as actions from '../../store/actions';
+import { useSearch } from '../../hooks';
 
 import classes from './BookMain.module.scss';
 
 const BookMain = () => {
     const dispatch = useDispatch();
-    const params = useParams();
-    const { id } = params;
-
-    const [bookInfo, setBookInfo] = useState();
-    const [loading, setLoading] = useState(true);
+    const { loading, bookInfo, error } = useSelector(state => state.books);
+    const { id } = useParams();
+    const { title } = useSearch();
 
     useEffect(() => {
-        fetchBookMainPage(id)
-            .then(info => {
-                setLoading(false);
-                setBookInfo(info);
-            });
-    }, [id]);
+        dispatch(actions.fetchBookMainPage(id))
+    }, [id, dispatch]);
 
     useEffect(() => {
         dispatch(actions.setNavigation(navModes.MAIN));
     }, [dispatch])
 
     const spinner = loading ? <Spinner /> : null;
+
+    const titleClean = decodeURIComponent(title);
+    const errorView = error 
+        ? <div className={classes.Error}>Error while fetching "{titleClean}" main page: {error}</div>
+        : null;
+
     const bookInfoComp = bookInfo ? (
         <div data-type="book-info">
             <Image 
@@ -60,6 +60,7 @@ const BookMain = () => {
     
     return (
         <div className={classes.BookMainWrapper}>
+            {errorView}
             {spinner}
             {bookInfoComp}
         </div>

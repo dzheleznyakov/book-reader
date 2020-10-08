@@ -13,7 +13,7 @@ const BookListItem = props => {
     const titleRef = (
         <Link
             className={classes.Url}
-            to={`/books/${id}`}
+            to={`/books/${id}?title=${title}`}
         >
             {title}
         </Link>
