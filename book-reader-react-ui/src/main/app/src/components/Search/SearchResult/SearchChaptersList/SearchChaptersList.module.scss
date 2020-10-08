@@ -1,0 +1,53 @@
+.Wrapper {
+    padding-bottom: 1rem;
+}
+
+.DetailsControl {
+    padding-left: 20px;
+    display: flex;
+    position: relative;
+
+    img {
+        position: absolute;
+        top: 6px;
+        left: 0;
+    }
+
+    &.Expanded {
+        img {
+            animation: spin 0.2s linear 0s 1 normal forwards;
+        }
+    }
+
+    &.Shrinked {
+        img {
+            animation: spin-back 0.2s linear 0s 1 normal forwards;
+        }
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    } to {
+        transform: rotate(90deg);
+    }
+}
+
+@keyframes spin-back {
+    from {
+        transform: rotate(90deg);
+    } to {
+        transform: rotate(0deg);
+    }
+}
+
+.Url {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

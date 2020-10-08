@@ -1,0 +1,14 @@
+.SearchWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    margin: 0 5px 0;
+    padding: 5px 0;
+    align-items: center;
+    justify-content: space-between;
+
+    & li {
+        list-style: none;
+    }
+}

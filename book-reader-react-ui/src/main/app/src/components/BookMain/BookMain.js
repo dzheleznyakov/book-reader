@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import Spinner from '../UI/Spinner/Spinner';
 import Title from './Title/Title';
@@ -10,10 +11,13 @@ import Resources from './Resources/Resources';
 import Image from '../UI/Image/Image';
 import DocViewer from '../UI/DocViewer/DocViewer';
 import { fetchBookMainPage } from './bookMainUtils';
+import navModes from '../UI/NavigationBar/navigationModes';
+import * as actions from '../../store/actions';
 
 import classes from './BookMain.module.scss';
 
-const BookMain = props => {
+const BookMain = () => {
+    const dispatch = useDispatch();
     const params = useParams();
     const { id } = params;
 
@@ -27,6 +31,10 @@ const BookMain = props => {
                 setBookInfo(info);
             });
     }, [id]);
+
+    useEffect(() => {
+        dispatch(actions.setNavigation(navModes.MAIN));
+    }, [dispatch])
 
     const spinner = loading ? <Spinner /> : null;
     const bookInfoComp = bookInfo ? (

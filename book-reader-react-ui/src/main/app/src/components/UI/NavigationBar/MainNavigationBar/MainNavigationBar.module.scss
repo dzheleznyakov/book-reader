@@ -1,0 +1,24 @@
+@import "../../../../shared/styles/variables";
+
+$input-height: 1.5rem;
+$input-border-width: 1px;
+$total-input-margin: calc(#{$toolbar-height} - 1.5rem - #{$input-border-width} * 2);
+
+.SearchInput {
+    height: $input-height;
+    width: 200px;
+    border: $input-border-width solid $border-color-main;
+    margin: calc(#{$total-input-margin} / 2) 0;
+
+    &:focus {
+        width: 100%;
+        border: $input-border-width solid $border-color-main;
+        outline: none;
+    }
+}
+
+@media (min-width: $mobile-horizontal-breakpoint) {
+    .SearchInput:focus {
+        width: 50%;
+    }
+}

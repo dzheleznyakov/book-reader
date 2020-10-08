@@ -1,5 +1,3 @@
-@import "../../../shared/styles/variables";
-
 .NavigationWrapper {
     height: 100%;
     margin: 0 auto;
@@ -7,17 +5,4 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-}
-
-.ChapterNavUrl {
-    text-decoration: none;
-    color: $link-color;
-    font-weight: 600;
-    height: fit-content;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid transparent;
-
-    &:hover {
-        border-bottom-color: $link-color;
-    }
 }

@@ -1,0 +1,5 @@
+export const SET_SEARCH_QUERY = 'SET_SEARCH_QUERY';
+export const SEARCH = 'SEARCH';
+export const SET_SEARCH_START = 'SET_SEARCH_START';
+export const SET_SEARCH_SUCCESS = 'SET_SEARCH_SUCCESS';
+export const SET_SEARCH_ERROR = 'SET_SEARCH_ERROR';

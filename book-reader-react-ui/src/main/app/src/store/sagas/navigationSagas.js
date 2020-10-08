@@ -2,6 +2,7 @@ import { call, put } from 'redux-saga/effects';
 
 import * as actions from '../actions';
 import axios from '../../axios-api';
+import navigationModes from '../../components/UI/NavigationBar/navigationModes';
 
 export function* fetchChapterNavigationSaga(action) {
     const { bookId, chapterId } = action;
@@ -19,5 +20,5 @@ export function* fetchChapterNavigationSaga(action) {
         url: next || '#',
     }];
 
-    yield put(actions.setNavigation(null, nav));
+    yield put(actions.setNavigation(navigationModes.CHAPTER, nav));
 }

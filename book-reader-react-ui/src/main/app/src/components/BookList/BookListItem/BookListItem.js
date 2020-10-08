@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import DotDotDot from 'react-dotdotdot';
 
 import Image from '../../UI/Image/Image';
@@ -8,31 +8,31 @@ import Image from '../../UI/Image/Image';
 import classes from './BookListItem.module.scss';
 
 const BookListItem = props => {
-    const { id, image, title, authors, topics } = props;
-    const history = useHistory();
-    
-    const onTitleClicked = () => history.push(`/books/${id}`);
-    
+    const { id, image, title, authors, topics, children } = props;
+        
     const titleRef = (
-        <button
+        <Link
             className={classes.Url}
-            onClick={onTitleClicked}
+            to={`/books/${id}`}
         >
             {title}
-        </button>
+        </Link>
     );
 
     return (
         <div className={classes.BookListItemWrapper}>
-            <div className={classes.BookListItem}>
-                <Image image={image} />
-                <div className={classes.BookListInfo}>
-                    <DotDotDot clamp={4}>
-                        <h1 className={classes.Title}>{titleRef}</h1>
-                    </DotDotDot>
-                    <span data-type="authors">{authors.join(', ')}</span>
-                    <span data-type="topics" className={classes.Topics}>{topics.join(', ')}</span>
+            <div className={classes.BookListCard}>
+                <div className={classes.BookListItem}>
+                    <Image image={image} />
+                    <div className={classes.BookListInfo}>
+                        <DotDotDot clamp={4}>
+                            <h1 className={classes.Title}>{titleRef}</h1>
+                        </DotDotDot>
+                        <span data-type="authors">{authors.join(', ')}</span>
+                        <span data-type="topics" className={classes.Topics}>{topics.join(', ')}</span>
+                    </div>
                 </div>
+                {children}
             </div>
         </div>
     );

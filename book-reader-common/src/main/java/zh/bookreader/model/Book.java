@@ -21,4 +21,8 @@ public class Book {
     @Nonnull private Map<String, String> resources = new HashMap<>();
     @Nonnull private Byte[] image = new Byte[0];
     @Nonnull private List<Chapter> chapters = new ArrayList<>();
+
+    public Chapter getChapter(int i) {
+        return chapters.get(i);
+    }
 }
