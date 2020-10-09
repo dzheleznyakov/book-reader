@@ -12,13 +12,10 @@ export function* fetchChapterNavigationSaga(action) {
     const { data } = yield call(axios.get, url);
     const { prev, next } = data;
 
-    const nav = [{
-        prefix: prev ? 'Prev' : '',
-        url: prev || '#',
-    }, {
-        prefix: next ? 'Next' : '',
-        url: next || '#',
-    }];
-
+    const nav = {
+        prev: prev || '#',
+        next: next || '#',
+        book: `/books/${bookId}`,
+    };
     yield put(actions.setNavigation(navigationModes.CHAPTER, nav));
 }
