@@ -27,7 +27,7 @@ class SearchServiceImpl(
     private val indexFilePath = Paths.get(USER_HOME_PATH, SEARCH_INDEX_REL_PATH, INDEX_FILE_NAME)
 
     init {
-        if (searchIsOn) loadIndex()
+        Thread { if (searchIsOn) loadIndex() }.apply { name = "index-load" }.start()
     }
 
     private fun loadIndex() {
