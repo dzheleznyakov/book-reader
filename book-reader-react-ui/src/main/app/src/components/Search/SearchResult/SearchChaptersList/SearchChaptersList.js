@@ -20,14 +20,13 @@ const SearchChaptersList = props => {
     const detailsMessage = expanded ? 'Less details' : 'More details';
     
     const chapterLinks = expanded ? chapterIds
-        .filter(ch => ch !== '*')
-        .map(chId => (
+        .map(([chId, title]) => (
             <li key={bookId + chId}>
                 <Link 
                     to={`/books/${bookId}/chapters/${chId}`}
                     className={classes.Url}
                 >
-                    {chId}
+                    {title}
                 </Link>
             </li>
         )) : null;

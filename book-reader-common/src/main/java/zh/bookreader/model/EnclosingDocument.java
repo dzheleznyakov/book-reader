@@ -5,14 +5,46 @@ import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
-public class EnclosingDocument extends BaseDocument<List<Document<?>>> {
+public class EnclosingDocument extends BaseDocument<List<Document<?>>> implements Iterable<Document<?>> {
     private final List<Document<?>> content;
 
     private EnclosingDocument(DocumentBuilder<List<Document<?>>> builder) {
         super(builder);
         content = builder.getContent();
+    }
+
+    public Document<?> findFirst(Predicate<Document<?>> condition) {
+        return condition == null ? null : stream()
+                .filter(condition)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public String text() {
+        return stream()
+                .filter(TextDocument.class::isInstance)
+                .map(TextDocument.class::cast)
+                .map(TextDocument::getContent)
+                .collect(Collectors.joining());
+    }
+
+    @Nonnull
+    @Override
+    public Iterator<Document<?>> iterator() {
+        return new EnclosingDocumentIterator(this);
+    }
+
+    public Stream<Document<?>> stream() {
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator(), Spliterator.ORDERED), false);
     }
 
     @Override

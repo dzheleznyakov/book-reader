@@ -7,6 +7,7 @@ import zh.bookreader.api.commands.ChapterCommand;
 import zh.bookreader.api.commands.DocumentCommand;
 import zh.bookreader.model.Chapter;
 import zh.bookreader.model.Document;
+import zh.bookreader.model.DocumentFormatting;
 import zh.bookreader.model.EnclosingDocument;
 
 import javax.annotation.Nullable;
@@ -26,8 +27,23 @@ public class ChapterToChapterCommandConverter implements Converter<Chapter, Chap
         return chapter == null
                 ? null
                 : ChapterCommand.builder()
+                        .title(getTitle(chapter.getContent()))
                         .content(convert(chapter.getContent()))
                         .build();
+    }
+
+    private String getTitle(Document<List<Document<?>>> doc) {
+        return doc instanceof EnclosingDocument
+                ? getFirstHeader((EnclosingDocument) doc)
+                : "";
+    }
+
+    private String getFirstHeader(EnclosingDocument doc) {
+        EnclosingDocument header = (EnclosingDocument) doc
+                .findFirst(d -> d instanceof EnclosingDocument && d.getFormatting().contains(DocumentFormatting.TITLE));
+        return header == null
+                ? ""
+                : header.text();
     }
 
     private DocumentCommand convert(Document<List<Document<?>>> doc) {

@@ -12,5 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class ChapterCommand {
+    private String title;
     private DocumentCommand content;
 }

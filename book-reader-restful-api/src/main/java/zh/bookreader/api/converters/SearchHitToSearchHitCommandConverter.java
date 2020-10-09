@@ -48,17 +48,16 @@ public class SearchHitToSearchHitCommandConverter implements Converter<SearchHit
                 .build();
     }
 
-    private List<String> getChapterIds(Book book, SearchHit hit) {
+    private List<String[]> getChapterIds(Book book, SearchHit hit) {
         return hit.getChapterNums().stream()
-                .map(i -> i < 0 ? getBookCoverChapter() : book.getChapter(i))
-                .map(Chapter::getId)
+                .filter(i -> i >= 0)
+                .map(book::getChapter)
+                .map(this::getChapterMetainfo)
                 .collect(ImmutableList.toImmutableList());
     }
 
-    @Nonnull
-    private Chapter getBookCoverChapter() {
-        Chapter ch = new Chapter();
-        ch.setId("*");
-        return ch;
+    private String[] getChapterMetainfo(Chapter chapter) {
+        return new String[]{chapter.getId(), chapter.getFirstTitle()};
     }
+
 }

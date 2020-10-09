@@ -14,10 +14,17 @@ import zh.bookreader.utils.ClassUtils;
 public class ApiTestUtils {
     public static final String TEXT_1 = "Mock text 1.";
     public static final String TEXT_2 = "Mock text 2.";
+    public static final String HEADER_1_TEXT = "Mock Header 1";
     public static final String PAR_1_ID = "mock-par-id";
     public static final String SEC_1_ID = "mock-sec-1-id";
     public static final String SEC_2_ID = "mock-sec-2-id";
+    public static final String SEC_3_ID = "mock-sec-3-id";
     public static final ImmutableSet<DocumentFormatting> FORMATTING = ImmutableSet.of(DocumentFormatting.NOTE, DocumentFormatting.SIMPLE);
+
+    public static final EnclosingDocument HEADER_1 = EnclosingDocument.builder(DocumentType.INLINED)
+            .withContent(TextDocument.builder().withContent(HEADER_1_TEXT).build())
+            .withFormatting(ImmutableList.of(DocumentFormatting.TITLE))
+            .build();
 
     public static final TextDocument TEXT_DOC_1 = TextDocument.builder(DocumentType.TEXT)
             .withContent(TEXT_1)
@@ -40,6 +47,14 @@ public class ApiTestUtils {
             .withContent(TEXT_DOC_2)
             .withFormatting(FORMATTING)
             .withId(SEC_2_ID)
+            .build();
+
+    public static final EnclosingDocument SEC_3 = EnclosingDocument.builder(DocumentType.SECTION)
+            .withContent(PAR)
+            .withContent(HEADER_1)
+            .withContent(TEXT_DOC_2)
+            .withFormatting(FORMATTING)
+            .withId(SEC_3_ID)
             .build();
 
     public static Book getBook() {

@@ -44,6 +44,10 @@ public class TextDocument extends BaseDocument<String> {
         return new Builder(documentType);
     }
 
+    public static DocumentBuilder<String> builder() {
+        return new Builder(DocumentType.TEXT);
+    }
+
     public static class Builder extends DocumentBuilder<String> {
         private String content;
 

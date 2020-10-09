@@ -103,13 +103,17 @@ class SearchHitToSearchHitCommandConverterTest {
         assertThat(command.getTopics(), is(equalTo(TOPICS)));
         assertThat(command.getImage(), is(equalTo(IMAGE)));
 
-        List<String> chapterIds = command.getChapterIds();
+        List<String> chapterIds = command.getChapterIds()
+                .stream()
+                .map(e -> e[0])
+                .collect(ImmutableList.toImmutableList());
         assertThat(chapterIds, is(equalTo(ImmutableList.of("ch-0", "ch-2"))));
 
         verify(bookService, times(1)).findById(BOOK_ID);
     }
 
     @Test
+    @DisplayName("Matches in the book description are filtered out")
     void testMatchInBookDescription() {
         when(bookService.findById(BOOK_ID))
                 .thenReturn(Optional.of(book));
@@ -122,8 +126,8 @@ class SearchHitToSearchHitCommandConverterTest {
 
         assertThat(command, is(notNullValue()));
 
-        List<String> chapterIds = command.getChapterIds();
-        assertThat(chapterIds, is(equalTo(ImmutableList.of("*"))));
+        List<String[]> chapterIds = command.getChapterIds();
+        assertThat(chapterIds, is(equalTo(ImmutableList.of())));
 
         verify(bookService, times(1)).findById(BOOK_ID);
     }

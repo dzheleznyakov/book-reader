@@ -20,5 +20,5 @@ public class SearchHitCommand {
     private List<String> authors = new ArrayList<>();
     private List<String> topics = new ArrayList<>();
     private Byte[] image = new Byte[0];
-    private List<String> chapterIds = new ArrayList<>();
+    private List<String[]> chapterIds = new ArrayList<>();
 }

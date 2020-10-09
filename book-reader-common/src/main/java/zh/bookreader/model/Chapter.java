@@ -16,4 +16,18 @@ import java.util.List;
 public class Chapter {
     private String id;
     private Document<List<Document<?>>> content;
+
+    public String getFirstTitle() {
+        return getContent() instanceof EnclosingDocument
+                ? getFirstTitle((EnclosingDocument) getContent())
+                : "";
+    }
+
+    private String getFirstTitle(EnclosingDocument content) {
+        EnclosingDocument title = (EnclosingDocument) content
+                .findFirst(d -> d instanceof EnclosingDocument && d.getFormatting().contains(DocumentFormatting.TITLE));
+        return title == null
+                ? ""
+                : title.text();
+    }
 }

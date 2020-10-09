@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
-import static zh.bookreader.api.ApiTestUtils.SEC_2;
+import static zh.bookreader.api.ApiTestUtils.SEC_3;
 import static zh.bookreader.api.testtuils.hamcrest.DocumentMatchers.stemsFrom;
 
 class ChapterToChapterCommandConverterTest {
@@ -20,7 +20,7 @@ class ChapterToChapterCommandConverterTest {
 
     private Chapter chapter = Chapter.builder()
             .id("mock-id")
-            .content(SEC_2)
+            .content(SEC_3)
             .build();
 
     @BeforeEach
@@ -49,6 +49,7 @@ class ChapterToChapterCommandConverterTest {
         assertThat(command.getContent(), is(instanceOf(EnclosingDocumentCommand.class)));
 
         EnclosingDocumentCommand content = (EnclosingDocumentCommand) command.getContent();
-        assertThat(content, stemsFrom(SEC_2));
+        assertThat(content, stemsFrom(SEC_3));
+        assertThat(command.getTitle(), is("Mock Header 1"));
     }
 }

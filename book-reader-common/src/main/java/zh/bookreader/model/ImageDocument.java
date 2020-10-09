@@ -49,6 +49,10 @@ public class ImageDocument extends BaseDocument<Byte[]> {
         return new Builder(documentType);
     }
 
+    public static DocumentBuilder<Byte[]> builder() {
+        return new Builder(DocumentType.IMAGE);
+    }
+
     static class Builder extends DocumentBuilder<Byte[]> {
         private Byte[] content = new Byte[0];
 
