@@ -27,7 +27,7 @@ internal class HtmlIndexerServiceTest {
     private val pathToTestIndexFolder = "$pathToTestOutputFolder/index"
     private val pathToLibrary = "$pathToTestOutputFolder/library"
 
-    private var indexer = HtmlIndexerService(HtmlBookService())
+    private var indexer = HtmlIndexerService(HtmlBookService(""))
 
     @BeforeEach
     internal fun setUpOutputFolder() {

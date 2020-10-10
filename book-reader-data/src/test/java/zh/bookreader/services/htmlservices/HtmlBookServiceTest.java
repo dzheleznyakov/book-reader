@@ -37,7 +37,8 @@ class HtmlBookServiceTest {
 
     @BeforeEach
     void setUpService() {
-        bookService = new HtmlBookService(Paths.get(BOOK_TEST_LIBRARY_PATH).toString());
+        bookService = new HtmlBookService("");
+        bookService.setLibraryPath(Paths.get(BOOK_TEST_LIBRARY_PATH).toString());
     }
 
     @BeforeEach
@@ -62,7 +63,7 @@ class HtmlBookServiceTest {
         @Test
         @DisplayName("Test parsing empty library")
         void testFindAll_NoBooksInLibrary() throws URISyntaxException {
-            bookService = new HtmlBookService(EMPTY_LIBRARY_PATH);
+            bookService.setLibraryPath(EMPTY_LIBRARY_PATH);
 
             List<Book> books = bookService.findAll();
             assertThat(books, empty());
@@ -326,7 +327,7 @@ class HtmlBookServiceTest {
         @Test
         @DisplayName("Test count for not existing library")
         void testCountNotExistingLibrary() {
-            bookService = new HtmlBookService(Paths.get("fake-folder/").toString());
+            bookService.setLibraryPath(Paths.get("fake-folder/").toString());
 
             int count = bookService.count();
 

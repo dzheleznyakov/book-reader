@@ -24,17 +24,15 @@ import static java.util.stream.Collectors.joining;
 @Slf4j
 @Component
 public class HtmlBookService implements BookService {
-    @Value("${zh.bookreader.library.path}")
     private String libraryPath;
 
     private URI libraryUri;
 
-    public HtmlBookService() {
-    }
-
-    @VisibleForTesting
-    HtmlBookService(String libraryPath) {
-        this.libraryPath = libraryPath;
+    public HtmlBookService(@Value("${zh.bookreader.library.path}") String libraryPath) {
+        String userHome = System.getProperty("user.home");
+        if (userHome == null)
+            userHome = "";
+        this.libraryPath = Paths.get(userHome, libraryPath).toString();
     }
 
     @Nonnull
@@ -78,6 +76,11 @@ public class HtmlBookService implements BookService {
     @Override
     public int count() {
         return findAll().size();
+    }
+
+    @VisibleForTesting
+    void setLibraryPath(String libraryPath) {
+        this.libraryPath = libraryPath;
     }
 
     private URI getLibraryUri() {
