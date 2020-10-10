@@ -17,6 +17,7 @@
         <npm.version>v6.14.7</npm.version>
         <frontend-src-dir>${project.basedir}/src/main/app</frontend-src-dir>
         <frontend-maven-plugin.version>1.10.0</frontend-maven-plugin.version>
+        <start-class>zh.bookreader.reactui.ReactUiApplication</start-class>
     </properties>
 
     <dependencies>
@@ -48,6 +49,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>zh.bookreader.reactui.ReactUiApplication</mainClass>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.github.eirslett</groupId>
