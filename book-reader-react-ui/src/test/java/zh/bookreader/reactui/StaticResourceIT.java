@@ -17,17 +17,10 @@ public class StaticResourceIT {
     @Autowired
     MockMvc mockMvc;
 
-    @Test
-    void testLoadMainUIPage() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl(UI_PAGE_RESOURCE));
-    }
-
     @Disabled
     @Test
     void testLoadNonExistingUIPage() throws Exception {
-        mockMvc.perform(get("/non/existing/path"))
+        mockMvc.perform(get("/what/ever/path"))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl(UI_PAGE_RESOURCE));
     }

@@ -1,6 +1,6 @@
 package zh.bookreader.services.search
 
-import java.io.File
+import java.util.Scanner
 
 const val USER_HOME_KEY = "user.home"
 const val SEARCH_INDEX_REL_PATH = ".zh/BookParser/index"
@@ -12,11 +12,17 @@ const val INDEX_FILE_NAME = "index.zhi"
 const val STOP_WORDS_LIST_PATH = "search-index/stopwords.txt"
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-fun <E : Any> E.getStopWords() = this.javaClass.classLoader.getResource(STOP_WORDS_LIST_PATH)
-        .toURI()
-        .run { File(this) }
-        .run {
-            this.readLines()
-                    .filter { it.isNotEmpty() }
-                    .toHashSet()
-        }
+fun <E : Any> E.getStopWords(): Set<String> {
+    val stopWordsAsInputStream = this.javaClass.classLoader.getResourceAsStream(STOP_WORDS_LIST_PATH) ?: return setOf()
+    return Scanner(stopWordsAsInputStream)
+            .readLines()
+            .filter { it.isNotEmpty() }
+            .toSet()
+}
+
+fun Scanner.readLines(): Set<String> {
+    val lines = mutableSetOf<String>()
+    while (hasNext())
+        lines.add(nextLine())
+    return lines
+}

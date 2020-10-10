@@ -45,7 +45,7 @@ class HtmlIndexerService(private val bookService: BookService) : IndexerService 
             indexFile.delete()
         indexFile.createNewFile()
         val output = indexFile.outputStream()
-        val books = bookService.findAll() ?: listOf()
+        val books = bookService.findAll()
         index(output, books)
         idMap.clear()
         index.clear()

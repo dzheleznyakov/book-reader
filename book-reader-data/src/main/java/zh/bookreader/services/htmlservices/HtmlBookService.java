@@ -2,7 +2,6 @@ package zh.bookreader.services.htmlservices;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,7 +80,6 @@ public class HtmlBookService implements BookService {
         return findAll().size();
     }
 
-    @SneakyThrows
     private URI getLibraryUri() {
         if (libraryUri == null)
             libraryUri = Paths.get(libraryPath).toUri();
