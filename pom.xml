@@ -4,7 +4,7 @@
 
 	<groupId>zh.bookreader</groupId>
 	<artifactId>book-reader</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.1-SNAPSHOT</version>
 
 	<modules>
 		<module>book-reader-restful-api</module>
@@ -113,6 +113,6 @@
 
 	<scm>
 		<developerConnection>scm:git:git@github.com:dzheleznyakov/book-reader.git</developerConnection>
-		<tag>book-reader-0.1.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 </project>
