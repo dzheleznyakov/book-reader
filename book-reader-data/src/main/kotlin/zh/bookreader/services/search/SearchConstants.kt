@@ -1,5 +1,6 @@
 package zh.bookreader.services.search
 
+import zh.bookreader.services.utils.readLines
 import java.util.Scanner
 
 const val USER_HOME_KEY = "user.home"
@@ -18,11 +19,4 @@ fun <E : Any> E.getStopWords(): Set<String> {
             .readLines()
             .filter { it.isNotEmpty() }
             .toSet()
-}
-
-fun Scanner.readLines(): Set<String> {
-    val lines = mutableSetOf<String>()
-    while (hasNext())
-        lines.add(nextLine())
-    return lines
 }

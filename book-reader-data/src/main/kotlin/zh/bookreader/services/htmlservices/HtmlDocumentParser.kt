@@ -10,12 +10,14 @@ import zh.bookreader.model.DocumentType
 import zh.bookreader.model.EnclosingDocument
 import zh.bookreader.model.ImageDocument
 import zh.bookreader.model.TextDocument
+import zh.bookreader.services.utils.readLines
 import java.io.File
 import java.lang.Enum.valueOf
 import java.net.MalformedURLException
 import java.net.URI
 import java.net.URL
 import java.nio.file.Paths
+import java.util.Scanner
 
 class HtmlDocumentParser(private val fileName: String) {
     private val log = LoggerFactory.getLogger(javaClass)
@@ -23,32 +25,36 @@ class HtmlDocumentParser(private val fileName: String) {
     private val tagsToFormattings: Map<String, List<DocumentFormatting>>
 
     init {
-        val uri = javaClass.classLoader.getResource("term-map/term-map.txt")?.toURI()
-        tagsToTypes = if (uri == null) mapOf()
-                      else File(uri).readLines().asSequence()
-                            .map(String::trim)
-                            .filter(String::isNotEmpty)
-                            .map { line -> line.split("=>") }
-                            .map { tokens -> tokens[0].trim() to tokens[1].trim() }
-                            .filter { (_, value) -> value != "_" }
-                            .map { (key, value) -> key to DocumentType.NULL.parse(value) }
-                            .toMap()
+        val termMapAsStream = javaClass.classLoader.getResourceAsStream("term-map/term-map.txt")
+                ?: throw IllegalStateException("term-map/term-map.txt is not found")
+        tagsToTypes = Scanner(termMapAsStream)
+                .readLines()
+                .asSequence()
+                .map(String::trim)
+                .filter(String::isNotEmpty)
+                .map { line -> line.split("=>") }
+                .map { tokens -> tokens[0].trim() to tokens[1].trim() }
+                .filter { (_, value) -> value != "_" }
+                .map { (key, value) -> key to DocumentType.NULL.parse(value) }
+                .toMap()
     }
 
     init {
-        val uri = javaClass.classLoader.getResource("term-map/formatting-map.txt")?.toURI()
-        tagsToFormattings = if (uri == null) mapOf()
-                            else File(uri).readLines().asSequence()
-                                        .map(String::trim)
-                                        .filter(String::isNotEmpty)
-                                        .map { line -> line.split("=>") }
-                                        .map { tokens-> tokens[0].trim() to tokens[1].split(";")
-                                                .map(String::trim)
-                                                .filter(String::isNotEmpty)
-                                                .map { DocumentFormatting.ITALIC.parse(it) }
-                                                .toList()
-                                        }
-                                        .toMap()
+        val formattingMapAsStream = javaClass.classLoader.getResourceAsStream("term-map/formatting-map.txt")
+                ?: throw IllegalStateException("term-map/formatting-map.txt is not found")
+        tagsToFormattings = Scanner(formattingMapAsStream)
+                .readLines()
+                .asSequence()
+                .map(String::trim)
+                .filter(String::isNotEmpty)
+                .map { line -> line.split("=>") }
+                .map { tokens-> tokens[0].trim() to tokens[1].split(";")
+                        .map(String::trim)
+                        .filter(String::isNotEmpty)
+                        .map { DocumentFormatting.ITALIC.parse(it) }
+                        .toList()
+                }
+                .toMap()
     }
 
     private fun DocumentType.parse(value: String) = valueOf(javaClass, value)
