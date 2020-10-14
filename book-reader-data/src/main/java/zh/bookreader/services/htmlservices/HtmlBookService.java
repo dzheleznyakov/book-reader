@@ -22,7 +22,7 @@ import java.util.function.BiPredicate;
 import static java.util.stream.Collectors.joining;
 
 @Slf4j
-@Component
+@Component("htmlBookService")
 public class HtmlBookService implements BookService {
     private String libraryPath;
 
