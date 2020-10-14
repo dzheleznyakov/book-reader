@@ -11,10 +11,7 @@ import zh.bookreader.services.BookService;
 import zh.bookreader.services.ChapterService;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Optional;
@@ -24,21 +21,23 @@ import java.util.Scanner;
 @Slf4j
 public class HtmlChapterService implements ChapterService {
     private static final String INDEX_FILE_NAME = "_ch_titles.zhi";
-    private static final String METAINFO_FILE_NAME = "metainfo.txt";
     private static final String CHAPTER_TITLES_SECTION_HEADER = "#chapter_titles";
-    private static final String TOC_KEY = "Chapter Files";
     private static final String INDEX_MAP_DELIM = "=>";
 
     private final BookService bookService;
     private String libraryPath;
-
+    private final ChapterTitleIndexerService chapterTitleIndexer;
 
     public HtmlChapterService(
             @Qualifier("htmlBookService") BookService bookService,
-            @Value("${zh.bookreader.library.path}") String libraryPath
-    ) {
+            @Value("${zh.bookreader.library.path}") String libraryPath,
+            ChapterTitleIndexerService chapterTitleIndexer) {
         this.bookService = bookService;
-        this.libraryPath = libraryPath;
+        this.chapterTitleIndexer = chapterTitleIndexer;
+        String userHome = System.getProperty("user.home");
+        if (userHome == null)
+            userHome = "";
+        this.libraryPath = Paths.get(userHome, libraryPath).toString();
     }
 
     @Override
@@ -57,8 +56,7 @@ public class HtmlChapterService implements ChapterService {
                     .map(Chapter::getFirstTitle)
                     .orElse("");
         if (!indexFileExist)
-            indexTitles(indexFile, bookId);
-
+            chapterTitleIndexer.index(indexFile, bookId, libraryPath);
 
         return title;
     }
@@ -87,37 +85,6 @@ public class HtmlChapterService implements ChapterService {
             }
         }
         return null;
-    }
-
-    private void indexTitles(File indexFile, String bookId) {
-        boolean fileExists = ensureIndexFileExists(indexFile, bookId);
-        if (fileExists)
-            doIndexTitles(indexFile, bookId);
-    }
-
-    private void doIndexTitles(File indexFile, String bookId) {
-        try (PrintWriter out = new PrintWriter(indexFile)) {
-            out.print(CHAPTER_TITLES_SECTION_HEADER);
-            bookService.findById(bookId)
-                    .orElseThrow(() -> new FileSystemNotFoundException("Book [" + Paths.get(libraryPath, bookId).toAbsolutePath() + "] not found"))
-                    .getChapters()
-                    .forEach(ch -> out.print("\n" + ch.getId() + "=>" + ch.getFirstTitle()));
-        } catch (FileNotFoundException fnfe) {
-            log.error("Error while indexing chapter titles for book [{}]", bookId, fnfe);
-        }
-    }
-
-    private boolean ensureIndexFileExists(File indexFile, String bookId) {
-        return indexFile.exists() || tryToCreateIndexFile(indexFile, bookId);
-    }
-
-    private boolean tryToCreateIndexFile(File indexFile, String bookId) {
-        try {
-            return indexFile.createNewFile();
-        } catch (IOException ioe) {
-            log.error("Error while creating chapter titles index file for [{}]", bookId, ioe);
-            return false;
-        }
     }
 
     @VisibleForTesting

@@ -5,26 +5,24 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.concurrent.TimeUnit;
 
-import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.Matchers.not;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static zh.bookreader.services.htmlservices.TestBookConstants.BOOK_TEST_LIBRARY_PATH;
 import static zh.bookreader.testutils.hamcrest.ZhMatchers.exists;
-import static zh.bookreader.testutils.hamcrest.ZhMatchers.hasContent;
 
 @DisplayName("Test HtmlChapterService")
 class HtmlChapterServiceTest {
@@ -34,13 +32,18 @@ class HtmlChapterServiceTest {
     private static final String CHAPTER_TITLE = "Chapter Title";
     private static final String CH_TITLES_INDEX_PATH = LIBRARY_PATH + "/book-one/_ch_titles.zhi";
 
+    @Mock
+    private ChapterTitleIndexerService chapterTitleIndexerService;
+
     private HtmlChapterService service;
 
     @BeforeEach
     void setUpService() {
+        MockitoAnnotations.initMocks(this);
+
         HtmlBookService bookService = new HtmlBookService("");
         bookService.setLibraryPath(Paths.get(BOOK_TEST_LIBRARY_PATH).toString());
-        service = new HtmlChapterService(bookService, "");
+        service = new HtmlChapterService(bookService, "", chapterTitleIndexerService);
         service.setLibraryPath(LIBRARY_PATH);
     }
 
@@ -71,8 +74,8 @@ class HtmlChapterServiceTest {
             String title = service.getTitle(BOOK_ID, CHAPTER_ID);
 
             assertThat(title, is(CHAPTER_TITLE));
-            assertThat(indexFile, exists());
-            assertThat(indexFile, hasContent(INDEX_FILE_CONTENT));
+            verify(chapterTitleIndexerService, times(1))
+                    .index(any(File.class), anyString(), anyString());
         }
 
         @Test
@@ -93,23 +96,18 @@ class HtmlChapterServiceTest {
 
         @Test
         @DisplayName("Test getTitle(bookId, chapterId) when the titles are indexed")
-        void testIndexedFileExists() throws IOException {
+        void testIndexedFileExists() throws FileNotFoundException {
             File indexFile = getIndexFile();
             writeToIndexFile(INDEX_FILE_CONTENT);
 
-            sleepUninterruptibly(1, TimeUnit.MILLISECONDS);
-            long before = System.currentTimeMillis();
-            sleepUninterruptibly(1, TimeUnit.MILLISECONDS);
+            assertThat(indexFile, exists());
+
             String title = service.getTitle(BOOK_ID, CHAPTER_ID);
 
             assertThat(title, is(CHAPTER_TITLE));
 
-            BasicFileAttributes attributes = Files.readAttributes(indexFile.toPath(), BasicFileAttributes.class);
-            long lastModified = attributes.lastModifiedTime().toMillis();
-            assertThat(lastModified, lessThan(before));
-
-            long lastAccessed = attributes.lastAccessTime().toMillis();
-            assertThat(lastAccessed, greaterThan(before));
+            verify(chapterTitleIndexerService, times(0))
+                    .index(any(File.class), anyString(), anyString());
         }
     }
 

@@ -11,6 +11,7 @@ import zh.bookreader.api.commands.SearchHitCommand;
 import zh.bookreader.model.Book;
 import zh.bookreader.model.Chapter;
 import zh.bookreader.services.BookService;
+import zh.bookreader.services.ChapterService;
 import zh.bookreader.services.util.SearchHit;
 import zh.bookreader.utils.ClassUtils;
 
@@ -38,11 +39,14 @@ class SearchHitToSearchHitCommandConverterTest {
     @Mock
     private BookService bookService;
 
+    @Mock
+    private ChapterService chapterService;
+
     private Book book;
 
     @BeforeEach
     void setUpConverter() {
-        converter = new SearchHitToSearchHitCommandConverter(bookService);
+        converter = new SearchHitToSearchHitCommandConverter(bookService, chapterService);
     }
 
     @BeforeEach
