@@ -1,5 +1,6 @@
 package zh.bookreader.services.htmlservices;
 
+import com.google.common.annotations.VisibleForTesting;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
@@ -7,11 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import zh.bookreader.services.BookService;
 
+import javax.annotation.PreDestroy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Paths;
 
 @Component
@@ -30,12 +31,18 @@ public class ChapterTitleIndexerServiceImpl implements ChapterTitleIndexerServic
         this.bookService = bookService;
     }
 
+    @PreDestroy
+    public void unsubscribe() {
+        indexSubscription.dispose();
+    }
+
     @Override
     public void index(File indexFile, String bookId, String libraryPath) {
         indexSubject.onNext(new Payload(indexFile, bookId, libraryPath));
     }
 
-    private void doIndex(Payload payload) {
+    @VisibleForTesting
+    void doIndex(Payload payload) {
         if (payload.indexFile.exists())
             return;
         boolean fileCreated = tryToCreateIndexFile(payload);
@@ -60,23 +67,29 @@ public class ChapterTitleIndexerServiceImpl implements ChapterTitleIndexerServic
         try (PrintWriter out = new PrintWriter(indexFile)) {
             out.print(CHAPTER_TITLES_SECTION_HEADER);
             bookService.findById(bookId)
-                    .orElseThrow(() -> new FileSystemNotFoundException("Book [" + Paths.get(libraryPath, bookId).toAbsolutePath() + "] not found"))
+                    .orElseThrow(() -> new FileNotFoundException("Book [" + Paths.get(libraryPath, bookId).toAbsolutePath() + "] not found"))
                     .getChapters()
                     .forEach(ch -> out.print("\n" + ch.getId() + "=>" + ch.getFirstTitle()));
         } catch (FileNotFoundException fnfe) {
             log.error("Error while indexing chapter titles for book [{}]", bookId, fnfe);
+            indexFile.delete();
         }
     }
 
-    private static class Payload {
+    static class Payload {
         final File indexFile;
         final String bookId;
         final String libraryPath;
 
-        private Payload(File indexFile, String bookId, String libraryPath) {
+        Payload(File indexFile, String bookId, String libraryPath) {
             this.indexFile = indexFile;
             this.bookId = bookId;
             this.libraryPath = libraryPath;
         }
+    }
+
+    @VisibleForTesting
+    PublishSubject<Payload> getIndexSubject() {
+        return indexSubject;
     }
 }
