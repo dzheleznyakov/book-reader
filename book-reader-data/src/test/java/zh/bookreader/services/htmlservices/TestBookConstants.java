@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import static zh.bookreader.services.htmlservices.TestHelpersKt.getBook1Description;
+import static zh.bookreader.services.htmlservices.TestHelpersKt.getBook2Description;
 import static zh.bookreader.testutils.TestUtils.box;
 
 public class TestBookConstants {
@@ -37,7 +38,7 @@ public class TestBookConstants {
     private static final List<String> CHAPTERS_IDS_1 = ImmutableList.of(
             "preface", "ch01", "ch02", "app");
     private static final List<String> CHAPTERS_IDS_2 = ImmutableList.of(
-            "intro", "p01", "p02");
+            "cover", "intro", "p01", "p02");
 
     static {
         String image1Path = "library/book-one/media/square.jpg";
@@ -84,7 +85,7 @@ public class TestBookConstants {
         book.setResources(RESOURCES_2);
         book.setImage(IMAGE_2);
         book.setChapters(chapters2);
-        book.setDescription(ImmutableList.of());
+        book.setDescription(getBook2Description());
         return book;
     }
 

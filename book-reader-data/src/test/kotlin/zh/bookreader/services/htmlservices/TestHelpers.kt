@@ -48,6 +48,12 @@ fun getBook1Description(): List<Document<*>> {
         return listOf(par0, block)
 }
 
+fun getBook2Description(): List<Document<*>> {
+        val text = getText("Book two description")
+        val par = getParagraph(text)
+        return listOf(par)
+}
+
 fun getChapter01Content(): Document<List<Document<*>>> {
         val title: EnclosingDocument = EnclosingDocument.builder(DocumentType.INLINED)
                 .withContent(getText("Chapter Title"))

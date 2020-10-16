@@ -89,8 +89,13 @@ class BookProxy(private val bookDir: File) : Book() {
         else arrayOf()
     }
 
+    private val descrFilename: String
+        get() {
+            return if (File("$bookDir/_main_page_description.html").exists()) "$bookDir/_main_page_description.html"
+                   else "$bookDir/cover.html"
+        }
+
     override fun getDescription(): List<Document<*>> {
-        val descrFilename = "$bookDir/cover.html"
         val parser = HtmlDocumentParser(descrFilename)
         val fileText = File(descrFilename).run { if (exists()) readText().trim() else "" }
         val doc = parser.parseFileContent("<div>$fileText</div>", bookDir.absolutePath) as EnclosingDocument

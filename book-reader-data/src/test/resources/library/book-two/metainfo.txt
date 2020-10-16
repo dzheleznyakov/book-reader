@@ -2,4 +2,4 @@ Book Title=Book Title Two
 Authors=Author Two-One; Author Two-Two; Author Both
 Release Date=February 1970
 Topics=Topic Three; Topic One
-Chapter Files=intro.html,p01.html,p02.html
+Chapter Files=cover.html,intro.html,p01.html,p02.html
