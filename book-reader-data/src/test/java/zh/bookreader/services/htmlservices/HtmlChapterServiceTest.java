@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
@@ -108,6 +109,18 @@ class HtmlChapterServiceTest {
 
             verify(chapterTitleIndexerService, times(0))
                     .index(any(File.class), anyString(), anyString());
+        }
+
+        @Test
+        @DisplayName("Test getTitle(bookId, chapterId) when the titles indexed, but chapterId is wrong")
+        void testIndexedFileExistButChapterIdIsWrong() throws FileNotFoundException {
+            writeToIndexFile(INDEX_FILE_CONTENT);
+
+            assertThat(getIndexFile(), exists());
+
+            String title = service.getTitle(BOOK_ID, "fake-chapter-id");
+
+            assertThat(title, is(nullValue()));
         }
     }
 

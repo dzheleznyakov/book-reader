@@ -2,6 +2,7 @@ package zh.bookreader.services.htmlservices;
 
 import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import zh.bookreader.model.Chapter;
 import zh.bookreader.services.BookService;
 import zh.bookreader.services.ChapterService;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -74,17 +76,20 @@ public class HtmlChapterService implements ChapterService {
     }
 
     private String getTitle(Scanner in, String chapterId) {
-        while (in.hasNext()) {
-            String line = in.nextLine();
-            int ind = line.indexOf(INDEX_MAP_DELIM);
-            if (ind >= 0) {
-                String id = line.substring(0, ind);
-                if (Objects.equals(id, chapterId))
-                    return line.substring(Math.min(ind + INDEX_MAP_DELIM.length(), line.length()));
-
-            }
-        }
+        String title;
+        while (in.hasNext())
+            if ((title = getTitleFromLine(chapterId, in.nextLine())) != null)
+                return title;
         return null;
+    }
+
+    @Nullable
+    private String getTitleFromLine(@Nonnull String chapterId, String line) {
+        int ind = line.indexOf(INDEX_MAP_DELIM);
+        String id = ind < 0 ? null : line.substring(0, ind);
+        return Objects.equals(id, chapterId)
+                ? line.substring(Math.min(ind + INDEX_MAP_DELIM.length(), line.length()))
+                : null;
     }
 
     @VisibleForTesting
