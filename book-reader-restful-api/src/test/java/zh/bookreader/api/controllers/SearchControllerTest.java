@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import zh.bookreader.api.converters.SearchHitToSearchHitCommandConverter;
 import zh.bookreader.model.Book;
 import zh.bookreader.services.BookService;
+import zh.bookreader.services.ChapterService;
 import zh.bookreader.services.SearchService;
 import zh.bookreader.services.util.SearchHit;
 
@@ -52,13 +53,16 @@ class SearchControllerTest {
     @Mock
     private BookService bookService;
 
+    @Mock
+    private ChapterService chapterService;
+
     private SearchController controller;
 
     private MockMvc mockMvc;
 
     @BeforeEach
     void setUpController() {
-        SearchHitToSearchHitCommandConverter searchHitConverter = new SearchHitToSearchHitCommandConverter(bookService);
+        SearchHitToSearchHitCommandConverter searchHitConverter = new SearchHitToSearchHitCommandConverter(bookService, chapterService);
         controller = new SearchController(searchService, searchHitConverter);
     }
 

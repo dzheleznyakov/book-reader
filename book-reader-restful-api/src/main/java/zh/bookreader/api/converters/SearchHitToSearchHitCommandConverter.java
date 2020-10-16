@@ -7,6 +7,7 @@ import zh.bookreader.api.commands.SearchHitCommand;
 import zh.bookreader.model.Book;
 import zh.bookreader.model.Chapter;
 import zh.bookreader.services.BookService;
+import zh.bookreader.services.ChapterService;
 import zh.bookreader.services.util.SearchHit;
 
 import javax.annotation.Nonnull;
@@ -17,9 +18,14 @@ import java.util.Optional;
 @Component
 public class SearchHitToSearchHitCommandConverter implements Converter<SearchHit, SearchHitCommand> {
     private final BookService bookService;
+    private final ChapterService chapterService;
 
-    public SearchHitToSearchHitCommandConverter(BookService bookService) {
+    public SearchHitToSearchHitCommandConverter(
+            BookService bookService,
+            ChapterService chapterService
+    ) {
         this.bookService = bookService;
+        this.chapterService = chapterService;
     }
 
     @Override
@@ -52,12 +58,12 @@ public class SearchHitToSearchHitCommandConverter implements Converter<SearchHit
         return hit.getChapterNums().stream()
                 .filter(i -> i >= 0)
                 .map(book::getChapter)
-                .map(this::getChapterMetainfo)
+                .map(chapter -> getChapterMetainfo(chapter, hit))
                 .collect(ImmutableList.toImmutableList());
     }
 
-    private String[] getChapterMetainfo(Chapter chapter) {
-        return new String[]{chapter.getId(), chapter.getFirstTitle()};
+    private String[] getChapterMetainfo(Chapter chapter, SearchHit hit) {
+        return new String[]{chapter.getId(), chapterService.getTitle(hit.getBookId(), chapter.getId())};
     }
 
 }
