@@ -7,9 +7,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import zh.bookreader.api.commands.ImageDocumentCommand;
-import zh.bookreader.model.DocumentFormatting;
-import zh.bookreader.model.DocumentType;
-import zh.bookreader.model.ImageDocument;
+import zh.bookreader.model.documents.DocumentFormatting;
+import zh.bookreader.model.documents.DocumentType;
+import zh.bookreader.model.documents.ImageDocument;
 import zh.bookreader.utils.ClassUtils;
 
 import java.io.File;

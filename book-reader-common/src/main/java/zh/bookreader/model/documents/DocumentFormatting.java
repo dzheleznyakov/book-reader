@@ -1,4 +1,4 @@
-package zh.bookreader.model;
+package zh.bookreader.model.documents;
 
 public enum DocumentFormatting {
     ITALIC,

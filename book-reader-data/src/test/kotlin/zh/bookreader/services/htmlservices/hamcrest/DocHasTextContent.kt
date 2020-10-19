@@ -2,10 +2,10 @@ package zh.bookreader.services.htmlservices.hamcrest
 
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
-import zh.bookreader.model.Document
-import zh.bookreader.model.DocumentType
-import zh.bookreader.model.EnclosingDocument
-import zh.bookreader.model.TextDocument
+import zh.bookreader.model.documents.Document
+import zh.bookreader.model.documents.DocumentType
+import zh.bookreader.model.documents.EnclosingDocument
+import zh.bookreader.model.documents.TextDocument
 import zh.bookreader.testutils.PrintUtils
 import zh.bookreader.testutils.PrintUtils.Color
 

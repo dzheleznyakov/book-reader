@@ -1,8 +1,8 @@
 package zh.bookreader.services.htmlservices
 
-import zh.bookreader.model.Book
-import zh.bookreader.model.Document
-import zh.bookreader.model.EnclosingDocument
+import zh.bookreader.model.documents.Book
+import zh.bookreader.model.documents.Document
+import zh.bookreader.model.documents.EnclosingDocument
 import java.io.File
 import java.nio.charset.StandardCharsets
 import java.nio.file.Paths

@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import zh.bookreader.api.commands.DocumentCommand;
 import zh.bookreader.api.commands.EnclosingDocumentCommand;
 import zh.bookreader.api.commands.ImageDocumentCommand;
-import zh.bookreader.model.DocumentType;
-import zh.bookreader.model.EnclosingDocument;
-import zh.bookreader.model.ImageDocument;
+import zh.bookreader.model.documents.DocumentType;
+import zh.bookreader.model.documents.EnclosingDocument;
+import zh.bookreader.model.documents.ImageDocument;
 
 import java.util.List;
 

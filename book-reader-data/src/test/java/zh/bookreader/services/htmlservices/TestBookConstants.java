@@ -2,8 +2,8 @@ package zh.bookreader.services.htmlservices;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import zh.bookreader.model.Book;
-import zh.bookreader.model.Chapter;
+import zh.bookreader.model.documents.Book;
+import zh.bookreader.model.documents.Chapter;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

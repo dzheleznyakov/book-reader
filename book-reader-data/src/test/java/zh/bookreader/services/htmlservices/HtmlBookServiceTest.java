@@ -9,7 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.junit.jupiter.MockitoExtension;
-import zh.bookreader.model.Book;
+import zh.bookreader.model.documents.Book;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;

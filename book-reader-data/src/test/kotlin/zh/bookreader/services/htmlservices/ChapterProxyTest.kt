@@ -5,7 +5,7 @@ import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import zh.bookreader.model.Chapter
+import zh.bookreader.model.documents.Chapter
 import java.io.File
 
 @DisplayName("Test ChapterProxy")

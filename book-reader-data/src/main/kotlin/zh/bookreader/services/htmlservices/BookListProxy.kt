@@ -1,6 +1,6 @@
 package zh.bookreader.services.htmlservices
 
-import zh.bookreader.model.Book
+import zh.bookreader.model.documents.Book
 import java.io.File
 import java.net.URI
 import java.nio.file.Path

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import zh.bookreader.model.Book
+import zh.bookreader.model.documents.Book
 import zh.bookreader.services.htmlservices.HtmlBookService
 import zh.bookreader.services.htmlservices.getBlock
 import zh.bookreader.services.htmlservices.getChapter

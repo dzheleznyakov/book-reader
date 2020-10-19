@@ -1,6 +1,6 @@
 package zh.bookreader.services;
 
-import zh.bookreader.model.Book;
+import zh.bookreader.model.documents.Book;
 
 import javax.annotation.Nonnull;
 import java.util.List;

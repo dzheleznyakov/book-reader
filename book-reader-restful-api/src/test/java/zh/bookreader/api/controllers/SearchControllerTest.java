@@ -13,11 +13,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import zh.bookreader.api.converters.SearchHitToSearchHitCommandConverter;
-import zh.bookreader.model.Book;
+import zh.bookreader.model.documents.Book;
+import zh.bookreader.model.search.SearchHit;
 import zh.bookreader.services.BookService;
 import zh.bookreader.services.ChapterService;
 import zh.bookreader.services.SearchService;
-import zh.bookreader.services.util.SearchHit;
 
 import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;

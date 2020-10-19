@@ -3,7 +3,7 @@ package zh.bookreader.api.converters;
 import com.google.common.collect.ImmutableList;
 import org.springframework.stereotype.Component;
 import zh.bookreader.api.commands.ChapterNavigationCommand;
-import zh.bookreader.model.Chapter;
+import zh.bookreader.model.documents.Chapter;
 
 import java.util.List;
 

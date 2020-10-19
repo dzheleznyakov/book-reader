@@ -12,10 +12,10 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.jupiter.MockitoExtension
+import zh.bookreader.model.search.SearchHit
 import zh.bookreader.services.IndexerService
 import zh.bookreader.services.search.index.BookEntry
 import zh.bookreader.services.search.index.IndexEntry
-import zh.bookreader.services.util.SearchHit
 
 @DisplayName("Test SearchServiceImpl")
 @ExtendWith(MockitoExtension::class)

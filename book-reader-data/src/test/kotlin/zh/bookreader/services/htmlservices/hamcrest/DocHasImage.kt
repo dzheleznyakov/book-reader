@@ -2,8 +2,8 @@ package zh.bookreader.services.htmlservices.hamcrest
 
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
-import zh.bookreader.model.Document
-import zh.bookreader.model.ImageDocument
+import zh.bookreader.model.documents.Document
+import zh.bookreader.model.documents.ImageDocument
 import zh.bookreader.testutils.PrintUtils
 
 internal class DocHasImage(private val bytes: Array<Byte>) : TypeSafeMatcher<Document<*>>() {

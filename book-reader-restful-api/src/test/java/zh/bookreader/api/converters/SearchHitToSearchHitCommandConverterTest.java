@@ -8,11 +8,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import zh.bookreader.api.commands.SearchHitCommand;
-import zh.bookreader.model.Book;
-import zh.bookreader.model.Chapter;
+import zh.bookreader.model.documents.Book;
+import zh.bookreader.model.documents.Chapter;
+import zh.bookreader.model.search.SearchHit;
 import zh.bookreader.services.BookService;
 import zh.bookreader.services.ChapterService;
-import zh.bookreader.services.util.SearchHit;
 import zh.bookreader.utils.ClassUtils;
 
 import java.util.List;

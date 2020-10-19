@@ -1,7 +1,7 @@
 package zh.bookreader.testutils.hamcrest;
 
 import org.hamcrest.Matcher;
-import zh.bookreader.model.Book;
+import zh.bookreader.model.documents.Book;
 
 import java.io.File;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package zh.bookreader.model;
+package zh.bookreader.model.documents;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

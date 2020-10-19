@@ -3,12 +3,12 @@ package zh.bookreader.api;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import zh.bookreader.model.Book;
-import zh.bookreader.model.Chapter;
-import zh.bookreader.model.DocumentFormatting;
-import zh.bookreader.model.DocumentType;
-import zh.bookreader.model.EnclosingDocument;
-import zh.bookreader.model.TextDocument;
+import zh.bookreader.model.documents.Book;
+import zh.bookreader.model.documents.Chapter;
+import zh.bookreader.model.documents.DocumentFormatting;
+import zh.bookreader.model.documents.DocumentType;
+import zh.bookreader.model.documents.EnclosingDocument;
+import zh.bookreader.model.documents.TextDocument;
 import zh.bookreader.utils.ClassUtils;
 
 public class ApiTestUtils {

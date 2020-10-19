@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import zh.bookreader.api.commands.ChapterCommand;
 import zh.bookreader.api.commands.EnclosingDocumentCommand;
-import zh.bookreader.model.Chapter;
+import zh.bookreader.model.documents.Chapter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;

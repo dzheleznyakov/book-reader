@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import zh.bookreader.model.Book
-import zh.bookreader.model.Document
-import zh.bookreader.model.EnclosingDocument
-import zh.bookreader.model.TextDocument
+import zh.bookreader.model.documents.Book
+import zh.bookreader.model.documents.Document
+import zh.bookreader.model.documents.EnclosingDocument
+import zh.bookreader.model.documents.TextDocument
 import java.io.File
 import java.nio.file.Paths
 

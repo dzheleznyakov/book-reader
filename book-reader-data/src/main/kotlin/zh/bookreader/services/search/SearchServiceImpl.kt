@@ -5,11 +5,11 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
+import zh.bookreader.model.search.SearchHit
 import zh.bookreader.services.IndexerService
 import zh.bookreader.services.SearchService
 import zh.bookreader.services.search.index.BookEntry
 import zh.bookreader.services.search.index.IndexEntry
-import zh.bookreader.services.util.SearchHit
 import java.io.InputStream
 import java.nio.file.Paths
 import java.util.Scanner

@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import zh.bookreader.model.Book;
+import zh.bookreader.model.documents.Book;
 import zh.bookreader.services.BookService;
 
 import javax.annotation.Nonnull;

@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import zh.bookreader.api.commands.ImageDocumentCommand;
-import zh.bookreader.model.ImageDocument;
+import zh.bookreader.model.documents.ImageDocument;
 
 import javax.annotation.Nullable;
 import java.util.Set;

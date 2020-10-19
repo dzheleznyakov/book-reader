@@ -6,8 +6,8 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import zh.bookreader.model.Book;
-import zh.bookreader.model.Chapter;
+import zh.bookreader.model.documents.Book;
+import zh.bookreader.model.documents.Chapter;
 import zh.bookreader.services.BookService;
 import zh.bookreader.services.ChapterService;
 

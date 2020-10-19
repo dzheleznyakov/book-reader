@@ -2,7 +2,7 @@ package zh.bookreader.testutils.hamcrest;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
-import zh.bookreader.model.Book;
+import zh.bookreader.model.documents.Book;
 import zh.bookreader.testutils.PrintUtils;
 import zh.bookreader.testutils.PrintUtils.Color;
 

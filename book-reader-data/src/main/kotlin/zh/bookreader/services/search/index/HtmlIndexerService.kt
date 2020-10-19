@@ -3,10 +3,10 @@ package zh.bookreader.services.search.index
 import com.google.common.annotations.VisibleForTesting
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
-import zh.bookreader.model.Book
-import zh.bookreader.model.Document
-import zh.bookreader.model.EnclosingDocument
-import zh.bookreader.model.TextDocument
+import zh.bookreader.model.documents.Book
+import zh.bookreader.model.documents.Document
+import zh.bookreader.model.documents.EnclosingDocument
+import zh.bookreader.model.documents.TextDocument
 import zh.bookreader.services.BookService
 import zh.bookreader.services.IndexerService
 import zh.bookreader.services.search.INDEX_FILE_NAME

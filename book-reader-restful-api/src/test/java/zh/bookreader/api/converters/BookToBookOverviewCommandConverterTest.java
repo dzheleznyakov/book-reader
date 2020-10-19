@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import zh.bookreader.api.commands.BookOverviewCommand;
-import zh.bookreader.model.Book;
+import zh.bookreader.model.documents.Book;
 
 import java.util.List;
 

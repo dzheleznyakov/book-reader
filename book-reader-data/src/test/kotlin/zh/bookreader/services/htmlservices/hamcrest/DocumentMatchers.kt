@@ -1,8 +1,8 @@
 package zh.bookreader.services.htmlservices.hamcrest
 
 import org.hamcrest.Matcher
-import zh.bookreader.model.Document
-import zh.bookreader.model.DocumentType
+import zh.bookreader.model.documents.Document
+import zh.bookreader.model.documents.DocumentType
 
 fun isOfType(type: String): Matcher<Document<*>> = DocIsOfType(type)
 fun isOfType(type: DocumentType): Matcher<Document<*>> = DocIsOfType(type.toString())

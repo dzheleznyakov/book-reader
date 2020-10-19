@@ -4,10 +4,10 @@ import com.google.common.collect.ImmutableList;
 import zh.bookreader.api.commands.DocumentCommand;
 import zh.bookreader.api.commands.EnclosingDocumentCommand;
 import zh.bookreader.api.commands.TextDocumentCommand;
-import zh.bookreader.model.Document;
-import zh.bookreader.model.DocumentFormatting;
-import zh.bookreader.model.EnclosingDocument;
-import zh.bookreader.model.TextDocument;
+import zh.bookreader.model.documents.Document;
+import zh.bookreader.model.documents.DocumentFormatting;
+import zh.bookreader.model.documents.EnclosingDocument;
+import zh.bookreader.model.documents.TextDocument;
 
 import java.util.Objects;
 

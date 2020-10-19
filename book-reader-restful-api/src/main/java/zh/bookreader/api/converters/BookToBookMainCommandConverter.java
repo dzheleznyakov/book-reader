@@ -5,11 +5,11 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import zh.bookreader.api.commands.BookMainCommand;
 import zh.bookreader.api.commands.DocumentCommand;
-import zh.bookreader.model.Book;
-import zh.bookreader.model.Chapter;
-import zh.bookreader.model.Document;
-import zh.bookreader.model.EnclosingDocument;
-import zh.bookreader.model.TextDocument;
+import zh.bookreader.model.documents.Book;
+import zh.bookreader.model.documents.Chapter;
+import zh.bookreader.model.documents.Document;
+import zh.bookreader.model.documents.EnclosingDocument;
+import zh.bookreader.model.documents.TextDocument;
 
 import javax.annotation.Nullable;
 import java.util.List;

@@ -10,7 +10,7 @@ import zh.bookreader.api.commands.BookOverviewCommand;
 import zh.bookreader.api.converters.BookToBookMainCommandConverter;
 import zh.bookreader.api.converters.BookToBookOverviewCommandConverter;
 import zh.bookreader.api.util.ApiController;
-import zh.bookreader.model.Book;
+import zh.bookreader.model.documents.Book;
 import zh.bookreader.services.BookService;
 
 import java.util.List;

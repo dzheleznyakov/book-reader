@@ -1,4 +1,4 @@
-package zh.bookreader.services.util;
+package zh.bookreader.model.search;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

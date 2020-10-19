@@ -1,4 +1,4 @@
-package zh.bookreader.model;
+package zh.bookreader.model.documents;
 
 import com.google.common.io.Files;
 import lombok.SneakyThrows;

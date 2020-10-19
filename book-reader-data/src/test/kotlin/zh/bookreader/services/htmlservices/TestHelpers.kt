@@ -1,11 +1,11 @@
 package zh.bookreader.services.htmlservices
 
-import zh.bookreader.model.Chapter
-import zh.bookreader.model.Document
-import zh.bookreader.model.DocumentFormatting
-import zh.bookreader.model.DocumentType
-import zh.bookreader.model.EnclosingDocument
-import zh.bookreader.model.TextDocument
+import zh.bookreader.model.documents.Chapter
+import zh.bookreader.model.documents.Document
+import zh.bookreader.model.documents.DocumentFormatting
+import zh.bookreader.model.documents.DocumentType
+import zh.bookreader.model.documents.EnclosingDocument
+import zh.bookreader.model.documents.TextDocument
 import java.io.File
 import java.net.URI
 

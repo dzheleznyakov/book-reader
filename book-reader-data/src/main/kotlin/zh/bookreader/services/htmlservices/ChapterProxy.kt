@@ -1,8 +1,8 @@
 package zh.bookreader.services.htmlservices
 
-import zh.bookreader.model.Chapter
-import zh.bookreader.model.DocumentType
-import zh.bookreader.model.EnclosingDocument
+import zh.bookreader.model.documents.Chapter
+import zh.bookreader.model.documents.DocumentType
+import zh.bookreader.model.documents.EnclosingDocument
 import java.io.File
 
 class ChapterProxy(private val bookDir: File, private val filename: String) : Chapter() {

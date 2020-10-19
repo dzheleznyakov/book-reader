@@ -8,7 +8,7 @@ import org.hamcrest.Matchers.instanceOf
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import zh.bookreader.model.Chapter
+import zh.bookreader.model.documents.Chapter
 import java.io.File
 
 internal class ChapterListProxyTest {

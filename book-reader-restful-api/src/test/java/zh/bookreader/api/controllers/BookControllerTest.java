@@ -19,7 +19,7 @@ import zh.bookreader.api.converters.BookToBookOverviewCommandConverter;
 import zh.bookreader.api.converters.EnclosingDocumentToEnclosingDocumentCommandConverter;
 import zh.bookreader.api.converters.ImageDocumentToImageDocumentCommandConverter;
 import zh.bookreader.api.converters.TextDocumentToTextDocumentCommandConverter;
-import zh.bookreader.model.Book;
+import zh.bookreader.model.documents.Book;
 import zh.bookreader.services.BookService;
 
 import javax.annotation.Nonnull;

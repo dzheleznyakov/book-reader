@@ -8,8 +8,8 @@ import zh.bookreader.api.commands.SearchHitCommand;
 import zh.bookreader.api.converters.SearchHitToSearchHitCommandConverter;
 import zh.bookreader.api.model.SearchResult;
 import zh.bookreader.api.util.ApiController;
+import zh.bookreader.model.search.SearchHit;
 import zh.bookreader.services.SearchService;
-import zh.bookreader.services.util.SearchHit;
 
 import java.util.List;
 import java.util.Objects;

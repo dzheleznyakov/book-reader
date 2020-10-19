@@ -7,9 +7,9 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
-import zh.bookreader.model.Document
-import zh.bookreader.model.DocumentType.TABLE
-import zh.bookreader.model.EnclosingDocument
+import zh.bookreader.model.documents.Document
+import zh.bookreader.model.documents.DocumentType.TABLE
+import zh.bookreader.model.documents.EnclosingDocument
 import zh.bookreader.services.htmlservices.hamcrest.containsMetadata
 import zh.bookreader.services.htmlservices.hamcrest.hasContent
 import zh.bookreader.services.htmlservices.hamcrest.hasFormatting
@@ -20,7 +20,7 @@ import zh.bookreader.services.htmlservices.hamcrest.hasTextContent
 import zh.bookreader.services.htmlservices.hamcrest.isNull
 import zh.bookreader.services.htmlservices.hamcrest.isOfType
 import java.net.URI
-import zh.bookreader.model.DocumentType as DocType
+import zh.bookreader.model.documents.DocumentType as DocType
 
 @Suppress("UNUSED_PARAMETER")
 internal class HtmlDocumentParserTest {

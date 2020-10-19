@@ -1,4 +1,4 @@
-package zh.bookreader.model;
+package zh.bookreader.model.documents;
 
 import javax.annotation.Nonnull;
 import java.util.Map;

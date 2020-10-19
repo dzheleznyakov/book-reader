@@ -4,6 +4,12 @@ import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import zh.bookreader.model.documents.Document;
+import zh.bookreader.model.documents.DocumentFormatting;
+import zh.bookreader.model.documents.DocumentType;
+import zh.bookreader.model.documents.EnclosingDocument;
+import zh.bookreader.model.documents.ImageDocument;
+import zh.bookreader.model.documents.TextDocument;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

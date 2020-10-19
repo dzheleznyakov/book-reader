@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import zh.bookreader.api.ApiTestUtils;
 import zh.bookreader.api.commands.BookMainCommand;
-import zh.bookreader.model.Book;
+import zh.bookreader.model.documents.Book;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

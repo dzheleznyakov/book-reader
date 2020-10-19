@@ -3,7 +3,7 @@ package zh.bookreader.api.converters;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import zh.bookreader.api.commands.BookOverviewCommand;
-import zh.bookreader.model.Book;
+import zh.bookreader.model.documents.Book;
 
 @Component
 public class BookToBookOverviewCommandConverter implements Converter<Book, BookOverviewCommand> {

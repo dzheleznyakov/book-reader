@@ -7,7 +7,7 @@ import org.hamcrest.Matchers.hasSize
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import zh.bookreader.model.Book
+import zh.bookreader.model.documents.Book
 import zh.bookreader.testutils.hamcrest.ZhMatchers.isEqualTo
 import java.nio.file.Paths
 

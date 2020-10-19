@@ -2,7 +2,7 @@ package zh.bookreader.services.htmlservices.hamcrest
 
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
-import zh.bookreader.model.Document
+import zh.bookreader.model.documents.Document
 import zh.bookreader.testutils.PrintUtils
 
 class DocContainsMetadata(private val metadata: Map<String, String>) : TypeSafeMatcher<Document<*>>() {

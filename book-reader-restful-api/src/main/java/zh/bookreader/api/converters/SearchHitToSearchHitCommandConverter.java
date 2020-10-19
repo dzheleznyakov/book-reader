@@ -4,11 +4,11 @@ import com.google.common.collect.ImmutableList;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import zh.bookreader.api.commands.SearchHitCommand;
-import zh.bookreader.model.Book;
-import zh.bookreader.model.Chapter;
+import zh.bookreader.model.documents.Book;
+import zh.bookreader.model.documents.Chapter;
+import zh.bookreader.model.search.SearchHit;
 import zh.bookreader.services.BookService;
 import zh.bookreader.services.ChapterService;
-import zh.bookreader.services.util.SearchHit;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

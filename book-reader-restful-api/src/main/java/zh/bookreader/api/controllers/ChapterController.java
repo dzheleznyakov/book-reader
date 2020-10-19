@@ -8,8 +8,8 @@ import zh.bookreader.api.commands.ChapterNavigationCommand;
 import zh.bookreader.api.converters.ChapterListToChapterNavigationConverter;
 import zh.bookreader.api.converters.ChapterToChapterCommandConverter;
 import zh.bookreader.api.util.ApiController;
-import zh.bookreader.model.Book;
-import zh.bookreader.model.Chapter;
+import zh.bookreader.model.documents.Book;
+import zh.bookreader.model.documents.Chapter;
 import zh.bookreader.services.BookService;
 
 import java.util.Objects;

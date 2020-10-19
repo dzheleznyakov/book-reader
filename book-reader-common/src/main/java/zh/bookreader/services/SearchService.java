@@ -1,6 +1,6 @@
 package zh.bookreader.services;
 
-import zh.bookreader.services.util.SearchHit;
+import zh.bookreader.model.search.SearchHit;
 
 import javax.annotation.Nonnull;
 import java.util.List;

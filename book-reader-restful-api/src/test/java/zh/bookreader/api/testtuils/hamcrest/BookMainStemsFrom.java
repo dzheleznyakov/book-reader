@@ -7,11 +7,11 @@ import zh.bookreader.api.commands.BookMainCommand;
 import zh.bookreader.api.commands.DocumentCommand;
 import zh.bookreader.api.commands.EnclosingDocumentCommand;
 import zh.bookreader.api.commands.TextDocumentCommand;
-import zh.bookreader.model.Book;
-import zh.bookreader.model.Chapter;
-import zh.bookreader.model.Document;
-import zh.bookreader.model.EnclosingDocument;
-import zh.bookreader.model.TextDocument;
+import zh.bookreader.model.documents.Book;
+import zh.bookreader.model.documents.Chapter;
+import zh.bookreader.model.documents.Document;
+import zh.bookreader.model.documents.EnclosingDocument;
+import zh.bookreader.model.documents.TextDocument;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;

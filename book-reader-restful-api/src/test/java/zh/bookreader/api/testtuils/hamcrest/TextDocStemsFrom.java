@@ -4,7 +4,7 @@ import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import zh.bookreader.api.commands.TextDocumentCommand;
 import zh.bookreader.api.testtuils.ToStringHelper;
-import zh.bookreader.model.TextDocument;
+import zh.bookreader.model.documents.TextDocument;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
