@@ -5,7 +5,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import zh.bookreader.services.BookService;
 
 import javax.annotation.PreDestroy;
@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Paths;
 
-@Component
 @Slf4j
+@Service
 public class ChapterTitleIndexerServiceImpl implements ChapterTitleIndexerService {
     private static final String CHAPTER_TITLES_SECTION_HEADER = "#chapter_titles";
 

@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import zh.bookreader.model.documents.Book;
 import zh.bookreader.services.BookService;
 
@@ -22,7 +22,7 @@ import java.util.function.BiPredicate;
 import static java.util.stream.Collectors.joining;
 
 @Slf4j
-@Component("htmlBookService")
+@Service("htmlBookService")
 public class HtmlBookService implements BookService {
     private String libraryPath;
 

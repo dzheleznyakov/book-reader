@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import zh.bookreader.model.documents.Book;
 import zh.bookreader.model.documents.Chapter;
 import zh.bookreader.services.BookService;
@@ -19,8 +19,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
 
-@Component
 @Slf4j
+@Service
 public class HtmlChapterService implements ChapterService {
     private static final String INDEX_FILE_NAME = "_ch_titles.zhi";
     private static final String CHAPTER_TITLES_SECTION_HEADER = "#chapter_titles";
