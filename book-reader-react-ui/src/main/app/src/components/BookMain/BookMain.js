@@ -24,7 +24,8 @@ const BookMain = () => {
     const { title } = useSearch();
 
     useEffect(() => {
-        dispatch(actions.fetchBookMainPage(id))
+        dispatch(actions.fetchBookMainPage(id));
+        dispatch(actions.fetchBookReadingHistory(id));
     }, [id, dispatch]);
 
     useEffect(() => {

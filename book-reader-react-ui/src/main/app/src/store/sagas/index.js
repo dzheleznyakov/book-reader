@@ -15,4 +15,5 @@ export function* watchSearch() {
 
 export function* watchBooks() {
     yield takeLatest(actionTypes.FETCH_BOOK_MAIN_PAGE, booksSagas.fetchBookMainPageSaga);
+    yield takeLatest(actionTypes.FETCH_BOOK_READING_HISTORY, booksSagas.fetchBookReadingHistorySaga);
 }

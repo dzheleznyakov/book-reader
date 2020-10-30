@@ -14,3 +14,18 @@ export function* fetchBookMainPageSaga(action) {
         yield put(actions.fetchBookMainPageFailure(error));
     }
 }
+
+export function* fetchBookReadingHistorySaga(action) {
+    const { id } = action;
+
+    try {
+        const res = yield call(axios.get, `/books/${id}/lastChapter`);
+        yield put(actions.fetchBookReadingHistorySuccess(res.data));
+    } catch (error) {
+        console.error("Error while fetching history for book [%s]", id, error);
+        yield put(actions.fetchBookReadingHistorySuccess({
+            bookId: id,
+            lastChapterIndex: -1,
+        }))
+    }
+}

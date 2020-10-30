@@ -18,3 +18,13 @@ export const fetchBookMainPageFailure = error => ({
     type: actionTypes.FETCH_BOOK_MAIN_PAGE_FAILURE,
     error,
 });
+
+export const fetchBookReadingHistory = id => ({
+    type: actionTypes.FETCH_BOOK_READING_HISTORY,
+    id,
+});
+
+export const fetchBookReadingHistorySuccess = historyItem => ({
+    type: actionTypes.FETCH_BOOK_READING_HISTORY_SUCCESS,
+    historyItem,
+});
