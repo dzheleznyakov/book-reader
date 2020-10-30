@@ -142,6 +142,17 @@ class HtmlReadingHistoryServiceTest {
             assertThat(historyFile, exists());
             assertThat(historyFile, hasContent(LAST_CHAPTER_RUBRIC + "\n" + CHAPTER_INDEX));
         }
+
+        @Test
+        @DisplayName("Save last read chapte when the history file exists")
+        void saveLastReadChapter_FileExists() throws IOException {
+            writeHistory(LAST_CHAPTER_RUBRIC + "\n" + 1);
+            assertThat(historyFile, exists());
+
+            service.saveLastReadChapter(BOOK_ID, CHAPTER_INDEX);
+
+            assertThat(historyFile, hasContent(LAST_CHAPTER_RUBRIC + "\n" + CHAPTER_INDEX));
+        }
     }
 
     private void writeHistory(String content) throws IOException {
