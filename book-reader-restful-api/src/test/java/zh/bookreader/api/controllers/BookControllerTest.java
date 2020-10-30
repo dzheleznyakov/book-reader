@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -39,6 +40,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -262,7 +264,7 @@ class BookControllerTest {
 
     @Nested
     @DisplayName("Test getting book reading history item (GET /api/books/{id}/lastChapter)")
-    class TestLastBookChapter {
+    class TestGetLastBookChapter {
         private static final String BOOK_ID = "book-id";
         private static final int CHAPTER_INDEX = 42;
         private static final String URL_PATTERN = "/api/books/{id}/lastChapter";
@@ -303,6 +305,26 @@ class BookControllerTest {
         @Nonnull
         private ResultMatcher assertLastChapterIndexInResponse(int expectedChapterIndex) {
             return jsonPath("$.lastChapterIndex", is(equalTo(expectedChapterIndex)));
+        }
+    }
+
+    @Nested
+    @DisplayName("Test saving book reading history (PUT /api/books/{id}/lastChapter)")
+    class TestPutLastBookChapter {
+        private static final String BOOK_ID = "book-id";
+        private static final int CHAPTER_ID = 42;
+        private static final String URL_PATTERN = "/api/books/{id}/lastChapter";
+
+        @Test
+        @DisplayName("Saving last chapter index")
+        void testSavingLastChapterIndex() throws Exception {
+            mockMvc.perform(put(URL_PATTERN, BOOK_ID)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(String.valueOf(CHAPTER_ID))
+            )
+                    .andExpect(status().isOk());
+
+            verify(readingHistoryService, times(1)).saveLastReadChapter(BOOK_ID, CHAPTER_ID);
         }
     }
 }

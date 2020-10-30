@@ -3,6 +3,8 @@ package zh.bookreader.api.controllers;
 import com.google.common.collect.ImmutableList;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import zh.bookreader.api.commands.BookMainCommand;
@@ -81,5 +83,13 @@ public class BookController {
     public ReadingHistoryItemCommand getHistoryItem(@PathVariable("id") String bookId) {
         ReadingHistoryItem item = readingHistoryService.getLastReadChapter(bookId);
         return historyConverter.convert(item);
+    }
+
+    @PutMapping("/{id}/lastChapter")
+    public void saveLastIndexChapter(
+            @PathVariable("id") String bookId,
+            @RequestBody int lastChapterIndex
+    ) {
+        readingHistoryService.saveLastReadChapter(bookId, lastChapterIndex);
     }
 }
