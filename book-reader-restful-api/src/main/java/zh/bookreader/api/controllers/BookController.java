@@ -7,11 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import zh.bookreader.api.commands.BookMainCommand;
 import zh.bookreader.api.commands.BookOverviewCommand;
+import zh.bookreader.api.commands.ReadingHistoryItemCommand;
 import zh.bookreader.api.converters.BookToBookMainCommandConverter;
 import zh.bookreader.api.converters.BookToBookOverviewCommandConverter;
+import zh.bookreader.api.converters.ReadingHistoryItemToReadingHistoryItemCommand;
 import zh.bookreader.api.util.ApiController;
 import zh.bookreader.model.documents.Book;
+import zh.bookreader.model.history.ReadingHistoryItem;
 import zh.bookreader.services.BookService;
+import zh.bookreader.services.ReadingHistoryService;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -22,17 +26,23 @@ import static zh.bookreader.api.controllers.ControllersConstants.CONTENT_TYPE;
 @RequestMapping(path = "/api/books", produces = CONTENT_TYPE)
 public class BookController {
     private final BookService bookService;
+    private final ReadingHistoryService readingHistoryService;
     private final BookToBookOverviewCommandConverter bookOverviewConverter;
     private final BookToBookMainCommandConverter bookMainConverter;
+    private final ReadingHistoryItemToReadingHistoryItemCommand historyConverter;
 
     public BookController(
             BookService bookService,
+            ReadingHistoryService readingHistoryService,
             BookToBookOverviewCommandConverter bookOverviewConverter,
-            BookToBookMainCommandConverter bookMainConverter
+            BookToBookMainCommandConverter bookMainConverter,
+            ReadingHistoryItemToReadingHistoryItemCommand historyConverter
     ) {
         this.bookService = bookService;
+        this.readingHistoryService = readingHistoryService;
         this.bookOverviewConverter = bookOverviewConverter;
         this.bookMainConverter = bookMainConverter;
+        this.historyConverter = historyConverter;
     }
 
     @GetMapping
@@ -66,4 +76,10 @@ public class BookController {
                 .orElse(null);
         return bookMainConverter.convert(book);
     };
+
+    @GetMapping("/{id}/lastChapter")
+    public ReadingHistoryItemCommand getHistoryItem(@PathVariable("id") String bookId) {
+        ReadingHistoryItem item = readingHistoryService.getLastReadChapter(bookId);
+        return historyConverter.convert(item);
+    }
 }

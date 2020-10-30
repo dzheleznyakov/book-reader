@@ -18,9 +18,12 @@ import zh.bookreader.api.converters.BookToBookMainCommandConverter;
 import zh.bookreader.api.converters.BookToBookOverviewCommandConverter;
 import zh.bookreader.api.converters.EnclosingDocumentToEnclosingDocumentCommandConverter;
 import zh.bookreader.api.converters.ImageDocumentToImageDocumentCommandConverter;
+import zh.bookreader.api.converters.ReadingHistoryItemToReadingHistoryItemCommand;
 import zh.bookreader.api.converters.TextDocumentToTextDocumentCommandConverter;
 import zh.bookreader.model.documents.Book;
+import zh.bookreader.model.history.ReadingHistoryItem;
 import zh.bookreader.services.BookService;
+import zh.bookreader.services.ReadingHistoryService;
 
 import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
@@ -31,6 +34,7 @@ import java.util.stream.IntStream;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -47,6 +51,9 @@ class BookControllerTest {
 
     @Mock
     private BookService bookService;
+
+    @Mock
+    private ReadingHistoryService readingHistoryService;
 
     private BookController bookController;
 
@@ -81,8 +88,8 @@ class BookControllerTest {
                 textDocConverter, imageDocConverter);
         BookToBookMainCommandConverter bookMainConverter = new BookToBookMainCommandConverter(textDocConverter, enclosingDocConverter);
         bookController = new BookController(
-                bookService,
-                new BookToBookOverviewCommandConverter(), bookMainConverter);
+                bookService, readingHistoryService,
+                new BookToBookOverviewCommandConverter(), bookMainConverter, new ReadingHistoryItemToReadingHistoryItemCommand());
     }
 
     @Nested
@@ -254,9 +261,48 @@ class BookControllerTest {
     }
 
     @Nested
-    @DisplayName("Test getting book chapter page (GET /api/books/{id}/chapter{chapterId})")
-    class TestBookChapter {
+    @DisplayName("Test getting book reading history item (GET /api/books/{id}/lastChapter)")
+    class TestLastBookChapter {
         private static final String BOOK_ID = "book-id";
-        private static final String CHAPTER_ID = "chapter-id";
+        private static final int CHAPTER_INDEX = 42;
+        private static final String URL_PATTERN = "/api/books/{id}/lastChapter";
+
+        @Test
+        @DisplayName("Return ReadingHistoryItem.NULL when book not found")
+        void testBookNotFound() throws Exception {
+            given(readingHistoryService.getLastReadChapter(BOOK_ID)).willReturn(ReadingHistoryItem.NULL);
+
+            mockMvc.perform(get(URL_PATTERN, BOOK_ID))
+                    .andExpect(status().isOk())
+                    .andExpect(assertBookIdInResponse(""))
+                    .andExpect(assertLastChapterIndexInResponse(Integer.MIN_VALUE));
+
+            verify(readingHistoryService, times(1)).getLastReadChapter(BOOK_ID);
+        }
+
+        @Test
+        @DisplayName("Return the history item when the bookId is resolved")
+        void testBookFound() throws Exception {
+            given(readingHistoryService.getLastReadChapter(BOOK_ID))
+                    .willReturn(ReadingHistoryItem.builder()
+                            .bookId(BOOK_ID)
+                            .lastChapterIndex(CHAPTER_INDEX)
+                            .build());
+
+            mockMvc.perform(get(URL_PATTERN, BOOK_ID))
+                    .andExpect(status().isOk())
+                    .andExpect(assertBookIdInResponse(BOOK_ID))
+                    .andExpect(assertLastChapterIndexInResponse(42));
+        }
+
+        @Nonnull
+        private ResultMatcher assertBookIdInResponse(String expectedBookId) {
+            return jsonPath("$.bookId", is(equalTo(expectedBookId)));
+        }
+
+        @Nonnull
+        private ResultMatcher assertLastChapterIndexInResponse(int expectedChapterIndex) {
+            return jsonPath("$.lastChapterIndex", is(equalTo(expectedChapterIndex)));
+        }
     }
 }
