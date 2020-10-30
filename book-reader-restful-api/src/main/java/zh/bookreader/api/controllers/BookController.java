@@ -20,6 +20,7 @@ import zh.bookreader.services.BookService;
 import zh.bookreader.services.ReadingHistoryService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 import static zh.bookreader.api.controllers.ControllersConstants.CONTENT_TYPE;
@@ -88,8 +89,8 @@ public class BookController {
     @PutMapping("/{id}/lastChapter")
     public void saveLastIndexChapter(
             @PathVariable("id") String bookId,
-            @RequestBody int lastChapterIndex
+            @RequestBody Map<String, Integer> payload
     ) {
-        readingHistoryService.saveLastReadChapter(bookId, lastChapterIndex);
+        readingHistoryService.saveLastReadChapter(bookId, payload.get("data"));
     }
 }

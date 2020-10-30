@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchChapter } from './chaptersHelper';
 import DocViewer from '../UI/DocViewer/DocViewer';
 import Spinner from '../UI/Spinner/Spinner';
 import * as actions from '../../store/actions';
@@ -12,15 +11,15 @@ import { useHash } from '../../hooks/useHash';
 
 const Chapter = () => {
     const { id, chapterId } = useParams();
-    const [content, setContent] = useState(null);
+    const { content, index: chapterIndex } = useSelector(state => state.chapters);
+    const [loading, setLoading] = useState(true)
     const dispatch = useDispatch();
     const hash = useHash();
 
     useEffect(() => {
-        setContent(null);
+        setLoading(true);
         dispatch(actions.fetchChapterNavigation(id, chapterId));
-        fetchChapter(id, chapterId)
-            .then(c => setContent(c.content));
+        dispatch(actions.fetchChapterData(id, chapterId));
     }, [id, chapterId, dispatch]);
 
     useEffect(() => {
@@ -28,7 +27,17 @@ const Chapter = () => {
             window.scrollTo(0, 0);
     }, [hash, chapterId]);
 
-    const docViewer = content ? <DocViewer docs={[content]} /> : <Spinner />;
+    useEffect(() => {
+        if (chapterIndex)
+            dispatch(actions.saveBookReadingHistory(id, chapterIndex));
+    }, [chapterIndex, id, dispatch]);
+
+    useEffect(() => {
+        if (content)
+            setLoading(false);
+    }, [content]);
+
+    const docViewer = loading ? <Spinner /> : <DocViewer docs={[content]} />;
 
     return <div className={classes.Chapter}>{docViewer}</div>;
 };

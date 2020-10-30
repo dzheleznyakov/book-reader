@@ -15,10 +15,10 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class ChapterToChapterCommandConverter implements Converter<Chapter, ChapterCommand> {
+public class ChapterToChapterCommand implements Converter<Chapter, ChapterCommand> {
     private final EnclosingDocumentToEnclosingDocumentCommandConverter enclosingDocConverter;
 
-    public ChapterToChapterCommandConverter(EnclosingDocumentToEnclosingDocumentCommandConverter enclosingDocConverter) {
+    public ChapterToChapterCommand(EnclosingDocumentToEnclosingDocumentCommandConverter enclosingDocConverter) {
         this.enclosingDocConverter = enclosingDocConverter;
     }
 
@@ -28,6 +28,7 @@ public class ChapterToChapterCommandConverter implements Converter<Chapter, Chap
                 ? null
                 : ChapterCommand.builder()
                         .title(getTitle(chapter.getContent()))
+                        .index(chapter.getIndex())
                         .content(convert(chapter.getContent()))
                         .build();
     }

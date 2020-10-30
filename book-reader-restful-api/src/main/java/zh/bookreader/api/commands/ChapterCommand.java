@@ -13,5 +13,6 @@ import lombok.Setter;
 @Builder
 public class ChapterCommand {
     private String title;
+    private Integer index;
     private DocumentCommand content;
 }

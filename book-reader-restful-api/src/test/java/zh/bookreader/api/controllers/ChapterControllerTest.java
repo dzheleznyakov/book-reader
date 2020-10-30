@@ -13,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import zh.bookreader.api.converters.ChapterListToChapterNavigationConverter;
-import zh.bookreader.api.converters.ChapterToChapterCommandConverter;
+import zh.bookreader.api.converters.ChapterToChapterCommand;
 import zh.bookreader.api.converters.EnclosingDocumentToEnclosingDocumentCommandConverter;
 import zh.bookreader.api.converters.ImageDocumentToImageDocumentCommandConverter;
 import zh.bookreader.api.converters.TextDocumentToTextDocumentCommandConverter;
@@ -68,7 +68,7 @@ class ChapterControllerTest {
         ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
         EnclosingDocumentToEnclosingDocumentCommandConverter enclosingDocConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(
                 textDocConverter, imageDocConverter);
-        ChapterToChapterCommandConverter chapterConverter = new ChapterToChapterCommandConverter(enclosingDocConverter);
+        ChapterToChapterCommand chapterConverter = new ChapterToChapterCommand(enclosingDocConverter);
         ChapterListToChapterNavigationConverter navigationConverter = new ChapterListToChapterNavigationConverter();
         chapterController = new ChapterController(chapterConverter, bookService, navigationConverter);
     }

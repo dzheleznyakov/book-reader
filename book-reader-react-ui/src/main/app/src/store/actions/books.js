@@ -28,3 +28,9 @@ export const fetchBookReadingHistorySuccess = historyItem => ({
     type: actionTypes.FETCH_BOOK_READING_HISTORY_SUCCESS,
     historyItem,
 });
+
+export const saveBookReadingHistory = (id, chapterId) => ({
+    type: actionTypes.SAVE_BOOK_READING_HISTORY,
+    id,
+    chapterId,
+});

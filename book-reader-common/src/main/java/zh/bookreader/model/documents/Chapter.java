@@ -15,6 +15,7 @@ import java.util.List;
 @Builder
 public class Chapter {
     private String id;
+    private int index;
     private Document<List<Document<?>>> content;
 
     public String getFirstTitle() {

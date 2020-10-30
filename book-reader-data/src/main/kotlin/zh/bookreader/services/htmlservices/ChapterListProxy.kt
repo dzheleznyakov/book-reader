@@ -9,7 +9,7 @@ class ChapterListProxy(private val bookDir: File, private val toc: List<String>)
 
     override fun contains(element: Chapter) = toc.contains("${element.id}.html")
     override fun containsAll(elements: Collection<Chapter>) = elements.map { "${it.id}.html" }.run { toc.containsAll(this) }
-    override fun get(index: Int) = ChapterProxy(bookDir, toc[index])
+    override fun get(index: Int) = ChapterProxy(bookDir, toc[index], index)
     override fun indexOf(element: Chapter) = toc.indexOf("${element.id}.html")
     override fun lastIndexOf(element: Chapter) = toc.lastIndexOf("${element.id}.html")
     override fun isEmpty() = size == 0
@@ -34,9 +34,9 @@ class ChapterListProxy(private val bookDir: File, private val toc: List<String>)
 
         override fun hasNext() = tocListIterator.hasNext()
         override fun hasPrevious() = tocListIterator.hasPrevious()
-        override fun next() = ChapterProxy(bookDir, tocListIterator.next())
+        override fun next() = ChapterProxy(bookDir, tocListIterator.next(), tocListIterator.previousIndex())
         override fun nextIndex() = tocListIterator.nextIndex()
-        override fun previous() = ChapterProxy(bookDir, tocListIterator.previous())
+        override fun previous() = ChapterProxy(bookDir, tocListIterator.previous(), tocListIterator.previousIndex())
         override fun previousIndex() = tocListIterator.previousIndex()
 
     }

@@ -15,11 +15,14 @@ import static org.hamcrest.Matchers.nullValue;
 import static zh.bookreader.api.ApiTestUtils.SEC_3;
 import static zh.bookreader.api.testtuils.hamcrest.DocumentMatchers.stemsFrom;
 
-class ChapterToChapterCommandConverterTest {
-    private ChapterToChapterCommandConverter converter;
+class ChapterToChapterCommandTest {
+    private static final int CHAPTER_INDEX = 42;
+
+    private ChapterToChapterCommand converter;
 
     private Chapter chapter = Chapter.builder()
             .id("mock-id")
+            .index(CHAPTER_INDEX)
             .content(SEC_3)
             .build();
 
@@ -29,7 +32,7 @@ class ChapterToChapterCommandConverterTest {
         ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
         EnclosingDocumentToEnclosingDocumentCommandConverter enclosingDocConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(
                 textDocConverter, imageDocConverter);
-        converter = new ChapterToChapterCommandConverter(enclosingDocConverter);
+        converter = new ChapterToChapterCommand(enclosingDocConverter);
     }
 
     @Test
@@ -46,8 +49,9 @@ class ChapterToChapterCommandConverterTest {
         ChapterCommand command = converter.convert(chapter);
 
         assertThat(command, is(notNullValue()));
-        assertThat(command.getContent(), is(instanceOf(EnclosingDocumentCommand.class)));
+        assertThat(command.getIndex(), is(CHAPTER_INDEX));
 
+        assertThat(command.getContent(), is(instanceOf(EnclosingDocumentCommand.class)));
         EnclosingDocumentCommand content = (EnclosingDocumentCommand) command.getContent();
         assertThat(content, stemsFrom(SEC_3));
         assertThat(command.getTitle(), is("Mock Header 1"));

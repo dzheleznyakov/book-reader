@@ -13,6 +13,7 @@ internal class ChapterProxyTest {
     companion object {
         private const val CHAPTER_FILE_NAME = "ch01.html"
         private const val CHAPTER_ID = "ch01"
+        private const val CHAPTER_INDEX = 42
         @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "JAVA_CLASS_ON_COMPANION")
         private val BOOK_DIR = this.javaClass.classLoader
                 .getResource("library/book-one")
@@ -21,12 +22,18 @@ internal class ChapterProxyTest {
         private val CHAPTER_CONTENT = getChapter01Content()
     }
 
-    private val chapter: Chapter = ChapterProxy(BOOK_DIR, CHAPTER_FILE_NAME);
+    private val chapter: Chapter = ChapterProxy(BOOK_DIR, CHAPTER_FILE_NAME, CHAPTER_INDEX);
 
     @Test
     @DisplayName("Test ChapterProxy returns its id")
     internal fun testGetId() {
         assertThat(chapter.id, `is`(equalTo(CHAPTER_ID)))
+    }
+
+    @Test
+    @DisplayName("Test ChapterProxy returns its index")
+    internal fun testGetIndex() {
+        assertThat(chapter.index, `is`(CHAPTER_INDEX))
     }
 
     @Test

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import zh.bookreader.api.commands.ChapterCommand;
 import zh.bookreader.api.commands.ChapterNavigationCommand;
 import zh.bookreader.api.converters.ChapterListToChapterNavigationConverter;
-import zh.bookreader.api.converters.ChapterToChapterCommandConverter;
+import zh.bookreader.api.converters.ChapterToChapterCommand;
 import zh.bookreader.api.util.ApiController;
 import zh.bookreader.model.documents.Book;
 import zh.bookreader.model.documents.Chapter;
@@ -20,12 +20,12 @@ import static zh.bookreader.api.controllers.ControllersConstants.CONTENT_TYPE;
 @ApiController
 @RequestMapping(path = "/api/books/{id}/chapters", produces = CONTENT_TYPE)
 public class ChapterController {
-    private final ChapterToChapterCommandConverter chapterConverter;
+    private final ChapterToChapterCommand chapterConverter;
     private final BookService bookService;
     private final ChapterListToChapterNavigationConverter navigationConverter;
 
     public ChapterController(
-            ChapterToChapterCommandConverter chapterConverter,
+            ChapterToChapterCommand chapterConverter,
             BookService bookService,
             ChapterListToChapterNavigationConverter navigationConverter
     ) {

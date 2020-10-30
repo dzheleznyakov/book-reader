@@ -5,9 +5,14 @@ import zh.bookreader.model.documents.DocumentType
 import zh.bookreader.model.documents.EnclosingDocument
 import java.io.File
 
-class ChapterProxy(private val bookDir: File, private val filename: String) : Chapter() {
+class ChapterProxy(
+        private val bookDir: File,
+        private val filename: String,
+        index: Int
+) : Chapter() {
     init {
         this.id = filename.replace(".html", "")
+        this.index = index
     }
 
     override fun getContent() = "$bookDir/$filename"
