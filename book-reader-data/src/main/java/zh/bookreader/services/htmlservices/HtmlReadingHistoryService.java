@@ -1,6 +1,7 @@
 package zh.bookreader.services.htmlservices;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.io.Files;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import zh.bookreader.model.history.ReadingHistoryItem;
@@ -10,6 +11,7 @@ import zh.bookreader.utils.CompositeSupplier;
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -27,6 +29,16 @@ public class HtmlReadingHistoryService implements ReadingHistoryService {
         if (userHome == null)
             userHome = "";
         this.libraryPath = Paths.get(userHome, libraryPath);
+    }
+
+    @Override
+    public void saveLastReadChapter(String bookId, int chapterIndex) {
+        try {
+            String content = LAST_CHAPTER_RUBRIC + "\n" + chapterIndex;
+            Files.write(content.getBytes(), getHistoryFile(bookId));
+        } catch (IOException e) {
+            throw new FailedToWriteToHistoryFile(getHistoryFile(bookId), e);
+        }
     }
 
     @Nonnull
@@ -100,6 +112,12 @@ public class HtmlReadingHistoryService implements ReadingHistoryService {
     public static class FailedToOpenHistoryFile extends RuntimeException {
         public FailedToOpenHistoryFile(File file, Throwable cause) {
             super(String.format("Failed to open history file [%s]", file.getAbsolutePath()), cause);
+        }
+    }
+
+    public static class FailedToWriteToHistoryFile extends RuntimeException {
+        public FailedToWriteToHistoryFile(File file, Throwable cause) {
+            super(String.format("Failed to write to history file [%s]", file.getAbsolutePath()), cause);
         }
     }
 }

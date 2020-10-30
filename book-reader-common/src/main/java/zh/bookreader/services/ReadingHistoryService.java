@@ -7,4 +7,6 @@ import javax.annotation.Nonnull;
 public interface ReadingHistoryService {
     @Nonnull
     ReadingHistoryItem getLastReadChapter(String bookId);
+
+    void saveLastReadChapter(String bookId, int chapterIndex);
 }

@@ -21,13 +21,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static zh.bookreader.services.htmlservices.HtmlReadingHistoryService.LAST_CHAPTER_RUBRIC;
 import static zh.bookreader.services.htmlservices.TestBookConstants.BOOK_TEST_LIBRARY_PATH;
 import static zh.bookreader.testutils.hamcrest.ZhMatchers.exists;
+import static zh.bookreader.testutils.hamcrest.ZhMatchers.hasContent;
 
 @DisplayName("Test HtmlReadingHistoryService")
 class HtmlReadingHistoryServiceTest {
     private static final String BOOK_ID = "book-one";
+    private static final int CHAPTER_INDEX = 42;
 
     private HtmlReadingHistoryService service;
-    private File notStartedBookHistoryFile;
+    private File historyFile;
 
     @BeforeEach
     void setUpService() {
@@ -37,15 +39,15 @@ class HtmlReadingHistoryServiceTest {
 
     @BeforeEach
     void setUpHistoryFile() {
-        notStartedBookHistoryFile = Paths
+        historyFile = Paths
                 .get(BOOK_TEST_LIBRARY_PATH, BOOK_ID, HtmlReadingHistoryService.HISTORY_FILE_NAME)
                 .toFile();
     }
 
     @AfterEach
     void deleteHistoryFile() {
-        if (notStartedBookHistoryFile.exists())
-            notStartedBookHistoryFile.delete();
+        if (historyFile.exists())
+            historyFile.delete();
     }
 
     @Nested
@@ -74,7 +76,7 @@ class HtmlReadingHistoryServiceTest {
         @Test
         @DisplayName("Book has not been started yet: history file does not exist")
         void bookNotStarted_NoHistoryFile() {
-            assertThat(notStartedBookHistoryFile, not(exists()));
+            assertThat(historyFile, not(exists()));
 
             assertSearchResult(-1);
         }
@@ -127,8 +129,23 @@ class HtmlReadingHistoryServiceTest {
         }
     }
 
+    @Nested
+    @DisplayName("Test saveLastReadChapter(bookId, chapterId)")
+    class TestSaveLastReadChapter {
+        @Test
+        @DisplayName("Save last read chapter when the history file does not exist")
+        void saveLastReadChapter_FileDoesNotExist() {
+            assertThat(historyFile, not(exists()));
+
+            service.saveLastReadChapter(BOOK_ID, CHAPTER_INDEX);
+
+            assertThat(historyFile, exists());
+            assertThat(historyFile, hasContent(LAST_CHAPTER_RUBRIC + "\n" + CHAPTER_INDEX));
+        }
+    }
+
     private void writeHistory(String content) throws IOException {
-        Files.write(content.getBytes(), notStartedBookHistoryFile);
-        assertThat(notStartedBookHistoryFile, exists());
+        Files.write(content.getBytes(), historyFile);
+        assertThat(historyFile, exists());
     }
 }
