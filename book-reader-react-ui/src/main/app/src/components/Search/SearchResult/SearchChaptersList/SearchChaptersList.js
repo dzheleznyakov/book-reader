@@ -46,7 +46,7 @@ const SearchChaptersList = props => {
 };
 
 SearchChaptersList.propTypes = {
-    chapterIds: PropTypes.arrayOf(PropTypes.string),
+    chapterIds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
     bookId: PropTypes.string,
 };
 

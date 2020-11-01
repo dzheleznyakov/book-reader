@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,11 +18,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import zh.bookreader.api.ApiTestUtils;
 import zh.bookreader.api.converters.BookToBookMainCommandConverter;
 import zh.bookreader.api.converters.BookToBookOverviewCommandConverter;
+import zh.bookreader.api.converters.BookToTocCommand;
 import zh.bookreader.api.converters.EnclosingDocumentToEnclosingDocumentCommandConverter;
 import zh.bookreader.api.converters.ImageDocumentToImageDocumentCommandConverter;
 import zh.bookreader.api.converters.ReadingHistoryItemToReadingHistoryItemCommand;
 import zh.bookreader.api.converters.TextDocumentToTextDocumentCommandConverter;
 import zh.bookreader.model.documents.Book;
+import zh.bookreader.model.documents.Chapter;
 import zh.bookreader.model.history.ReadingHistoryItem;
 import zh.bookreader.services.BookService;
 import zh.bookreader.services.ReadingHistoryService;
@@ -35,6 +38,7 @@ import java.util.stream.IntStream;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -91,7 +95,7 @@ class BookControllerTest {
         BookToBookMainCommandConverter bookMainConverter = new BookToBookMainCommandConverter(textDocConverter, enclosingDocConverter);
         bookController = new BookController(
                 bookService, readingHistoryService,
-                new BookToBookOverviewCommandConverter(), bookMainConverter, new ReadingHistoryItemToReadingHistoryItemCommand());
+                new BookToBookOverviewCommandConverter(), bookMainConverter, new BookToTocCommand(), new ReadingHistoryItemToReadingHistoryItemCommand());
     }
 
     @Nested
@@ -295,6 +299,8 @@ class BookControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(assertBookIdInResponse(BOOK_ID))
                     .andExpect(assertLastChapterIndexInResponse(42));
+
+            verify(readingHistoryService, times(1)).getLastReadChapter(BOOK_ID); 
         }
 
         @Nonnull
@@ -320,11 +326,86 @@ class BookControllerTest {
         void testSavingLastChapterIndex() throws Exception {
             mockMvc.perform(put(URL_PATTERN, BOOK_ID)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(String.valueOf(CHAPTER_ID))
+                    .content(String.format("{\"data\":\"%d\"}", CHAPTER_ID))
             )
                     .andExpect(status().isOk());
 
             verify(readingHistoryService, times(1)).saveLastReadChapter(BOOK_ID, CHAPTER_ID);
+        }
+    }
+    
+    @Nested
+    @DisplayName("Test getting table of content (GET /api/books/{id}/toc)")
+    class TestGetToc {
+        private static final String BOOK_ID = "mock-id";
+        private static final String URL_PATTERN = "/api/books/{id}/toc";
+        private static final String CHAPTER_1_ID = "ch-1";
+        private static final String CHAPTER_2_ID = "ch-2";
+        private static final String CHAPTER_1_TITLE = "Chapter One";
+        private static final String CHAPTER_2_TITLE = "Chapter Two";
+
+        private final Chapter ch1 = new TestChapter(CHAPTER_1_ID, CHAPTER_1_TITLE);
+        private final Chapter ch2 = new TestChapter(CHAPTER_2_ID, CHAPTER_2_TITLE);
+
+        private Book book;
+
+        @BeforeEach
+        void setUpBook() {
+            MockitoAnnotations.initMocks(this);
+
+            book = new Book();
+            book.setId(BOOK_ID);
+            book.setChapters(ImmutableList.of(ch1, ch2));
+        }
+
+        @Test
+        @DisplayName("Test getting ToC when book not found")
+        void testGetToc_BookNotFound() throws Exception {
+            given(bookService.findById(BOOK_ID)).willReturn(Optional.empty());
+
+            mockMvc.perform(get(URL_PATTERN, BOOK_ID))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.bookId", is(BOOK_ID)))
+                    .andExpect(jsonPath("$.toc", is(nullValue())));
+
+            verify(bookService, times(1)).findById(BOOK_ID);
+        }
+
+        @Test
+        @DisplayName("Test getting ToC")
+        void testGetToc() throws Exception {
+            given(bookService.findById(BOOK_ID)).willReturn(Optional.of(book));
+
+            mockMvc.perform(get(URL_PATTERN, BOOK_ID))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.bookId", is(BOOK_ID)))
+                    .andExpect(jsonPath("$.toc", hasSize(2)))
+                    .andExpect(jsonPath("$.toc[0][0]", is(CHAPTER_1_ID)))
+                    .andExpect(jsonPath("$.toc[0][1]", is(CHAPTER_1_TITLE)))
+                    .andExpect(jsonPath("$.toc[1][0]", is(CHAPTER_2_ID)))
+                    .andExpect(jsonPath("$.toc[1][1]", is(CHAPTER_2_TITLE)));
+
+            verify(bookService, times(1)).findById(BOOK_ID);
+        }
+    }
+
+    private static class TestChapter extends Chapter {
+        private final String id;
+        private final String firstTitle;
+
+        private TestChapter(String id, String firstTitle) {
+            this.id = id;
+            this.firstTitle = firstTitle;
+        }
+
+        @Override
+        public String getId() {
+            return id;
+        }
+
+        @Override
+        public String getFirstTitle() {
+            return firstTitle;
         }
     }
 }

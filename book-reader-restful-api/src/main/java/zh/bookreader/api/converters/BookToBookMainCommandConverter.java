@@ -33,7 +33,7 @@ public class BookToBookMainCommandConverter implements Converter<Book, BookMainC
         if (book == null)
             return null;
 
-        BookMainCommand command = BookMainCommand.builder()
+        return BookMainCommand.builder()
                 .id(book.getId())
                 .title(book.getTitle())
                 .releaseDate(book.getReleaseDate())
@@ -44,7 +44,6 @@ public class BookToBookMainCommandConverter implements Converter<Book, BookMainC
                 .image(book.getImage())
                 .toc(getToc(book))
                 .build();
-        return command;
     }
 
     private List<? extends DocumentCommand> getDocumentCommands(Book book) {

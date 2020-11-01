@@ -35,7 +35,7 @@ SearchResult.propTypes = {
         title: PropTypes.string,
         authors: PropTypes.arrayOf(PropTypes.string),
         bookId: PropTypes.string,
-        chapterIds: PropTypes.arrayOf(PropTypes.string),
+        chapterIds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
         image: PropTypes.arrayOf(PropTypes.number),
         topics: PropTypes.arrayOf(PropTypes.string),
     })),

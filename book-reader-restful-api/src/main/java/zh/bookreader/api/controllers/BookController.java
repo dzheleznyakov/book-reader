@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import zh.bookreader.api.commands.BookMainCommand;
 import zh.bookreader.api.commands.BookOverviewCommand;
 import zh.bookreader.api.commands.ReadingHistoryItemCommand;
+import zh.bookreader.api.commands.TocCommand;
 import zh.bookreader.api.converters.BookToBookMainCommandConverter;
 import zh.bookreader.api.converters.BookToBookOverviewCommandConverter;
+import zh.bookreader.api.converters.BookToTocCommand;
 import zh.bookreader.api.converters.ReadingHistoryItemToReadingHistoryItemCommand;
 import zh.bookreader.api.util.ApiController;
 import zh.bookreader.model.documents.Book;
@@ -32,6 +34,7 @@ public class BookController {
     private final ReadingHistoryService readingHistoryService;
     private final BookToBookOverviewCommandConverter bookOverviewConverter;
     private final BookToBookMainCommandConverter bookMainConverter;
+    private final BookToTocCommand tocConverter;
     private final ReadingHistoryItemToReadingHistoryItemCommand historyConverter;
 
     public BookController(
@@ -39,12 +42,14 @@ public class BookController {
             ReadingHistoryService readingHistoryService,
             BookToBookOverviewCommandConverter bookOverviewConverter,
             BookToBookMainCommandConverter bookMainConverter,
+            BookToTocCommand tocConverter,
             ReadingHistoryItemToReadingHistoryItemCommand historyConverter
     ) {
         this.bookService = bookService;
         this.readingHistoryService = readingHistoryService;
         this.bookOverviewConverter = bookOverviewConverter;
         this.bookMainConverter = bookMainConverter;
+        this.tocConverter = tocConverter;
         this.historyConverter = historyConverter;
     }
 
@@ -92,5 +97,14 @@ public class BookController {
             @RequestBody Map<String, Integer> payload
     ) {
         readingHistoryService.saveLastReadChapter(bookId, payload.get("data"));
+    }
+
+    @GetMapping("/{id}/toc")
+    public TocCommand getToc(@PathVariable("id") String bookId) {
+        return bookService.findById(bookId)
+                .map(tocConverter::convert)
+                .orElse(TocCommand.builder()
+                        .bookId(bookId)
+                        .build());
     }
 }
