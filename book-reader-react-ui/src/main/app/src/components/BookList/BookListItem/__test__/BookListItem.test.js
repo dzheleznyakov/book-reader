@@ -25,7 +25,7 @@ describe("<BookListItem />", () => {
     });
 
     beforeEach(() => {
-        history = createMemoryHistory({ initialEntries: ['/books'] })
+        history = createMemoryHistory({ initialEntries: ['/books'] });
         wrapper = mount(<Router history={history}><BookListItem {...props} /></Router>);
     });
 
