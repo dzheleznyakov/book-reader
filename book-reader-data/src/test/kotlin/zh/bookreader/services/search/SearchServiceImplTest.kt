@@ -37,6 +37,7 @@ internal class SearchServiceImplTest {
     }
 
     private fun loadIndex(content: String) = service.loadIndex(content.byteInputStream())
+            .also { service.setReady(true) }
 
     @Nested
     @DisplayName("Test loadIndex()")
@@ -93,6 +94,18 @@ internal class SearchServiceImplTest {
         private val indexStringPrefix = "#map" +
                 "\n0:$BOOK_0_ID,1:$BOOK_1_ID" +
                 "\n#index"
+
+        @Test
+        @DisplayName("It should return an empty list if the index has not been parsed yet")
+        internal fun shouldReturnEmptyListIfIndexedNotParsedYet() {
+            loadIndex(indexStringPrefix +
+                    "\nword=>0:1[-1:1]1:1[-1:1]")
+            service.setReady(false)
+
+            val result = service.find(listOf("word"))
+
+            assertThat(result, `is`(empty()))
+        }
 
         @Test
         @DisplayName("Test null query")

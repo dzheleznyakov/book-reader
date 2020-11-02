@@ -44,14 +44,13 @@ public class SearchController {
     }
 
     private List<SearchHitCommand> getResults(int offset, int limit, List<SearchHit> searchHits) {
-        List<SearchHitCommand> results = searchHits
+        return searchHits
                 .stream()
                 .skip(offset)
                 .limit(limit)
                 .map(searchHitConverter::convert)
                 .filter(Objects::nonNull)
                 .collect(ImmutableList.toImmutableList());
-        return results;
     }
 
     private String preProcess(String query) {

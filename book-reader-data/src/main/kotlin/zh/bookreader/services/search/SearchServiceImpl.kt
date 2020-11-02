@@ -13,6 +13,7 @@ import zh.bookreader.services.search.index.IndexEntry
 import java.io.InputStream
 import java.nio.file.Paths
 import java.util.Scanner
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.regex.Pattern
 
 @Component
@@ -25,6 +26,7 @@ class SearchServiceImpl(
     private val parsedIndex: MutableMap<String, IndexEntry> = mutableMapOf()
     private val bookEntryPattern = Pattern.compile("(\\d+):(\\d+)\\[(.*)]?")
     private val indexFilePath = Paths.get(USER_HOME_PATH, SEARCH_INDEX_REL_PATH, INDEX_FILE_NAME)
+    private val ready = AtomicBoolean(false)
 
     init {
         Thread { if (searchIsOn) loadIndex() }.apply { name = "index-load" }.start()
@@ -40,12 +42,17 @@ class SearchServiceImpl(
         else {
             loadIndex(indexFile.inputStream())
             log.info("Index loading completed")
+            setReady(true)
         }
     }
 
     @VisibleForTesting
+    internal fun setReady(value: Boolean) = ready.set(value)
+
+    @VisibleForTesting
     internal val idMap: Map<Int, String>
         get() = parsedIdMap.toMap()
+
     @VisibleForTesting
     internal val index: Map<String, IndexEntry>
         get() = parsedIndex.toMap()
@@ -99,7 +106,7 @@ class SearchServiceImpl(
     }
 
     override fun find(query: List<String>?): List<SearchHit> {
-        if (query == null || query.isEmpty())
+        if (query == null || query.isEmpty() || !ready.get())
             return emptyList()
 
         val wordsSet = query
@@ -127,13 +134,13 @@ class SearchServiceImpl(
             .map { (_, bookEntry) -> bookEntry }
             .map(BookEntry::getScore)
             .max()
-
     private fun Sequence<Pair<String, Map<Int, BookEntry>>>.toBookEntriesByWords() = flatMap { (word, bookEntriesByIds) ->
         bookEntriesByIds
                 .toPairs()
                 .map { pair -> word to pair }
                 .asSequence()
     }
+
     private fun toChapterNums(wordsSet: Set<String>, entry: List<Pair<String, Pair<Int, BookEntry>>>) =
             entry.map { (word, bookEntriesByIds) -> word to bookEntriesByIds.second }
                 .asSequence()
