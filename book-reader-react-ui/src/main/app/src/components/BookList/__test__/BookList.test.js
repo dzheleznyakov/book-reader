@@ -32,7 +32,7 @@ describe("<BookList />", () => {
     });
 
     beforeEach(() => {
-        history = createMemoryHistory({ initialEntries: ['/books'] })
+        history = createMemoryHistory({ initialEntries: ['/books'] });
         axiosGetStub = sandbox.stub(axios, 'get');
         
         booksResponse = [];
