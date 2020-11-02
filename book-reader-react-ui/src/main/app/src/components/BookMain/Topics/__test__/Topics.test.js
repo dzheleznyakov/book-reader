@@ -29,7 +29,7 @@ describe("<Topics />", () => {
     test("test 'topics' are empty", () => {
         renderComponent([]);
 
-        expect(component.text()).to.be.equal('')
+        expect(component.text()).to.be.equal('');
     });
 
     test("test with one topic", () => {
