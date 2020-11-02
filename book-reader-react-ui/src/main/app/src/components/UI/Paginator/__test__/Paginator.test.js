@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import { act } from '@testing-library/react';
 
 import Paginator from '../Paginator';
-import axios from '../../../../axios-api';
+import { PAGE_SIZE } from '../../../BookList/bookListUtils';
 
 describe("<Paginator />", () => {
     let wrapper;
@@ -14,21 +14,12 @@ describe("<Paginator />", () => {
     let nextButton;
     let history;
 
-    const sandbox = sinon.createSandbox();
-    let axiosGetStub;
-
-    beforeEach(() => {
-        axiosGetStub = sandbox.stub(axios, 'get');
-    });
-
     afterEach(() => {
-        sandbox.restore();
         history = null;
     });
 
     
     const renderComponent = async (page, totalCount = 1000) => {
-        axiosGetStub.resolves({ data: totalCount });
         if (page) {
             history = createMemoryHistory({ initialEntries: [`/test/path?page=${page}`] });
         } else {
@@ -37,7 +28,11 @@ describe("<Paginator />", () => {
 
         await act(
             async () => {
-                wrapper = mount(<Router history={history}><Paginator /></Router>);
+                wrapper = mount(
+                    <Router history={history}>
+                        <Paginator totalCount={totalCount} pageSize={PAGE_SIZE} />
+                    </Router>
+                );
                 paginator = wrapper.find(Paginator)
                 prevButton = paginator.find('button').at(0);
                 nextButton = paginator.find('button').at(1);
@@ -76,12 +71,12 @@ describe("<Paginator />", () => {
         assertRenderedTextMatches(/Prev42 \/ \d+Next/);
     });
 
-    test("calculated number ob pages if the total number is a divisor of 10", async () => {
+    test("calculated number of pages if the total number is a divisor of 10", async () => {
         await renderComponent(null, 1000);
         assertRenderedTextMatches(/Prev\d+ \/ 100Next/);
     });
 
-    test("calculated number ob pages if the total number is not a divisor of 10", async () => {
+    test("calculated number of pages if the total number is not a divisor of 10", async () => {
         await renderComponent(null, 1001);
         assertRenderedTextMatches(/Prev\d+ \/ 101Next/);
     });
