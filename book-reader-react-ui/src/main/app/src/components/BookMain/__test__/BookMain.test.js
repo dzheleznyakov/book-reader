@@ -7,7 +7,6 @@ import { createMemoryHistory } from 'history';
 import { act } from '@testing-library/react';
 
 import BookMain from '../BookMain';
-import axios from '../../../axios-api';
 import reducer from '../../../store/reducers';
 import { fetchBookMainPageSuccess } from '../../../store/actions/books';
 
