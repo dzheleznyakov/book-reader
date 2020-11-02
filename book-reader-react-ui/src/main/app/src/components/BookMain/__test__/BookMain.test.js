@@ -1,11 +1,15 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { mount } from 'enzyme';
 import { createMemoryHistory } from 'history';
 import { act } from '@testing-library/react';
 
 import BookMain from '../BookMain';
 import axios from '../../../axios-api';
+import reducer from '../../../store/reducers';
+import { fetchBookMainPageSuccess } from '../../../store/actions/books';
 
 import bookResponse from './bookResponse.json';
 
@@ -17,8 +21,15 @@ describe("<BookMain />", () => {
         'Paragraph 3 of the description text.',
     ];
 
+    let reduxStore;
+    const defaultBookState = { 
+        loading: false, 
+        bookInfo: bookResponse,
+        historyItem: { bookId, lastChapterIndex: -1 },
+    };
+
     let realCreateObjectURL;
-    let mockCreateObjectURL
+    let mockCreateObjectURL;
 
     beforeAll(() => {
         realCreateObjectURL = global.URL.createObjectURL;
@@ -26,6 +37,7 @@ describe("<BookMain />", () => {
 
     afterAll(() => {
         global.URL.createObjectURL = realCreateObjectURL;
+        reduxStore = null;
     });
 
     const sandbox = sinon.createSandbox();
@@ -40,8 +52,6 @@ describe("<BookMain />", () => {
                 .returns('https://mock-url.net')
         global.URL.createObjectURL = mockCreateObjectURL;
 
-        axiosGetStub = sandbox.stub(axios, 'get')
-            .resolves({ data: bookResponse });
         history = createMemoryHistory({ initialEntries: [`/books/${bookId}`] });
     });
 
@@ -49,10 +59,18 @@ describe("<BookMain />", () => {
         sandbox.restore();
     });
 
-    const renderComponent = async () => {
+    const renderComponent = async (books) => {
+        const initialState = { books: { ...defaultBookState, ...books } };
+        reduxStore = createStore(reducer, initialState);
         await act(
             async () => {
-                wrapper = mount(<Router history={history}><BookMain /></Router>);
+                wrapper = mount(
+                    <Provider store={reduxStore}>
+                        <Router history={history}>
+                            <BookMain />
+                        </Router>
+                    </Provider>
+                );
             }
         );
     };
@@ -65,7 +83,7 @@ describe("<BookMain />", () => {
         expect(bookMainText).to.contain(bookResponse.title);
         expect(bookMainText).to.contain(bookResponse.releaseDate);
         bookResponse.authors.forEach(author => expect(bookMainText).to.contain(author));
-        bookResponse.topics.forEach(topic => expect(bookMainText).to.contain(topic.toUpperCase()));
+        bookResponse.topics.forEach(topic => expect(bookMainText).to.contain(topic));
         Object.keys(bookResponse.resources)
             .forEach(resource => {
                 expect(bookMainText).to.contain(resource);
@@ -75,11 +93,7 @@ describe("<BookMain />", () => {
     });
 
     test("the page shows spinner until the book is loaded", async () => {
-        let resolves;
-        axiosGetStub.returns(new Promise(r => {
-            resolves = r;
-        }));
-        await renderComponent();
+        await renderComponent({ loading: true, bookInfo: null });
 
         const bookMain = wrapper.find(BookMain);
         let renderedBookMain = bookMain.render();
@@ -89,9 +103,7 @@ describe("<BookMain />", () => {
         expect(bookInfo).to.have.length(0);
         expect(spinner).to.have.length(1);
 
-        await act(async () => {
-            resolves({ data: bookResponse });
-        });
+        reduxStore.dispatch(fetchBookMainPageSuccess(bookResponse));
 
         renderedBookMain = bookMain.render();
 
