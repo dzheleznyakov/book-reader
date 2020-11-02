@@ -41,7 +41,7 @@ const Chapter = () => {
 
     useEffect(() => {
         return () => dispatch(actions.releaseChapterData());
-    }, []);
+    }, [dispatch]);
 
     const docViewer = loading ? <Spinner /> : <DocViewer docs={[content]} />;
 
