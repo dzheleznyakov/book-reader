@@ -1,17 +1,22 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { createMemoryHistory } from 'history';
 import { mount } from 'enzyme';
 import { act } from '@testing-library/react';
 
 import BookList from '../BookList';
 import axios from '../../../axios-api';
+import reducer from '../../../store/reducers';
 import { expect } from 'chai';
 
 describe("<BookList />", () => {
     let history;
     let wrapper;
     let bookList;
+
+    let defaultStore = {};
 
     let realCreateObjectURL;    
 
@@ -27,7 +32,7 @@ describe("<BookList />", () => {
     });
 
     beforeEach(() => {
-        history = createMemoryHistory({ initialEntries: ['/books'] })
+        history = createMemoryHistory({ initialEntries: ['/books'] });
         axiosGetStub = sandbox.stub(axios, 'get');
         
         booksResponse = [];
@@ -51,9 +56,16 @@ describe("<BookList />", () => {
     });
 
     const renderComponent = async () => {
+        const initialState = {};
         await act(
             async () => {
-                wrapper = mount(<Router history={history}><BookList /></Router>);
+                wrapper = mount(
+                    <Provider store={createStore(reducer, initialState)}>
+                        <Router history={history}>
+                            <BookList />
+                        </Router>
+                    </Provider>
+                );
                 bookList = wrapper.find(BookList);
             }
         );

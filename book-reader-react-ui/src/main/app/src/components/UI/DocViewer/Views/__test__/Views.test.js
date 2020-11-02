@@ -1,5 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+import { mount } from 'enzyme';
 
 import Views from '../Views';
 import types from '../types';
@@ -23,11 +25,16 @@ describe("<Views />", () => {
     });
 
     const renderComponent = () => {
-        wrapper = shallow(<Views docs={[doc]} />)
+        const history = createMemoryHistory({ initialEntries: ['/books/book-id/chapters/chapter-id'] })
+        wrapper = mount(
+            <Router history={history}>
+               <Views docs={[doc]} />
+            </Router>
+        )
     }
 
     test("If document has an id, then the rendered element has the same id",  () => {
-        renderComponent();
+        renderComponent()
 
         expect(wrapper.html()).to.be.equal(`<div id="${id}">${docText}</div>`);
     });

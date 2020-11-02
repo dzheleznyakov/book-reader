@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { Router } from 'react-router-dom';
+import { Router, Link } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 import BookListItem from '../BookListItem';
@@ -25,7 +25,7 @@ describe("<BookListItem />", () => {
     });
 
     beforeEach(() => {
-        history = createMemoryHistory({ initialEntries: ['/books'] })
+        history = createMemoryHistory({ initialEntries: ['/books'] });
         wrapper = mount(<Router history={history}><BookListItem {...props} /></Router>);
     });
 
@@ -37,17 +37,15 @@ describe("<BookListItem />", () => {
     const getAuthors = () => wrapper.find('span[data-type="authors"]').text();
     const getTopics = () => wrapper.find('span[data-type="topics"]').text();
     const getImageBytes = () => wrapper.find(Image).prop('image');
-    const clickTitleUrl = () => wrapper.find('.Url').simulate('click');
+    const getLinkDestination = () => wrapper.find(Link).prop('to');
 
-    test("render without errors", () => {    
+    test('render without errors', () => {    
         expect(getTitle()).to.be.equal(props.title);
         expect(getAuthors()).to.be.equal(props.authors.join(', '));
         expect(getTopics()).to.be.equal(props.topics.join(', '));
         expect(getImageBytes()).to.be.deep.equal(props.image);
         
         const expectedPathname = `/books/${props.id}`;
-        expect(history.location.pathname).to.be.not.equal(expectedPathname);
-        clickTitleUrl();
-        expect(history.location.pathname).to.be.equal(expectedPathname);
+        expect(getLinkDestination()).to.match(new RegExp(`^${expectedPathname}.*`));
     });
 });
