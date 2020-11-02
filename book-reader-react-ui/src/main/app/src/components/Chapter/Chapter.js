@@ -35,7 +35,13 @@ const Chapter = () => {
     useEffect(() => {
         if (content)
             setLoading(false);
+        else
+            setLoading(true);
     }, [content]);
+
+    useEffect(() => {
+        return () => dispatch(actions.releaseChapterData());
+    }, []);
 
     const docViewer = loading ? <Spinner /> : <DocViewer docs={[content]} />;
 

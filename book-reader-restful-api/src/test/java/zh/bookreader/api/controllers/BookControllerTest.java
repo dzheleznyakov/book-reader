@@ -27,6 +27,7 @@ import zh.bookreader.model.documents.Book;
 import zh.bookreader.model.documents.Chapter;
 import zh.bookreader.model.history.ReadingHistoryItem;
 import zh.bookreader.services.BookService;
+import zh.bookreader.services.ChapterService;
 import zh.bookreader.services.ReadingHistoryService;
 
 import javax.annotation.Nonnull;
@@ -57,7 +58,8 @@ class BookControllerTest {
 
     @Mock
     private BookService bookService;
-
+    @Mock
+    private ChapterService chapterService;
     @Mock
     private ReadingHistoryService readingHistoryService;
 
@@ -95,7 +97,7 @@ class BookControllerTest {
         BookToBookMainCommandConverter bookMainConverter = new BookToBookMainCommandConverter(textDocConverter, enclosingDocConverter);
         bookController = new BookController(
                 bookService, readingHistoryService,
-                new BookToBookOverviewCommandConverter(), bookMainConverter, new BookToTocCommand(), new ReadingHistoryItemToReadingHistoryItemCommand());
+                new BookToBookOverviewCommandConverter(), bookMainConverter, new BookToTocCommand(chapterService), new ReadingHistoryItemToReadingHistoryItemCommand());
     }
 
     @Nested
@@ -375,6 +377,8 @@ class BookControllerTest {
         @DisplayName("Test getting ToC")
         void testGetToc() throws Exception {
             given(bookService.findById(BOOK_ID)).willReturn(Optional.of(book));
+            given(chapterService.getTitle(BOOK_ID, CHAPTER_1_ID)).willReturn(CHAPTER_1_TITLE);
+            given(chapterService.getTitle(BOOK_ID, CHAPTER_2_ID)).willReturn(CHAPTER_2_TITLE);
 
             mockMvc.perform(get(URL_PATTERN, BOOK_ID))
                     .andExpect(status().isOk())
@@ -386,6 +390,8 @@ class BookControllerTest {
                     .andExpect(jsonPath("$.toc[1][1]", is(CHAPTER_2_TITLE)));
 
             verify(bookService, times(1)).findById(BOOK_ID);
+            verify(chapterService, times(1)).getTitle(BOOK_ID, CHAPTER_1_ID);
+            verify(chapterService, times(1)).getTitle(BOOK_ID, CHAPTER_2_ID);
         }
     }
 

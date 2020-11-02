@@ -1,4 +1,4 @@
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, takeEvery } from 'redux-saga/effects';
 
 import * as actionTypes from '../actionTypes';
 import * as navigationSagas from './navigationSagas';
@@ -17,7 +17,8 @@ export function* watchSearch() {
 export function* watchBooks() {
     yield takeLatest(actionTypes.FETCH_BOOK_MAIN_PAGE, booksSagas.fetchBookMainPageSaga);
     yield takeLatest(actionTypes.FETCH_BOOK_READING_HISTORY, booksSagas.fetchBookReadingHistorySaga);
-    yield takeLatest(actionTypes.SAVE_BOOK_READING_HISTORY, booksSagas.saveBookReadingHistorySaga);
+    yield takeEvery(actionTypes.SAVE_BOOK_READING_HISTORY, booksSagas.saveBookReadingHistorySaga);
+    yield takeLatest(actionTypes.FETCH_BOOK_TOC, booksSagas.fetchBookTocSaga);
 }
 
 export function* watchChapters() {

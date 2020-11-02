@@ -65,15 +65,19 @@ public class ChapterTitleIndexerServiceImpl implements ChapterTitleIndexerServic
         String libraryPath = payload.libraryPath;
         log.info("Indexing chapter titles for book [{}]", bookId);
         try (PrintWriter out = new PrintWriter(indexFile)) {
-            out.print(CHAPTER_TITLES_SECTION_HEADER);
-            bookService.findById(bookId)
-                    .orElseThrow(() -> new FileNotFoundException("Book [" + Paths.get(libraryPath, bookId).toAbsolutePath() + "] not found"))
-                    .getChapters()
-                    .forEach(ch -> out.print("\n" + ch.getId() + "=>" + ch.getFirstTitle()));
+            printIndexContent(bookId, libraryPath, out);
         } catch (FileNotFoundException fnfe) {
             log.error("Error while indexing chapter titles for book [{}]", bookId, fnfe);
             indexFile.delete();
         }
+    }
+
+    private void printIndexContent(String bookId, String libraryPath, PrintWriter out) throws FileNotFoundException {
+        out.print(CHAPTER_TITLES_SECTION_HEADER);
+        bookService.findById(bookId)
+                .orElseThrow(() -> new FileNotFoundException("Book [" + Paths.get(libraryPath, bookId).toAbsolutePath() + "] not found"))
+                .getChapters()
+                .forEach(ch -> out.print("\n" + ch.getId() + "=>" + ch.getFirstTitle()));
     }
 
     static class Payload {

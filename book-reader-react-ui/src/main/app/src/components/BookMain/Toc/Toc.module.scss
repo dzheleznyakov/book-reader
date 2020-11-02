@@ -1,0 +1,23 @@
+.Title {
+    margin: 2rem 0 0.5rem;
+}
+
+.Toc {
+    padding: 0;
+
+    li {
+        list-style: none;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+        font-weight: 600;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

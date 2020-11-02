@@ -10,3 +10,7 @@ export const storeChapterData = data => ({
     type: actionTypes.STORE_CHAPTER_DATA,
     data,
 });
+
+export const releaseChapterData = () => ({
+    type: actionTypes.RELEASE_CHAPTER_DATA,
+});

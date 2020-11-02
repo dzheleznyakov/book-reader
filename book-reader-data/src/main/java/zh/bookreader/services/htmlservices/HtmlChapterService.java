@@ -19,6 +19,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 @Slf4j
 @Service
 public class HtmlChapterService implements ChapterService {
@@ -36,31 +38,35 @@ public class HtmlChapterService implements ChapterService {
             ChapterTitleIndexerService chapterTitleIndexer) {
         this.bookService = bookService;
         this.chapterTitleIndexer = chapterTitleIndexer;
-        String userHome = System.getProperty("user.home");
-        if (userHome == null)
-            userHome = "";
+        String userHome = firstNonNull(System.getProperty("user.home"), "");
         this.libraryPath = Paths.get(userHome, libraryPath).toString();
     }
 
     @Override
     public String getTitle(String bookId, String chId) {
         Optional<Book> bookOptional = bookService.findById(bookId);
-        if (bookOptional.isEmpty())
-            return "";
+        return bookOptional.isPresent()
+                ? getTitle(chId, bookOptional.get())
+                : "";
+    }
+
+    @Nullable
+    private String getTitle(String chId, Book book) {
+        String bookId = book.getId();
 
         File indexFile = Paths.get(libraryPath, bookId, INDEX_FILE_NAME).toFile();
-        boolean indexFileExist = indexFile.exists();
-        String title = indexFileExist
-                ? getTitleFromIndexFile(indexFile, bookId, chId)
-                : bookOptional.get().getChapters()
-                    .stream().filter(ch -> Objects.equals(ch.getId(), chId))
-                    .findAny()
-                    .map(Chapter::getFirstTitle)
-                    .orElse("");
-        if (!indexFileExist)
+        boolean indexFileExists = indexFile.exists();
+        if (!indexFileExists)
             chapterTitleIndexer.index(indexFile, bookId, libraryPath);
 
-        return title;
+        return getTitle(chId, book, indexFile, indexFileExists);
+    }
+
+    private String getTitle(String chId, Book book, File indexFile, boolean indexFileExist) {
+        String bookId = book.getId();
+        return indexFileExist
+                    ? getTitleFromIndexFile(indexFile, bookId, chId)
+                    : getTitleFromChapterContent(chId, book);
     }
 
     private String getTitleFromIndexFile(File indexFile, String bookId, String chId) {
@@ -73,6 +79,15 @@ public class HtmlChapterService implements ChapterService {
             return "";
         }
         return null;
+    }
+
+    @Nonnull
+    private String getTitleFromChapterContent(String chId, Book book) {
+        return book.getChapters()
+                .stream().filter(ch -> Objects.equals(ch.getId(), chId))
+                .findAny()
+                .map(Chapter::getFirstTitle)
+                .orElse("");
     }
 
     private String getTitle(Scanner in, String chapterId) {

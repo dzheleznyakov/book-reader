@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import zh.bookreader.api.commands.TocCommand;
 import zh.bookreader.model.documents.Book;
 import zh.bookreader.model.documents.Chapter;
+import zh.bookreader.services.ChapterService;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -16,6 +17,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @DisplayName("Test BookToTocCommandConverter")
 class BookToTocCommandTest {
@@ -26,10 +29,7 @@ class BookToTocCommandTest {
     private static final String CHAPTER_2_TITLE = "Chapter Two";
 
     @Mock
-    private Chapter ch1;
-
-    @Mock
-    private Chapter ch2;
+    private ChapterService chapterService;
 
     private BookToTocCommand converter;
 
@@ -37,16 +37,18 @@ class BookToTocCommandTest {
 
     @BeforeEach
     void setUpConverter() {
-        converter = new BookToTocCommand();
+        MockitoAnnotations.initMocks(this);
+
+        converter = new BookToTocCommand(chapterService);
     }
 
     @BeforeEach
     void setUpBook() {
-        MockitoAnnotations.initMocks(this);
-        given(ch1.getId()).willReturn(CHAPTER_1_ID);
-        given(ch1.getFirstTitle()).willReturn(CHAPTER_1_TITLE);
-        given(ch2.getId()).willReturn(CHAPTER_2_ID);
-        given(ch2.getFirstTitle()).willReturn(CHAPTER_2_TITLE);
+        Chapter ch1 = new Chapter();
+        ch1.setId(CHAPTER_1_ID);
+
+        Chapter ch2 = new Chapter();
+        ch2.setId(CHAPTER_2_ID);
 
         book = new Book();
         book.setId(BOOK_ID);
@@ -62,6 +64,9 @@ class BookToTocCommandTest {
 
     @Test
     void testConvertingBook() {
+        given(chapterService.getTitle(BOOK_ID, CHAPTER_1_ID)).willReturn(CHAPTER_1_TITLE);
+        given(chapterService.getTitle(BOOK_ID, CHAPTER_2_ID)).willReturn(CHAPTER_2_TITLE);
+
         TocCommand command = converter.convert(book);
 
         assertThat(command, is(notNullValue()));
@@ -71,5 +76,7 @@ class BookToTocCommandTest {
         assertThat(command.getToc().get(0)[1], is(CHAPTER_1_TITLE));
         assertThat(command.getToc().get(1)[0], is(CHAPTER_2_ID));
         assertThat(command.getToc().get(1)[1], is(CHAPTER_2_TITLE));
+        verify(chapterService, times(1)).getTitle(BOOK_ID, CHAPTER_1_ID);
+        verify(chapterService, times(1)).getTitle(BOOK_ID, CHAPTER_2_ID);
     }
 }

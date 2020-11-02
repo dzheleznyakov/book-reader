@@ -11,6 +11,7 @@ import Resources from './Resources/Resources';
 import Image from '../UI/Image/Image';
 import DocViewer from '../UI/DocViewer/DocViewer';
 import ReadButton from './ReadButton/ReadButton';
+import Toc from './Toc/Toc';
 import navModes from '../UI/NavigationBar/navigationModes';
 import * as actions from '../../store/actions';
 import { useSearch } from '../../hooks';
@@ -64,6 +65,7 @@ const BookMain = () => {
             {errorView}
             {spinner}
             {bookInfoComp}
+            <Toc />
         </div>
     );
 };

@@ -34,3 +34,17 @@ export const saveBookReadingHistory = (id, chapterId) => ({
     id,
     chapterId,
 });
+
+export const fetchBookToc = id => ({
+    type: actionTypes.FETCH_BOOK_TOC,
+    id,
+});
+
+export const fetchBookTocStart = () => ({
+    type: actionTypes.FETCH_BOOK_TOC_START,
+});
+
+export const storeBookToc = toc => ({
+    type: actionTypes.STORE_BOOK_TOC,
+    toc,
+});

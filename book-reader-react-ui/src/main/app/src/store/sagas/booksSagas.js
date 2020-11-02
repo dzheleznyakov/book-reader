@@ -38,4 +38,17 @@ export function* saveBookReadingHistorySaga(action) {
     } catch(error) {
         console.error('Error while saving book reading history [%s/%s]', id, chapterId, error);
     }
-};
+}
+
+export function* fetchBookTocSaga(action) {
+    const { id } = action;
+
+    yield put(actions.fetchBookTocStart());
+    try {
+        const { data } = yield call(axios.get, `/books/${id}/toc`);
+        yield put(actions.storeBookToc(data.toc));
+    } catch (err) {
+        console.error('Error while fetch book [%s] toc', id, err);
+        yield put(actions.storeBookToc([]));
+    }
+}
