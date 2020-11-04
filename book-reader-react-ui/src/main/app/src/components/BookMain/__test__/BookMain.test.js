@@ -41,8 +41,6 @@ describe("<BookMain />", () => {
 
     const sandbox = sinon.createSandbox();
 
-    let axiosGetStub;
-
     let history;
     let wrapper;
 
@@ -60,18 +58,13 @@ describe("<BookMain />", () => {
 
     const renderComponent = async (books) => {
         const initialState = { books: { ...defaultBookState, ...books } };
-        reduxStore = createStore(reducer, initialState);
-        await act(
-            async () => {
-                wrapper = mount(
-                    <Provider store={reduxStore}>
-                        <Router history={history}>
-                            <BookMain />
-                        </Router>
-                    </Provider>
-                );
-            }
-        );
+        const { renderComponent, getWrapper, getStore } = renderComponentBuilder(BookMain)
+            .withHistory(history)
+            .withStore(initialState)
+            .get();
+        await renderComponent();
+        wrapper = getWrapper();
+        reduxStore = getStore();
     };
 
     test("test render without errors", async () => {
