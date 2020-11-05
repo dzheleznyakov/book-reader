@@ -3,6 +3,7 @@ import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { shallow, mount } from 'enzyme';
+import { createMemoryHistory } from 'history';
 
 import reducer from '../store/reducers';
 import { act } from 'react-dom/test-utils';
@@ -22,7 +23,7 @@ export class Builder {
     };
 
     withHistory(history) {
-        this.history = history;
+        this.history = history || createMemoryHistory();
         return this;
     };
 
@@ -37,16 +38,18 @@ export class Builder {
         const R = this.history ? Router : React.Fragment;
         const C = this.component;
 
-        let reduxStore;
+        const reduxStore = this.state ? createStore(reducer, this.state) : null;
         let wrapper;
 
+        const pProps = this.state ? { store: reduxStore } : {};
+        const rProps = this.history ? { history: this.history } : {};
+
         const renderComponent = async () => {
-            reduxStore = this.state ? createStore(reducer, this.state) : null;
             await act(
                 async () => {
                     wrapper = renderer(
-                        <P store={reduxStore}>
-                            <R history={this.history}>
+                        <P {...pProps}>
+                            <R {...rProps}>
                                 <C {...this.props} />
                             </R>
                         </P>

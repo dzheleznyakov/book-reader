@@ -1,13 +1,6 @@
-import React from 'react';
-import { Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { mount } from 'enzyme';
 import { createMemoryHistory } from 'history';
-import { act } from '@testing-library/react';
 
 import BookMain from '../BookMain';
-import reducer from '../../../store/reducers';
 import { fetchBookMainPageSuccess } from '../../../store/actions/books';
 
 import bookResponse from './bookResponse.json';
