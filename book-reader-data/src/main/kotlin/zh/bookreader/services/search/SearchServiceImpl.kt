@@ -18,6 +18,7 @@ import java.util.regex.Pattern
 
 @Component
 class SearchServiceImpl(
+        private val searchConfig: SearchConfig,
         @Qualifier("htmlIndexerService") private val indexer: IndexerService,
         @Value("\${zh.bookreader.search}") private val searchIsOn: Boolean
 ) : SearchService {
@@ -25,7 +26,8 @@ class SearchServiceImpl(
     private val parsedIdMap: MutableMap<Int, String> = mutableMapOf()
     private val parsedIndex: MutableMap<String, IndexEntry> = mutableMapOf()
     private val bookEntryPattern = Pattern.compile("(\\d+):(\\d+)\\[(.*)]?")
-    private val indexFilePath = Paths.get(USER_HOME_PATH, SEARCH_INDEX_REL_PATH, INDEX_FILE_NAME)
+    private val indexFilePath = Paths.get(
+            searchConfig.userHomePath, searchConfig.searchIndexRelPath, searchConfig.indexFileName)
     private val ready = AtomicBoolean(false)
 
     init {

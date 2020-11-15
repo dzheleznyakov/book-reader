@@ -28,12 +28,24 @@ internal class SearchServiceImplTest {
     @Mock
     private lateinit var indexerService: IndexerService
 
+    private object TestSearchConfig : SearchConfig {
+        override val searchIndexRelPath: String
+            get() = "index/"
+        override val libraryRelPath: String
+            get() = "library/"
+        override val userHomePath: String
+            get() = "user.home"
+        override val indexFileName: String
+            get() = "index.zhi"
+        override fun <E : Any> E.getStopWords(): Set<String> = SearchConfigImpl().getStopWords()
+    }
+
     private lateinit var service: SearchServiceImpl
 
     @BeforeEach
     internal fun setUpService() {
         MockitoAnnotations.initMocks(this)
-        service = SearchServiceImpl(indexerService, false)
+        service = SearchServiceImpl(TestSearchConfig, indexerService, false)
     }
 
     private fun loadIndex(content: String) = service.loadIndex(content.byteInputStream())
