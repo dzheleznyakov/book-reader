@@ -9,13 +9,23 @@ export function* fetchChapterNavigationSaga(action) {
 
     const url = `/books/${bookId}/chapters/${chapterId}/navigation`;
 
-    const { data } = yield call(axios.get, url);
-    const { prev, next } = data;
-
-    const nav = {
-        prev: prev || '#',
-        next: next || '#',
+    let nav = {
+        prev: null,
+        next: null,
         book: `/books/${bookId}`,
     };
+
+    try {
+        const { data } = yield call(axios.get, url);
+        const { prev, next } = data;
+
+        nav = { ...nav, 
+            prev: prev || null,
+            next: next || null,
+        };
+    } catch (err) {
+        console.error(err);
+    }
+
     yield put(actions.setNavigation(navigationModes.CHAPTER, nav));
 }

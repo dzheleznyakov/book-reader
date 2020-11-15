@@ -15,11 +15,11 @@ const ChapterNavigationBar = props => {
 
     const prevLink = prev 
         ? <NavLink key="prev" className={classes.ChapterNavUrl} to={nav.prev}>Prev</NavLink>
-        : null;
+        : <div />;
 
     const nextLink = next
         ? <NavLink key="next" className={classes.ChapterNavUrl} to={nav.next}>Next</NavLink>
-        : null;
+        : <div />;
 
     const navigation = [
         prevLink,
