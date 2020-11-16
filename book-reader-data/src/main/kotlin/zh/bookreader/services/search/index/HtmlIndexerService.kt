@@ -10,9 +10,7 @@ import zh.bookreader.model.documents.TextDocument
 import zh.bookreader.services.BookService
 import zh.bookreader.services.IndexerService
 import zh.bookreader.services.search.INDEX_FILE_NAME
-import zh.bookreader.services.search.LIBRARY_REL_PATH
-import zh.bookreader.services.search.SEARCH_INDEX_REL_PATH
-import zh.bookreader.services.search.USER_HOME_PATH
+import zh.bookreader.services.search.SearchConfig
 import zh.bookreader.services.search.getStopWords
 import java.io.OutputStream
 import java.nio.file.Paths
@@ -20,11 +18,14 @@ import java.util.LinkedList
 import java.util.concurrent.atomic.AtomicInteger
 
 @Component("htmlIndexerService")
-class HtmlIndexerService(private val bookService: BookService) : IndexerService {
+class HtmlIndexerService(
+        private val bookService: BookService,
+        private val searchConfig: SearchConfig
+) : IndexerService {
     private val log = LoggerFactory.getLogger(this.javaClass)
-    private var pathToIndex = Paths.get(USER_HOME_PATH, SEARCH_INDEX_REL_PATH)
-    private var pathToLibrary = Paths.get(USER_HOME_PATH, LIBRARY_REL_PATH)
-    private var pathToIndexFile = pathToIndex.resolve(INDEX_FILE_NAME)
+    private var pathToIndex = Paths.get(searchConfig.userHomePath, searchConfig.searchIndexRelPath)
+    private var pathToLibrary = Paths.get(searchConfig.userHomePath, searchConfig.libraryRelPath)
+    private var pathToIndexFile = pathToIndex.resolve(searchConfig.indexFileName)
 
     @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     private val stopWords = getStopWords()

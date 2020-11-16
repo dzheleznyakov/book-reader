@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.junit.jupiter.MockitoExtension
 import zh.bookreader.model.documents.Book
 import zh.bookreader.services.htmlservices.HtmlBookService
 import zh.bookreader.services.htmlservices.getBlock
@@ -16,18 +18,33 @@ import zh.bookreader.services.htmlservices.getHeader
 import zh.bookreader.services.htmlservices.getParagraph
 import zh.bookreader.services.htmlservices.getText
 import zh.bookreader.services.search.INDEX_FILE_NAME
+import zh.bookreader.services.search.SearchConfig
+import zh.bookreader.services.search.SearchConfigImpl
 import zh.bookreader.services.search.hamcrest.matchesIndexMap
 import java.io.ByteArrayOutputStream
 import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
 
 @DisplayName("Test HTML Indexer Service")
+@ExtendWith(MockitoExtension::class)
 internal class HtmlIndexerServiceTest {
     private val pathToTestOutputFolder = "output/${this.javaClass.simpleName}"
     private val pathToTestIndexFolder = "$pathToTestOutputFolder/index"
     private val pathToLibrary = "$pathToTestOutputFolder/library"
 
-    private var indexer = HtmlIndexerService(HtmlBookService(""))
+    private object TestSearchConfig : SearchConfig {
+        override val searchIndexRelPath: String
+            get() = "index/"
+        override val libraryRelPath: String
+            get() = "library/"
+        override val userHomePath: String
+            get() = "user.home"
+        override val indexFileName: String
+            get() = "index.zhi"
+        override fun <E : Any> E.getStopWords(): Set<String> = SearchConfigImpl().getStopWords()
+    }
+
+    private val indexer = HtmlIndexerService(HtmlBookService(""), TestSearchConfig)
 
     @BeforeEach
     internal fun setUpOutputFolder() {
