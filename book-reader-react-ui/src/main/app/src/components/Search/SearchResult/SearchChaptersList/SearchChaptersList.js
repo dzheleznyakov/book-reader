@@ -26,7 +26,7 @@ const SearchChaptersList = props => {
                     to={`/books/${bookId}/chapters/${chId}`}
                     className={classes.Url}
                 >
-                    {title}
+                    {title || chId}
                 </Link>
             </li>
         )) : null;
