@@ -1,4 +1,4 @@
-package zh.bookreader.services.search
+package zh.bookreader.services.search.table
 
 import com.google.common.annotations.VisibleForTesting
 import org.slf4j.LoggerFactory
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component
 import zh.bookreader.model.search.SearchHit
 import zh.bookreader.services.IndexerService
 import zh.bookreader.services.SearchService
-import zh.bookreader.services.search.index.BookEntry
-import zh.bookreader.services.search.index.IndexEntry
+import zh.bookreader.services.search.table.index.BookEntry
+import zh.bookreader.services.search.table.index.IndexEntry
 import java.io.InputStream
 import java.nio.file.Paths
 import java.util.Scanner
@@ -18,9 +18,9 @@ import java.util.regex.Pattern
 
 @Component
 class SearchServiceImpl(
-        private val searchConfig: SearchConfig,
-        @Qualifier("htmlIndexerService") private val indexer: IndexerService,
-        @Value("\${zh.bookreader.search}") private val searchIsOn: Boolean
+    private val searchConfig: SearchConfig,
+    @Qualifier("htmlIndexerService") private val indexer: IndexerService,
+    @Value("\${zh.bookreader.search}") private val searchIsOn: Boolean
 ) : SearchService {
     private val log = LoggerFactory.getLogger(this.javaClass)
     private val parsedIdMap: MutableMap<Int, String> = mutableMapOf()

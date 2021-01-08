@@ -1,4 +1,4 @@
-package zh.bookreader.services.search
+package zh.bookreader.services.search.table
 
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
@@ -14,8 +14,8 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.jupiter.MockitoExtension
 import zh.bookreader.model.search.SearchHit
 import zh.bookreader.services.IndexerService
-import zh.bookreader.services.search.index.BookEntry
-import zh.bookreader.services.search.index.IndexEntry
+import zh.bookreader.services.search.table.index.BookEntry
+import zh.bookreader.services.search.table.index.IndexEntry
 
 @DisplayName("Test SearchServiceImpl")
 @ExtendWith(MockitoExtension::class)

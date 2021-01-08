@@ -1,4 +1,4 @@
-package zh.bookreader.services.search
+package zh.bookreader.services.search.table
 
 import zh.bookreader.services.utils.readLines
 import java.util.Scanner

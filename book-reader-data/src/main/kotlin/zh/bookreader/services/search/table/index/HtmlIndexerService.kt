@@ -1,4 +1,4 @@
-package zh.bookreader.services.search.index
+package zh.bookreader.services.search.table.index
 
 import com.google.common.annotations.VisibleForTesting
 import org.slf4j.LoggerFactory
@@ -9,9 +9,9 @@ import zh.bookreader.model.documents.EnclosingDocument
 import zh.bookreader.model.documents.TextDocument
 import zh.bookreader.services.BookService
 import zh.bookreader.services.IndexerService
-import zh.bookreader.services.search.INDEX_FILE_NAME
-import zh.bookreader.services.search.SearchConfig
-import zh.bookreader.services.search.getStopWords
+import zh.bookreader.services.search.table.INDEX_FILE_NAME
+import zh.bookreader.services.search.table.SearchConfig
+import zh.bookreader.services.search.table.getStopWords
 import java.io.OutputStream
 import java.nio.file.Paths
 import java.util.LinkedList

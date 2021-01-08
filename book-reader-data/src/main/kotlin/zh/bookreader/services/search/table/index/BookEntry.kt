@@ -1,4 +1,4 @@
-package zh.bookreader.services.search.index
+package zh.bookreader.services.search.table.index
 
 class BookEntry {
     internal var score = 0

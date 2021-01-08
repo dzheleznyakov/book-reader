@@ -1,4 +1,4 @@
-package zh.bookreader.services.search
+package zh.bookreader.services.search.table
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component

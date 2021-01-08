@@ -1,4 +1,4 @@
-package zh.bookreader.services.search.index
+package zh.bookreader.services.search.table.index
 
 import com.google.common.util.concurrent.Uninterruptibles
 import org.hamcrest.MatcherAssert.assertThat
@@ -17,10 +17,10 @@ import zh.bookreader.services.htmlservices.getChapter
 import zh.bookreader.services.htmlservices.getHeader
 import zh.bookreader.services.htmlservices.getParagraph
 import zh.bookreader.services.htmlservices.getText
-import zh.bookreader.services.search.INDEX_FILE_NAME
-import zh.bookreader.services.search.SearchConfig
-import zh.bookreader.services.search.SearchConfigImpl
 import zh.bookreader.services.search.hamcrest.matchesIndexMap
+import zh.bookreader.services.search.table.INDEX_FILE_NAME
+import zh.bookreader.services.search.table.SearchConfig
+import zh.bookreader.services.search.table.SearchConfigImpl
 import java.io.ByteArrayOutputStream
 import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
