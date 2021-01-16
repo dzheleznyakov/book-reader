@@ -14,8 +14,8 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.jupiter.MockitoExtension
 import zh.bookreader.model.search.SearchHit
 import zh.bookreader.services.IndexerService
-import zh.bookreader.services.search.table.index.BookEntry
-import zh.bookreader.services.search.table.index.IndexEntry
+import zh.bookreader.services.search.BookEntry
+import zh.bookreader.services.search.IndexEntry
 
 @DisplayName("Test SearchServiceImpl")
 @ExtendWith(MockitoExtension::class)

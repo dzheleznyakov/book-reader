@@ -1,4 +1,4 @@
-package zh.bookreader.services.search.table.index
+package zh.bookreader.services.search.table
 
 import com.google.common.annotations.VisibleForTesting
 import org.slf4j.LoggerFactory
@@ -9,9 +9,8 @@ import zh.bookreader.model.documents.EnclosingDocument
 import zh.bookreader.model.documents.TextDocument
 import zh.bookreader.services.BookService
 import zh.bookreader.services.IndexerService
-import zh.bookreader.services.search.table.INDEX_FILE_NAME
-import zh.bookreader.services.search.table.SearchConfig
-import zh.bookreader.services.search.table.getStopWords
+import zh.bookreader.services.search.AbstractIndexerService
+import zh.bookreader.services.search.IndexEntry
 import java.io.OutputStream
 import java.nio.file.Paths
 import java.util.LinkedList
@@ -19,13 +18,12 @@ import java.util.concurrent.atomic.AtomicInteger
 
 @Component("htmlIndexerService")
 class HtmlIndexerService(
-        private val bookService: BookService,
-        private val searchConfig: SearchConfig
-) : IndexerService {
+        bookService: BookService,
+        searchConfig: SearchConfig
+) : IndexerService,
+    AbstractIndexerService(searchConfig, TABLE_INDEX_FILE_NAME, bookService)
+{
     private val log = LoggerFactory.getLogger(this.javaClass)
-    private var pathToIndex = Paths.get(searchConfig.userHomePath, searchConfig.searchIndexRelPath)
-    private var pathToLibrary = Paths.get(searchConfig.userHomePath, searchConfig.libraryRelPath)
-    private var pathToIndexFile = pathToIndex.resolve(searchConfig.indexFileName)
 
     @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     private val stopWords = getStopWords()
@@ -34,20 +32,7 @@ class HtmlIndexerService(
 
     private val index = mutableMapOf<String, IndexEntry>()
 
-    override fun index() {
-        if (shouldIndex())
-            doIndex()
-    }
-
-    private fun doIndex() {
-        val indexFile = pathToIndexFile.toFile()
-        pathToIndex.toFile().mkdirs()
-        if (indexFile.exists())
-            indexFile.delete()
-        indexFile.createNewFile()
-        val output = indexFile.outputStream()
-        val books = bookService.findAll()
-        index(output, books)
+    override fun cleanUp() {
         idMap.clear()
         index.clear()
     }
@@ -63,18 +48,7 @@ class HtmlIndexerService(
     }
 
     @VisibleForTesting
-    internal fun shouldIndex(): Boolean {
-        val libraryFile = pathToLibrary.toFile()
-        if (!libraryFile.exists())
-            return false
-
-        val indexFile = pathToIndex.resolve(INDEX_FILE_NAME).toFile()
-        return !indexFile.exists()
-                || libraryFile.lastModified() >= indexFile.lastModified()
-    }
-
-    @VisibleForTesting
-    internal fun index(output: OutputStream, books: List<Book>) {
+    override fun index(output: OutputStream, books: List<Book>) {
         log.info("Staring building index from the library")
         books.buildIndex()
         log.info("Persisting the built index")
