@@ -63,7 +63,7 @@ class TrieTest {
         trie.put("apple", 3);
 
         String triePhrase = trie.streamNodesInPreorder()
-                .filter(node -> node.getLabel() != Trie.TrieNode.ROOT_LABEL)
+                .filter(node -> node.getLabel() != TrieNode.ROOT_LABEL)
                 .flatMap(node -> {
                     ImmutableList.Builder<String> builder = ImmutableList.builder();
                     builder.add(String.valueOf(node.getLabel()));

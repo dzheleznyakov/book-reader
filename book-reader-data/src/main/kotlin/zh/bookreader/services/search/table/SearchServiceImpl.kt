@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component
 import zh.bookreader.model.search.SearchHit
 import zh.bookreader.services.IndexerService
 import zh.bookreader.services.SearchService
-import zh.bookreader.services.search.table.index.BookEntry
-import zh.bookreader.services.search.table.index.IndexEntry
+import zh.bookreader.services.search.BookEntry
+import zh.bookreader.services.search.IndexEntry
 import java.io.InputStream
 import java.nio.file.Paths
 import java.util.Scanner
@@ -18,7 +18,7 @@ import java.util.regex.Pattern
 
 @Component
 class SearchServiceImpl(
-    private val searchConfig: SearchConfig,
+    searchConfig: SearchConfig,
     @Qualifier("htmlIndexerService") private val indexer: IndexerService,
     @Value("\${zh.bookreader.search}") private val searchIsOn: Boolean
 ) : SearchService {

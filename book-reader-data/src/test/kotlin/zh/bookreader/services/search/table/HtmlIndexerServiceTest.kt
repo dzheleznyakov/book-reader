@@ -1,4 +1,4 @@
-package zh.bookreader.services.search.table.index
+package zh.bookreader.services.search.table
 
 import com.google.common.util.concurrent.Uninterruptibles
 import org.hamcrest.MatcherAssert.assertThat
@@ -18,9 +18,6 @@ import zh.bookreader.services.htmlservices.getHeader
 import zh.bookreader.services.htmlservices.getParagraph
 import zh.bookreader.services.htmlservices.getText
 import zh.bookreader.services.search.hamcrest.matchesIndexMap
-import zh.bookreader.services.search.table.INDEX_FILE_NAME
-import zh.bookreader.services.search.table.SearchConfig
-import zh.bookreader.services.search.table.SearchConfigImpl
 import java.io.ByteArrayOutputStream
 import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
@@ -88,7 +85,7 @@ internal class HtmlIndexerServiceTest {
         @DisplayName("Should not run indexing if the library was updated before the index")
         internal fun testShouldNotIndexIfLibraryWasUpdatedBeforeIndex() {
             Uninterruptibles.sleepUninterruptibly(10, TimeUnit.MILLISECONDS)
-            Paths.get(pathToTestIndexFolder, INDEX_FILE_NAME).toFile().createNewFile()
+            Paths.get(pathToTestIndexFolder, TABLE_INDEX_FILE_NAME).toFile().createNewFile()
 
             val shouldIndex = indexer.shouldIndex()
 
@@ -98,7 +95,7 @@ internal class HtmlIndexerServiceTest {
         @Test
         internal fun testShouldIndexIfLibraryWasUpdatedAfterIndex() {
             Uninterruptibles.sleepUninterruptibly(10, TimeUnit.MILLISECONDS)
-            Paths.get(pathToTestIndexFolder, INDEX_FILE_NAME).toFile().createNewFile()
+            Paths.get(pathToTestIndexFolder, TABLE_INDEX_FILE_NAME).toFile().createNewFile()
             Uninterruptibles.sleepUninterruptibly(10, TimeUnit.MILLISECONDS)
             Paths.get(pathToLibrary, "file.txt").toFile().createNewFile()
 

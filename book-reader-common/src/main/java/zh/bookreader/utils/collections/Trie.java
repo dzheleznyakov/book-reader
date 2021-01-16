@@ -3,7 +3,6 @@ package zh.bookreader.utils.collections;
 import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class Trie<T> implements Iterable<Trie.TrieNode<T>> {
+public class Trie<T> implements Iterable<TrieNode<T>> {
     private final TrieNode<T> root;
 
     public Trie() {
@@ -29,7 +28,7 @@ public class Trie<T> implements Iterable<Trie.TrieNode<T>> {
     public List<T> get(String path) {
         validatePath(path);
         return getDescendant(path)
-                .map(d -> d.values)
+                .map(TrieNode::getValues)
                 .map(ImmutableList::copyOf)
                 .orElseGet(ImmutableList::of);
     }
@@ -41,9 +40,9 @@ public class Trie<T> implements Iterable<Trie.TrieNode<T>> {
         for (int i = 0; i < path.length(); ++i) {
             char ch = path.charAt(i);
             int index = ch - 'a';
-            current = ensureChild(current, index);
+            current = ensureChild(current, ch);
         }
-        current.values.add(value);
+        current.add(value);
     }
 
     @Nonnull
@@ -52,17 +51,16 @@ public class Trie<T> implements Iterable<Trie.TrieNode<T>> {
         for (int i = 0; i < path.length() && current != null; ++i) {
             char ch = path.charAt(i);
             int index = ch - 'a';
-            current = current.children.get(index);
+            current = current.getChildren().get(index);
         }
         return Optional.ofNullable(current);
     }
 
     @Nonnull
-    private TrieNode<T> ensureChild(TrieNode<T> node, int index) {
-        List<TrieNode<T>> children = node.children;
-        if (children.get(index) == null)
-            children.set(index, new TrieNode<>(('a' + index)));
-        return children.get(index);
+    private TrieNode<T> ensureChild(TrieNode<T> node, char ch) {
+        if (!node.hasChild(ch))
+            node.setChild(ch, new TrieNode<T>(ch));
+        return node.getChild(ch);
     }
 
     private void validatePath(String path) {
@@ -85,41 +83,7 @@ public class Trie<T> implements Iterable<Trie.TrieNode<T>> {
         return StreamSupport.stream(spliterator, false);
     }
 
-    public static class TrieNode<T> {
-        public static final char ROOT_LABEL = '-';
-
-        private final char label;
-        private final List<T> values = new ArrayList<>();
-        private final List<TrieNode<T>> children;
-
-        private TrieNode() {
-            this(ROOT_LABEL);
-        }
-
-        private TrieNode(int chCode) {
-            this((char) (chCode));
-        }
-
-        private TrieNode(char label) {
-            this.label = label;
-
-            this.children = new ArrayList<>();
-            for (int i = 0; i < 'z' - 'a' + 1; ++i)
-                children.add(null);
-        }
-
-        public char getLabel() {
-            return label;
-        }
-
-        public List<T> getValues() {
-            return values;
-        }
-    }
-
     public class PreorderIterator implements Iterator<TrieNode<T>> {
-        private static final int CHILDREN_SIZE = 'z' - 'a' + 1;
-
         private final LinkedList<TrieNode<T>> stack;
 
         public PreorderIterator() {
@@ -135,9 +99,9 @@ public class Trie<T> implements Iterable<Trie.TrieNode<T>> {
         @Override
         public TrieNode<T> next() {
             TrieNode<T> result = stack.pop();
-            for (int i = result.children.size() - 1; i >= 0; --i)
-                if (result.children.get(i) != null)
-                    stack.push(result.children.get(i));
+            for (char ch = 'z'; ch >= 'a'; --ch)
+                if (result.hasChild(ch))
+                    stack.push(result.getChild(ch));
             return result;
         }
     }
