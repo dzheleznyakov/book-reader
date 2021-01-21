@@ -1,40 +1,28 @@
 package zh.bookreader.services.search.trie.encoders
 
-import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import zh.bookreader.utils.collections.TrieNode
-import java.io.ByteArrayOutputStream
-import java.io.DataOutputStream
 
-internal class TrieNodeEncoderTest {
-    private lateinit var encoders: Encoders
-    private lateinit var encoder: TrieNodeEncoder
-
-    private lateinit var bytes: ByteArrayOutputStream
-    private lateinit var out: DataOutputStream
-
+internal class TrieNodeEncoderTest : BaseEncoderTest<TrieNode<*>>() {
     @BeforeEach
     internal fun setUp() {
         encoder = TrieNodeEncoder()
         encoders = Encoders(setOf(encoder, IntEncoder(), CollectionEncoder()))
-
-        bytes = ByteArrayOutputStream()
-        out = DataOutputStream(bytes)
     }
 
     @Test
     @DisplayName("Test encoding a null node")
     internal fun encodeNull() {
-        assertEncodedTrieNode(null, -1)
+        assertEncodedValue(null, -1)
     }
 
     @Test
     @DisplayName("Test encoding a node with no value and no children")
     internal fun encodeEmptyNode() {
-        assertEncodedTrieNode(
-            TrieNode('a'),
+        assertEncodedValue(
+            TrieNode<Int>('a'),
             100, 104, -26, 101)
     }
 
@@ -44,7 +32,7 @@ internal class TrieNodeEncoderTest {
         val node = TrieNode<Int>('a')
         node.add(10)
 
-        assertEncodedTrieNode(node,
+        assertEncodedValue(node,
             100, 102, 0, 0, 0, 1, 0, 0, 0, 10, 103, -26, 101)
     }
 
@@ -56,7 +44,7 @@ internal class TrieNodeEncoderTest {
         node.add(43)
         node.add(44)
 
-        assertEncodedTrieNode(node,
+        assertEncodedValue(node,
             100,
             102,
             0, 0, 0, 3,
@@ -76,7 +64,7 @@ internal class TrieNodeEncoderTest {
         val childA = TrieNode<Int>('a')
         node.setChild('a', childA)
 
-        assertEncodedTrieNode(node,
+        assertEncodedValue(node,
             100,
             104,
             1, -25,
@@ -93,7 +81,7 @@ internal class TrieNodeEncoderTest {
         node.setChild('a', childA)
         node.setChild('b', childB)
 
-        assertEncodedTrieNode(node,
+        assertEncodedValue(node,
             100,
             104,
             2, -24,
@@ -110,7 +98,7 @@ internal class TrieNodeEncoderTest {
         node.setChild('c', childC)
         node.setChild('d', childD)
 
-        assertEncodedTrieNode(node,
+        assertEncodedValue(node,
             100,
             104,
             -2, 2, -22,
@@ -133,18 +121,12 @@ internal class TrieNodeEncoderTest {
         node.setChild('m', childM)
         node.setChild('n', childN)
 
-        assertEncodedTrieNode(node,
+        assertEncodedValue(node,
             100,
             104,
             -2, 2, -7, 3, -12,
             101
         )
-    }
-
-    private fun assertEncodedTrieNode(node: TrieNode<Int>?, vararg expectedBytes: Byte) {
-        encoder.encode(out, node, encoders)
-
-        assertArrayEquals(expectedBytes, bytes.toByteArray())
     }
 
     private fun ByteArray.concat(other: ByteArray): ByteArray {

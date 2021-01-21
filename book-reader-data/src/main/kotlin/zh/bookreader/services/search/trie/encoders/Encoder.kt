@@ -5,4 +5,6 @@ import java.io.DataOutputStream
 interface Encoder<T> {
     fun encode(out: DataOutputStream, value: T?, encoders: Encoders)
     fun encodedClass(): Class<T>
+
+    class EncodingException(message: String) : RuntimeException(message)
 }

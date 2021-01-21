@@ -14,14 +14,14 @@ class CollectionEncoder() : Encoder<Collection<*>> {
         const val END_CODE = 103
     }
 
-    override fun encode(out: DataOutputStream, col: Collection<*>?, encoders: Encoders) {
-        if (col == null || col.isEmpty())
+    override fun encode(out: DataOutputStream, value: Collection<*>?, encoders: Encoders) {
+        if (value == null || value.isEmpty())
             out.writeByte(NO_COLLECTION_CODE)
         else {
             out.writeByte(START_CODE)
-            out.writeInt(col.size)
-            col.filterNotNull()
-                .forEach { value -> encoders.get(value.javaClass).encode(out, value, encoders) }
+            out.writeInt(value.size)
+            value.filterNotNull()
+                .forEach { v -> encoders.get(v.javaClass).encode(out, v, encoders) }
             out.writeByte(END_CODE)
         }
     }

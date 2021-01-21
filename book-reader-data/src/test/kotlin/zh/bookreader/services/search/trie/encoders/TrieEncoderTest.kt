@@ -1,39 +1,27 @@
 package zh.bookreader.services.search.trie.encoders
 
-import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import zh.bookreader.utils.collections.Trie
-import java.io.ByteArrayOutputStream
-import java.io.DataOutputStream
 
-internal class TrieEncoderTest {
-    private lateinit var encoder: TrieEncoder
-    private lateinit var encoders: Encoders
-
-    private lateinit var bytes: ByteArrayOutputStream
-    private lateinit var out: DataOutputStream
-
+internal class TrieEncoderTest : BaseEncoderTest<Trie<*>>() {
     @BeforeEach
     internal fun setUp() {
         encoder = TrieEncoder()
         encoders = Encoders(setOf(encoder, TrieNodeEncoder(), CollectionEncoder(), IntEncoder()))
-
-        bytes = ByteArrayOutputStream()
-        out = DataOutputStream(bytes)
     }
 
     @Test
     @DisplayName("Test encoding null trie")
     internal fun encodeNull() {
-        assertEncodedTrie(null, 104)
+        assertEncodedValue(null, 104)
     }
 
     @Test
     @DisplayName("Encode an empty trie")
     internal fun encodeEmptyTrie() {
-        assertEncodedTrie(Trie<Int>(), 102, 100, 104, -26, 101, 103)
+        assertEncodedValue(Trie<Int>(), 102, 100, 104, -26, 101, 103)
     }
 
     @Test
@@ -43,7 +31,7 @@ internal class TrieEncoderTest {
         trie.put("a", 1)
         trie.put("z", 2)
 
-        assertEncodedTrie(trie,
+        assertEncodedValue(trie,
             102,
             100, 104, 1, -24, 1, 101,
             100, 102, 0, 0, 0, 1, 0, 0, 0, 1, 103, -26, 101,
@@ -61,7 +49,7 @@ internal class TrieEncoderTest {
         trie.put("dos", 2)
         trie.put("un", 111)
 
-        assertEncodedTrie(trie,
+        assertEncodedValue(trie,
             102,
             100, 104, -3, 1, -16, 1, -5, 101, // -
             100, 104, -14, 1, -11, 101, // d
@@ -75,12 +63,5 @@ internal class TrieEncoderTest {
             100, 102, 0, 0, 0, 1, 0, 0, 0, 1, 103, -26, 101, // uno[1]
             103
         )
-    }
-
-    private fun assertEncodedTrie(trie: Trie<Int>?, vararg expectedBytes: Byte) {
-        encoder.encode(out, trie, encoders)
-
-        val actualBytes = bytes.toByteArray()
-        assertArrayEquals(expectedBytes, actualBytes)
     }
 }

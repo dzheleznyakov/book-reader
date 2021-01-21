@@ -15,6 +15,8 @@ class Encoders(encoders: Set<Encoder<*>>) {
     fun <E> get(type: Class<E>): Encoder<E> = when {
         encoderRegister.containsKey(type) -> encoderRegister[type] as Encoder<E>
         Collection::class.java.isAssignableFrom(type) -> encoderRegister[Collection::class.java] as Encoder<E>
+        Map::class.java.isAssignableFrom(type) -> encoderRegister[Map::class.java] as Encoder<E>
+        Integer::class.java.isAssignableFrom(type) -> encoderRegister[Int::class.java] as Encoder<E>
         else -> throw ClassNotRegistered(type)
     }
 

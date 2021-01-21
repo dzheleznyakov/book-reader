@@ -11,24 +11,41 @@ internal class EncodersTest {
     private val integerEncoder = IntEncoder()
     private val stringEncoder = StringEncoder()
     private val collectionEncoder = CollectionEncoder()
+    private val mapEncoder = MapEncoder()
 
     private lateinit var encoders: Encoders
 
     @BeforeEach
     internal fun setUp() {
-        encoders = Encoders(setOf(integerEncoder, stringEncoder, collectionEncoder))
+        encoders = Encoders(setOf(integerEncoder, stringEncoder, collectionEncoder, mapEncoder))
     }
 
     @Test
     @DisplayName("Registered encoders can be extracted by class")
     internal fun getEncoderByClass() {
-        var encoder: Encoder<*> = encoders.get(Integer::class.java)
+        var encoder: Encoder<*> = encoders.get(Int::class.java)
 
         assertSame(encoder, integerEncoder)
 
         encoder = encoders.get(String::class.java)
 
         assertSame(encoder, stringEncoder)
+    }
+
+    @Test
+    @DisplayName("It should return the int encoder for Integer by default")
+    internal fun getEncoderForInteger() {
+        val encoder: Encoder<*> = encoders.get(Integer::class.java)
+
+        assertSame(encoder, integerEncoder)
+    }
+
+    @Test
+    @DisplayName("Should return the general map encoder for a map by default")
+    internal fun getEncoderForMap() {
+        val encoder: Encoder<*> = encoders.get(LinkedHashMap::class.java)
+
+        assertSame(encoder, mapEncoder)
     }
 
     @Test
@@ -40,7 +57,7 @@ internal class EncodersTest {
     }
 
     @Test
-    @DisplayName("Should return a specific collection encoder if it regestered before the general one")
+    @DisplayName("Should return a specific collection encoder if it registered before the general one")
     internal fun getSpecificEncoderForCollectionClass() {
         val collectionClassEncoder = CollectionClassEncoder()
         encoders = Encoders(setOf(collectionEncoder, collectionClassEncoder))
@@ -55,12 +72,12 @@ internal class EncodersTest {
     internal fun throwIfClassIsNotRegistered() {
         assertThrows<Encoders.ClassNotRegistered> { encoders.get(Short::class.java) }
     }
-}
 
-class CollectionClass<E>(set: HashSet<E>) : Collection<E> by set
+    private class CollectionClass<E>(set: HashSet<E>) : Collection<E> by set
 
-class CollectionClassEncoder : Encoder<CollectionClass<*>> {
-    override fun encode(out: DataOutputStream, value: CollectionClass<*>?, encoders: Encoders) {}
+    private class CollectionClassEncoder : Encoder<CollectionClass<*>> {
+        override fun encode(out: DataOutputStream, value: CollectionClass<*>?, encoders: Encoders) {}
 
-    override fun encodedClass() = CollectionClass::class.java
+        override fun encodedClass() = CollectionClass::class.java
+    }
 }

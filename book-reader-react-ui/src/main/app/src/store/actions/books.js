@@ -48,3 +48,12 @@ export const storeBookToc = toc => ({
     type: actionTypes.STORE_BOOK_TOC,
     toc,
 });
+
+export const fetchBooksCount = () => ({
+    type: actionTypes.FETCH_BOOKS_COUNT,
+});
+
+export const storeBooksCount = count => ({
+    type: actionTypes.STORE_BOOKS_COUNT,
+    count,
+});

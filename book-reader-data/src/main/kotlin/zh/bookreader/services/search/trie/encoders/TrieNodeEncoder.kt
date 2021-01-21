@@ -15,13 +15,13 @@ class TrieNodeEncoder() : Encoder<TrieNode<*>> {
         const val NODE_END_CODE = 101
     }
 
-    override fun encode(out: DataOutputStream, node: TrieNode<*>?, encoders: Encoders) {
-        if (node == null)
+    override fun encode(out: DataOutputStream, value: TrieNode<*>?, encoders: Encoders) {
+        if (value == null)
             out.writeByte(NULL_NODE_CODE)
         else {
             out.writeByte(NODE_START_CODE)
-            out.writeValues(node, encoders)
-            out.writeChildrenMetadata(node)
+            out.writeValues(value, encoders)
+            out.writeChildrenMetadata(value)
             out.writeByte(NODE_END_CODE)
         }
     }

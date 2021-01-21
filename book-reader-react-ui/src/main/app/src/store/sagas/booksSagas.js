@@ -8,8 +8,8 @@ export function* fetchBookMainPageSaga(action) {
     yield put(actions.fetchBookMainPageStart());
 
     try {
-        const res = yield call(axios.get, `/books/${id}`);
-        yield put(actions.fetchBookMainPageSuccess(res.data));
+        const { data } = yield call(axios.get, `/books/${id}`);
+        yield put(actions.fetchBookMainPageSuccess(data));
     } catch (error) {
         yield put(actions.fetchBookMainPageFailure(error));
     }
@@ -48,7 +48,17 @@ export function* fetchBookTocSaga(action) {
         const { data } = yield call(axios.get, `/books/${id}/toc`);
         yield put(actions.storeBookToc(data.toc));
     } catch (err) {
-        console.error('Error while fetch book [%s] toc', id, err);
+        console.error('Error while fetching book [%s] toc', id, err);
         yield put(actions.storeBookToc([]));
+    }
+}
+
+export function* fetchBooksCountSaga() {
+    try {
+        const { data: booksCount } = yield call(axios.get, '/books/count');
+        yield put(actions.storeBooksCount(booksCount));
+    } catch (err) {
+        console.error('Error while fetching books count', err);
+        yield put(actions.storeBooksCount(0));
     }
 }

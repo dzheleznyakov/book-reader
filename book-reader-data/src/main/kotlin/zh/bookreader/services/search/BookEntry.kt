@@ -1,5 +1,7 @@
 package zh.bookreader.services.search
 
+import com.google.common.collect.ImmutableMap
+
 class BookEntry {
     internal var score = 0
     internal val chapters = mutableMapOf<Int, Int>()
@@ -31,5 +33,5 @@ class BookEntry {
         return result
     }
 
-
+    fun getChapters(): Map<Int, Int> = ImmutableMap.copyOf(chapters)
 }

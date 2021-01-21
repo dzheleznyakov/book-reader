@@ -19,6 +19,7 @@ export function* watchBooks() {
     yield takeLatest(actionTypes.FETCH_BOOK_READING_HISTORY, booksSagas.fetchBookReadingHistorySaga);
     yield takeEvery(actionTypes.SAVE_BOOK_READING_HISTORY, booksSagas.saveBookReadingHistorySaga);
     yield takeLatest(actionTypes.FETCH_BOOK_TOC, booksSagas.fetchBookTocSaga);
+    yield takeEvery(actionTypes.FETCH_BOOKS_COUNT, booksSagas.fetchBooksCountSaga);
 }
 
 export function* watchChapters() {
