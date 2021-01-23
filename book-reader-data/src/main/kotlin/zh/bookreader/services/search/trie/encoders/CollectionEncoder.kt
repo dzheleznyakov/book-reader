@@ -24,6 +24,7 @@ class CollectionEncoder() : Encoder<Collection<*>> {
                 .forEach { v -> encoders.get(v.javaClass).encode(out, v, encoders) }
             out.writeByte(END_CODE)
         }
+        out.flush()
     }
 
     override fun encodedClass(): Class<Collection<*>> = Collection::class.java

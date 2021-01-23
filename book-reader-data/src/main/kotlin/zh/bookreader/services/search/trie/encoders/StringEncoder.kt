@@ -17,6 +17,7 @@ class StringEncoder : Encoder<String> {
             out.writeByte(104)
         else
             out.writeBytes(value)
+        out.flush()
     }
 
     override fun encodedClass() = String::class.java

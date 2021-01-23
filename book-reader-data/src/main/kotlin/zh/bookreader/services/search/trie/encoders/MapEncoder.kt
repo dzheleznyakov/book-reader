@@ -17,6 +17,7 @@ class MapEncoder() : Encoder<Map<*, *>> {
     override fun encode(out: DataOutputStream, value: Map<*, *>?, encoders: Encoders) {
         if (value == null) out.writeByte(NULL_MAP_CODE)
         else doEncode(out, value, encoders)
+        out.flush()
     }
 
     private fun doEncode(out: DataOutputStream, map: Map<*, *>, encoders: Encoders) {

@@ -24,6 +24,7 @@ class IndexEntryEncoder : Encoder<IndexEntry> {
             mapEncoder.encode(out, value.bookEntries, encoders)
             out.writeByte(OBJECT_END_CODE)
         }
+        out.flush()
     }
 
     override fun encodedClass() = IndexEntry::class.java

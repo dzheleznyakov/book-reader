@@ -25,6 +25,7 @@ class BookEntryEncoder : Encoder<BookEntry> {
             mapEncoder.encode(out, chapters, encoders)
             out.writeByte(OBJECT_END_CODE)
         }
+        out.flush()
     }
 
     override fun encodedClass() = BookEntry::class.java

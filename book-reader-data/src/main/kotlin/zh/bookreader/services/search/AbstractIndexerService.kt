@@ -44,6 +44,7 @@ abstract class AbstractIndexerService(
         val output = indexFile.outputStream()
         val books = bookService.findAll()
         index(output, books)
+        output.close()
         cleanUp()
     }
 

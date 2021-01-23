@@ -24,6 +24,7 @@ class TrieNodeEncoder() : Encoder<TrieNode<*>> {
             out.writeChildrenMetadata(value)
             out.writeByte(NODE_END_CODE)
         }
+        out.flush()
     }
 
     @Suppress("UNCHECKED_CAST")

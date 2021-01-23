@@ -24,6 +24,7 @@ class TrieEncoder() : Encoder<Trie<*>> {
                 .forEach { encoders.get(it.javaClass).encode(out, it, encoders) }
             out.writeByte(END_CODE)
         }
+        out.flush()
     }
 
     override fun encodedClass() = Trie::class.java

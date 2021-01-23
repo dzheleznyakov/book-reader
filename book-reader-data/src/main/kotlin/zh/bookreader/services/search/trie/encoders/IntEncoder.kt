@@ -11,6 +11,7 @@ class IntEncoder : Encoder<Int?> {
     override fun encode(out: DataOutputStream, value: Int?, encoders: Encoders) {
         if (value != null)
             out.writeInt(value)
+        out.flush()
     }
 
     @Suppress("UNCHECKED_CAST")
