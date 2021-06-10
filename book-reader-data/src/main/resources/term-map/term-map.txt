@@ -39,6 +39,8 @@ aside  => BLOCK
 
 blockquote[epigraph] => BLOCK
 
+br => BREAK
+
 caption => INLINED
 table   => TABLE
 tbody   => TABLE

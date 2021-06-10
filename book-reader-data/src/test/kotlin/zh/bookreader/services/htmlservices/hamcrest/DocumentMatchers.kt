@@ -15,3 +15,4 @@ fun hasContent(content: List<Document<*>>): Matcher<Document<*>> = DocHasContent
 fun hasId(id: String): Matcher<Document<*>> = DocHasId(id)
 fun hasImage(bytes: Array<Byte>): Matcher<Document<*>> = DocHasImage(bytes)
 fun isNull(): Matcher<Document<*>> = DocIsNull()
+fun isBreakRule(): Matcher<Document<*>> = DocIsBreakRule()

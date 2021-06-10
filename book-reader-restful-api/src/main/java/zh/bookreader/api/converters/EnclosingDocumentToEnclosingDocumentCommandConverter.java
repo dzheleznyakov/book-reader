@@ -7,6 +7,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import zh.bookreader.api.commands.DocumentCommand;
 import zh.bookreader.api.commands.EnclosingDocumentCommand;
+import zh.bookreader.model.documents.BreakRuleDocument;
 import zh.bookreader.model.documents.Document;
 import zh.bookreader.model.documents.DocumentFormatting;
 import zh.bookreader.model.documents.EnclosingDocument;
@@ -24,13 +25,14 @@ import java.util.Objects;
 public class EnclosingDocumentToEnclosingDocumentCommandConverter implements Converter<EnclosingDocument, EnclosingDocumentCommand> {
     private final TextDocumentToTextDocumentCommandConverter textDocConverter;
     private final ImageDocumentToImageDocumentCommandConverter imageDocConverter;
+    private final BreakRuleDocumentToBreakRuleDocumentCommandConverter breakRuleDocumentConverter;
 
     public EnclosingDocumentToEnclosingDocumentCommandConverter(
             TextDocumentToTextDocumentCommandConverter textDocConverter,
-            ImageDocumentToImageDocumentCommandConverter imageDocConverter
-    ) {
+            ImageDocumentToImageDocumentCommandConverter imageDocConverter, BreakRuleDocumentToBreakRuleDocumentCommandConverter breakRuleDocumentConverter) {
         this.textDocConverter = textDocConverter;
         this.imageDocConverter = imageDocConverter;
+        this.breakRuleDocumentConverter = breakRuleDocumentConverter;
     }
 
     @Override
@@ -72,6 +74,8 @@ public class EnclosingDocumentToEnclosingDocumentCommandConverter implements Con
             return imageDocConverter.convert((ImageDocument) doc);
         if (doc instanceof EnclosingDocument)
             return this.convert((EnclosingDocument) doc);
+        if (doc instanceof BreakRuleDocument)
+            return breakRuleDocumentConverter.convert((BreakRuleDocument) doc);
         log.warn("Document type is not supported: [{}]", doc.getClass());
         return null;
     }

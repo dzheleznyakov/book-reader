@@ -17,6 +17,7 @@ import zh.bookreader.services.htmlservices.hamcrest.hasId
 import zh.bookreader.services.htmlservices.hamcrest.hasImage
 import zh.bookreader.services.htmlservices.hamcrest.hasMetadata
 import zh.bookreader.services.htmlservices.hamcrest.hasTextContent
+import zh.bookreader.services.htmlservices.hamcrest.isBreakRule
 import zh.bookreader.services.htmlservices.hamcrest.isNull
 import zh.bookreader.services.htmlservices.hamcrest.isOfType
 import java.net.URI
@@ -328,6 +329,16 @@ internal class HtmlDocumentParserTest {
         val doc = parser.parseFileContent(htmlString)
 
         assertThat(doc, isNull())
+    }
+
+    @Test
+    @DisplayName("Test parsing a break rule")
+    internal fun testBreakRule() {
+        val htmlString = "<br />"
+
+        val doc = parser.parseFileContent(htmlString)
+
+        assertThat(doc, isBreakRule())
     }
 
     @Test

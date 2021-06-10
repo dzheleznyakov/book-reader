@@ -175,6 +175,8 @@ const mapTable = formatting => {
     return mapByDefault(types.TABLE, formatting, 'span');
 };
 
+const mapBreak = () => () => <br />;
+
 const mapper = (type, formatting) => {
     switch(type) {
         case types.TEXT: return props => props.children;
@@ -186,6 +188,7 @@ const mapper = (type, formatting) => {
         case types.EMAIL: return mapEmail(formatting);
         case types.IMAGE: return mapImage(formatting);
         case types.TABLE: return mapTable(formatting);
+        case types.BREAK: return mapBreak(formatting);
         default: return mapByDefault(type, formatting);
     }    
 };

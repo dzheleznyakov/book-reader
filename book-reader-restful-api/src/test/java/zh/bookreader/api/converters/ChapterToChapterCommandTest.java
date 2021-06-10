@@ -31,7 +31,7 @@ class ChapterToChapterCommandTest {
         TextDocumentToTextDocumentCommandConverter textDocConverter = new TextDocumentToTextDocumentCommandConverter();
         ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
         EnclosingDocumentToEnclosingDocumentCommandConverter enclosingDocConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(
-                textDocConverter, imageDocConverter);
+                textDocConverter, imageDocConverter, new BreakRuleDocumentToBreakRuleDocumentCommandConverter());
         converter = new ChapterToChapterCommand(enclosingDocConverter);
     }
 

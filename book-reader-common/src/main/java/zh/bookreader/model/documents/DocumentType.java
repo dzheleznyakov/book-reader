@@ -11,5 +11,6 @@ public enum DocumentType {
     EMAIL,
     TEXT,
     IMAGE,
+    BREAK,
     NULL
 }

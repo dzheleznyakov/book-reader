@@ -8,4 +8,5 @@ export default {
     EMAIL: 'EMAIL',
     IMAGE: 'IMAGE',
     TABLE: 'TABLE',
+    BREAK: 'BREAK',
 }

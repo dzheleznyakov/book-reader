@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import zh.bookreader.api.commands.DocumentCommand;
 import zh.bookreader.api.commands.EnclosingDocumentCommand;
 import zh.bookreader.api.commands.ImageDocumentCommand;
+import zh.bookreader.model.documents.BreakRuleDocument;
 import zh.bookreader.model.documents.DocumentType;
 import zh.bookreader.model.documents.EnclosingDocument;
 import zh.bookreader.model.documents.ImageDocument;
@@ -15,8 +16,10 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static zh.bookreader.api.ApiTestUtils.PAR;
 import static zh.bookreader.api.ApiTestUtils.SEC_1;
@@ -35,7 +38,7 @@ class EnclosingDocumentToEnclosingDocumentCommandConverterTest {
     void setUpConverter() {
         TextDocumentToTextDocumentCommandConverter textDocConverter = new TextDocumentToTextDocumentCommandConverter();
         ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
-        converter = new EnclosingDocumentToEnclosingDocumentCommandConverter(textDocConverter, imageDocConverter);
+        converter = new EnclosingDocumentToEnclosingDocumentCommandConverter(textDocConverter, imageDocConverter, new BreakRuleDocumentToBreakRuleDocumentCommandConverter());
     }
 
     @Test
@@ -60,6 +63,22 @@ class EnclosingDocumentToEnclosingDocumentCommandConverterTest {
         EnclosingDocumentCommand command = converter.convert(SEC_1);
 
         assertThat(command, stemsFrom(SEC_1));
+    }
+
+    @Test
+    @DisplayName("")
+    void testDocumentConversion_ContentIsBreakRuleDocument() {
+        EnclosingDocument doc = EnclosingDocument.builder(DocumentType.SECTION)
+                .withContent(BreakRuleDocument.builder().build())
+                .build();
+
+        EnclosingDocumentCommand command = converter.convert(doc);
+
+        List<? extends DocumentCommand> content = command.getContent();
+
+        assertThat(content, is(notNullValue()));
+        assertThat(content, hasSize(1));
+        assertThat(content.get(0).getDocumentType(), is(DocumentType.BREAK.toString()));
     }
 
     @Test
