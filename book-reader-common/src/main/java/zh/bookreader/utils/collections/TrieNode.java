@@ -11,17 +11,19 @@ public class TrieNode<T> {
     private final char label;
     private final List<T> values = new ArrayList<>();
     private final TrieNode<T>[] children;
+    private final int level;
 
     TrieNode() {
-        this(ROOT_LABEL);
+        this(ROOT_LABEL, 0);
     }
 
-    private TrieNode(int chCode) {
-        this((char) (chCode));
+    private TrieNode(int chCode, int level) {
+        this((char) (chCode), level);
     }
 
-    public TrieNode(char label) {
+    public TrieNode(char label, int level) {
         this.label = label;
+        this.level = level;
         this.children = (TrieNode<T>[]) Array.newInstance(TrieNode.class, 'z' - 'a' + 1);
     }
 
@@ -50,6 +52,10 @@ public class TrieNode<T> {
 
     public char getLabel() {
         return label;
+    }
+
+    public int getLevel() {
+        return level;
     }
 
     public List<T> getValues() {

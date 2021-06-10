@@ -43,7 +43,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-class ChapterControllerTest {
+class
+ChapterControllerTest {
     private static final String CONTENT_TYPE = "application/json;charset=UTF-8";
     private static final String CHARACTER_ENCODING = StandardCharsets.UTF_8.toString();
     private static final String BOOK_ID = "book-id";

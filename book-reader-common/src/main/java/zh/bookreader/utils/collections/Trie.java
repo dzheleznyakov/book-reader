@@ -59,7 +59,7 @@ public class Trie<T> implements Iterable<TrieNode<T>> {
     @Nonnull
     private TrieNode<T> ensureChild(TrieNode<T> node, char ch) {
         if (!node.hasChild(ch))
-            node.setChild(ch, new TrieNode<T>(ch));
+            node.setChild(ch, new TrieNode<T>(ch, node.getLevel() + 1));
         return node.getChild(ch);
     }
 
