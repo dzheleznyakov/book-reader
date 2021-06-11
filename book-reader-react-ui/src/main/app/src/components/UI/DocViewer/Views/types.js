@@ -9,4 +9,5 @@ export default {
     IMAGE: 'IMAGE',
     TABLE: 'TABLE',
     BREAK: 'BREAK',
+    RAW: 'RAW',
 }

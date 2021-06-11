@@ -17,6 +17,7 @@ import zh.bookreader.api.converters.ChapterListToChapterNavigationConverter;
 import zh.bookreader.api.converters.ChapterToChapterCommand;
 import zh.bookreader.api.converters.EnclosingDocumentToEnclosingDocumentCommandConverter;
 import zh.bookreader.api.converters.ImageDocumentToImageDocumentCommandConverter;
+import zh.bookreader.api.converters.RawDocumentToRawDocumentCommandConverter;
 import zh.bookreader.api.converters.TextDocumentToTextDocumentCommandConverter;
 import zh.bookreader.model.documents.Book;
 import zh.bookreader.model.documents.Chapter;
@@ -68,7 +69,7 @@ class ChapterControllerTest {
         TextDocumentToTextDocumentCommandConverter textDocConverter = new TextDocumentToTextDocumentCommandConverter();
         ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
         EnclosingDocumentToEnclosingDocumentCommandConverter enclosingDocConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(
-                textDocConverter, imageDocConverter, new BreakRuleDocumentToBreakRuleDocumentCommandConverter());
+                textDocConverter, imageDocConverter, new BreakRuleDocumentToBreakRuleDocumentCommandConverter(), new RawDocumentToRawDocumentCommandConverter());
         ChapterToChapterCommand chapterConverter = new ChapterToChapterCommand(enclosingDocConverter);
         ChapterListToChapterNavigationConverter navigationConverter = new ChapterListToChapterNavigationConverter();
         chapterController = new ChapterController(chapterConverter, bookService, navigationConverter);

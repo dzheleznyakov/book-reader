@@ -7,10 +7,12 @@ import org.junit.jupiter.api.Test;
 import zh.bookreader.api.commands.DocumentCommand;
 import zh.bookreader.api.commands.EnclosingDocumentCommand;
 import zh.bookreader.api.commands.ImageDocumentCommand;
+import zh.bookreader.api.commands.RawDocumentCommand;
 import zh.bookreader.model.documents.BreakRuleDocument;
 import zh.bookreader.model.documents.DocumentType;
 import zh.bookreader.model.documents.EnclosingDocument;
 import zh.bookreader.model.documents.ImageDocument;
+import zh.bookreader.model.documents.RawDocument;
 
 import java.util.List;
 
@@ -38,7 +40,7 @@ class EnclosingDocumentToEnclosingDocumentCommandConverterTest {
     void setUpConverter() {
         TextDocumentToTextDocumentCommandConverter textDocConverter = new TextDocumentToTextDocumentCommandConverter();
         ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
-        converter = new EnclosingDocumentToEnclosingDocumentCommandConverter(textDocConverter, imageDocConverter, new BreakRuleDocumentToBreakRuleDocumentCommandConverter());
+        converter = new EnclosingDocumentToEnclosingDocumentCommandConverter(textDocConverter, imageDocConverter, new BreakRuleDocumentToBreakRuleDocumentCommandConverter(), new RawDocumentToRawDocumentCommandConverter());
     }
 
     @Test
@@ -66,7 +68,7 @@ class EnclosingDocumentToEnclosingDocumentCommandConverterTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("Test converting Enclosing Document containing one BreakRule Document")
     void testDocumentConversion_ContentIsBreakRuleDocument() {
         EnclosingDocument doc = EnclosingDocument.builder(DocumentType.SECTION)
                 .withContent(BreakRuleDocument.builder().build())
@@ -79,6 +81,25 @@ class EnclosingDocumentToEnclosingDocumentCommandConverterTest {
         assertThat(content, is(notNullValue()));
         assertThat(content, hasSize(1));
         assertThat(content.get(0).getDocumentType(), is(DocumentType.BREAK.toString()));
+    }
+
+    @Test
+    @DisplayName("Test converting Enclosing Document containing one Raw Document")
+    void testDocumentConversion_ContentIsRawDocument() {
+        String docContent = "content";
+        EnclosingDocument doc = EnclosingDocument.builder(DocumentType.SECTION)
+                .withContent(RawDocument.builder().withContent(docContent).build())
+                .build();
+
+        EnclosingDocumentCommand command = converter.convert(doc);
+
+        List<? extends DocumentCommand> content = command.getContent();
+
+        assertThat(content, is(notNullValue()));
+        assertThat(content, hasSize(1));
+        RawDocumentCommand rawDocCommand = (RawDocumentCommand) content.get(0);
+        assertThat(rawDocCommand.getDocumentType(), is(DocumentType.RAW.toString()));
+        assertThat(rawDocCommand.getContent(), is(docContent));
     }
 
     @Test

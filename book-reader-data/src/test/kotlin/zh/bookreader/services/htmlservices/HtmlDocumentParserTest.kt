@@ -113,6 +113,14 @@ internal class HtmlDocumentParserTest {
         assertThat(doc, hasFormatting(eFormatting))
     }
 
+    @Test
+    @DisplayName("Test parsing a script node")
+    internal fun testParsingScriptNode() {
+        val doc = parser.parseFileContent("<script>something inside</script>")
+
+        assertThat(doc, isOfType(DocType.RAW))
+    }
+
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test parsing a link node")
     @CsvSource(

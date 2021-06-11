@@ -5,6 +5,7 @@ import viewMapper from './viewFactory';
 import contentMapper from './contentMapper';
 import docShape from '../docShape';
 import classFactory from './classFactory';
+import types from './types';
 
 const Views = props => {
     const { docs } = props;
@@ -21,7 +22,7 @@ const Views = props => {
 
         const viewProps = { 
             key: i, 
-            children: content, 
+            // children: content, 
             id: id || undefined,
             href,
             width: width || undefined,
@@ -29,6 +30,10 @@ const Views = props => {
             image,
             className: classFactory(type, formatting).toString(),
         }
+        if (type === types.RAW)
+            viewProps.dangerouslySetInnerHTML = { __html: content };
+        else
+            viewProps.children = content;
 
         return View(viewProps);
     })

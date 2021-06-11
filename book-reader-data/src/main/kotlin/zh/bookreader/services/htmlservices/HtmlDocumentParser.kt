@@ -9,6 +9,7 @@ import zh.bookreader.model.documents.DocumentFormatting
 import zh.bookreader.model.documents.DocumentType
 import zh.bookreader.model.documents.EnclosingDocument
 import zh.bookreader.model.documents.ImageDocument
+import zh.bookreader.model.documents.RawDocument
 import zh.bookreader.model.documents.TextDocument
 import zh.bookreader.services.utils.readLines
 import java.io.File
@@ -81,11 +82,17 @@ class HtmlDocumentParser(private val fileName: String) {
 
         return when (element.getDocumentType()) {
             DocumentType.NULL -> Document.NULL
+            DocumentType.RAW -> element.toRawDocument()
             DocumentType.TEXT -> element.toTextDocument()
             DocumentType.IMAGE -> element.toImageDocument(dirPath)
             else -> element.toEnclosingDocument(dirPath)
         }
     }
+
+    private fun Node.toRawDocument(): RawDocument =
+        RawDocument.builder()
+                .withContent(getContentAsHtml())
+                .build()
 
     private fun Node.toTextDocument(): TextDocument =
             TextDocument.builder(getDocumentType())
@@ -111,6 +118,8 @@ class HtmlDocumentParser(private val fileName: String) {
     private fun Node.getContentAsDocuments(dirPath: String) = childNodes()
             .map { child -> parseElement(child, dirPath) }
             .filter { doc -> doc != Document.NULL }
+
+    private fun Node.getContentAsHtml() = this.outerHtml()
 
     private fun Node.getContentAsText() = (this as TextNode).wholeText
 
@@ -147,6 +156,7 @@ class HtmlDocumentParser(private val fileName: String) {
         return when {
             tagKey == "#text" -> DocumentType.TEXT
             tagKey == "#comment" -> DocumentType.NULL
+            tagKey == "script" -> DocumentType.RAW
             tagsToTypes[tagKey] != null -> tagsToTypes[tagKey] as DocumentType
             tagsToTypes[nodeName()] != null -> tagsToTypes[nodeName()] as DocumentType
             else -> {

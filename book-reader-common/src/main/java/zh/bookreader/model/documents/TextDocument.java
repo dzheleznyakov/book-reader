@@ -7,7 +7,7 @@ import java.util.Objects;
 public class TextDocument extends BaseDocument<String> {
     private final String content;
 
-    private TextDocument(DocumentBuilder<String> builder) {
+    TextDocument(DocumentBuilder<String> builder) {
         super(builder);
         content = builder.getContent();
     }

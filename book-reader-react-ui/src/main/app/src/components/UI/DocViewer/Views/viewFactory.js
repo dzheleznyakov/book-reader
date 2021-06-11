@@ -181,6 +181,8 @@ const mapTable = formatting => {
 
 const mapBreak = () => () => <br />;
 
+const mapRaw = () => getView('div');
+
 const mapper = (type, formatting) => {
     switch(type) {
         case types.TEXT: return props => props.children;
@@ -193,6 +195,7 @@ const mapper = (type, formatting) => {
         case types.IMAGE: return mapImage(formatting);
         case types.TABLE: return mapTable(formatting);
         case types.BREAK: return mapBreak(formatting);
+        case types.RAW: return mapRaw(formatting);
         default: return mapByDefault(type, formatting);
     }    
 };

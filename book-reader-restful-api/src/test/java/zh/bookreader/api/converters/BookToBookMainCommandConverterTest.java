@@ -22,7 +22,7 @@ class BookToBookMainCommandConverterTest {
         TextDocumentToTextDocumentCommandConverter textConverter = new TextDocumentToTextDocumentCommandConverter();
         ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
         EnclosingDocumentToEnclosingDocumentCommandConverter enclosingConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(
-                textConverter, imageDocConverter, new BreakRuleDocumentToBreakRuleDocumentCommandConverter());
+                textConverter, imageDocConverter, new BreakRuleDocumentToBreakRuleDocumentCommandConverter(), new RawDocumentToRawDocumentCommandConverter());
         converter = new BookToBookMainCommandConverter(textConverter, enclosingConverter);
     }
 

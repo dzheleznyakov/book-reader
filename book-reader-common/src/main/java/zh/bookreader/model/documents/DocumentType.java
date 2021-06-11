@@ -12,5 +12,6 @@ public enum DocumentType {
     TEXT,
     IMAGE,
     BREAK,
-    NULL
+    NULL,
+    RAW
 }

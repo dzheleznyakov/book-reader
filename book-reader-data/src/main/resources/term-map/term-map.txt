@@ -17,6 +17,8 @@ span => INLINED
 nobr => INLINED
 cite => INLINED
 
+script => RAW
+
 em => INLINED
 i => INLINED
 strong => INLINED

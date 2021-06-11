@@ -12,6 +12,7 @@ import zh.bookreader.model.documents.Document;
 import zh.bookreader.model.documents.DocumentFormatting;
 import zh.bookreader.model.documents.EnclosingDocument;
 import zh.bookreader.model.documents.ImageDocument;
+import zh.bookreader.model.documents.RawDocument;
 import zh.bookreader.model.documents.TextDocument;
 
 import javax.annotation.Nonnull;
@@ -26,13 +27,18 @@ public class EnclosingDocumentToEnclosingDocumentCommandConverter implements Con
     private final TextDocumentToTextDocumentCommandConverter textDocConverter;
     private final ImageDocumentToImageDocumentCommandConverter imageDocConverter;
     private final BreakRuleDocumentToBreakRuleDocumentCommandConverter breakRuleDocumentConverter;
+    private final RawDocumentToRawDocumentCommandConverter rawDocumentConverter;
 
     public EnclosingDocumentToEnclosingDocumentCommandConverter(
             TextDocumentToTextDocumentCommandConverter textDocConverter,
-            ImageDocumentToImageDocumentCommandConverter imageDocConverter, BreakRuleDocumentToBreakRuleDocumentCommandConverter breakRuleDocumentConverter) {
+            ImageDocumentToImageDocumentCommandConverter imageDocConverter,
+            BreakRuleDocumentToBreakRuleDocumentCommandConverter breakRuleDocumentConverter,
+            RawDocumentToRawDocumentCommandConverter rawDocumentConverter
+    ) {
         this.textDocConverter = textDocConverter;
         this.imageDocConverter = imageDocConverter;
         this.breakRuleDocumentConverter = breakRuleDocumentConverter;
+        this.rawDocumentConverter = rawDocumentConverter;
     }
 
     @Override
@@ -68,6 +74,8 @@ public class EnclosingDocumentToEnclosingDocumentCommandConverter implements Con
     }
 
     private <D extends Document<?>> DocumentCommand convert(D doc) {
+        if (doc instanceof RawDocument)
+            return rawDocumentConverter.convert((RawDocument) doc);
         if (doc instanceof TextDocument)
             return textDocConverter.convert((TextDocument) doc);
         if (doc instanceof ImageDocument)
