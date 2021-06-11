@@ -76,8 +76,9 @@ em.hyperlink => EMPH
 
 strong => BOLD
 b => BOLD
-
 s => STRIKE
+
+cite => CITE
 
 a.totri-footnote[noteref] => FOOTNOTE_REF
 a.totri-footnote          => FOOTNOTE

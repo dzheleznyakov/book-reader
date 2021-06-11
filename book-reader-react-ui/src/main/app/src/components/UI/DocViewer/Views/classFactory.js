@@ -12,6 +12,7 @@ const classlessLiterals = new Set([
     `${types.BLOCK}.${styles.UNORDERED_LIST}.${styles.DEFINITION}`,
     `${types.BLOCK}.${styles.DEFINITION_DESCR}`,
     `${types.INLINED}.${styles.TITLE}`,
+    `${types.INLINED}.${styles.CITE}`,
     `${types.INLINED}.${styles.CODE}`,
     `${types.INLINED}.${styles.BOLD}`,
     `${types.INLINED}.${styles.EMPH}`,

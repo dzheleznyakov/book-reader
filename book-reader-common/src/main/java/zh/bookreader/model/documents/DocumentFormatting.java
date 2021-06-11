@@ -48,6 +48,7 @@ public enum DocumentFormatting {
     CODE_KEYWORD,
 
     EPIGRAPH,
+    CITE,
 
     INDEX_TERM,
     INDEX_LOCATOR,

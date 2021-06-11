@@ -42,6 +42,7 @@ export default {
 
     FIGURE: 'FIGURE',
     LISTING: 'LISTING',
+    CITE: 'CITE',
 
     TABLE_BODY: 'TABLE_BODY',
     TABLE_ROW: 'TABLE_ROW',

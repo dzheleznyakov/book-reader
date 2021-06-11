@@ -15,6 +15,7 @@ sup         => INLINED
 
 span => INLINED
 nobr => INLINED
+cite => INLINED
 
 em => INLINED
 i => INLINED
