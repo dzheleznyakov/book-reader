@@ -19,6 +19,7 @@ em => INLINED
 i => INLINED
 strong => INLINED
 b => INLINED
+s => INLINED
 
 p => PARAGRAPH
 
@@ -38,6 +39,7 @@ figure => BLOCK
 aside  => BLOCK
 
 blockquote[epigraph] => BLOCK
+blockquote => BLOCK
 
 br => BREAK
 

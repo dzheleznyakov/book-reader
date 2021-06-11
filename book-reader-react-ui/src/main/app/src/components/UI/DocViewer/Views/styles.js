@@ -4,6 +4,7 @@ export default {
     LIST_ITEM: 'LIST_ITEM',
     BOLD: 'BOLD',
     EMPH: 'EMPH',
+    STRIKE: 'STRIKE',
 
     CODE: 'CODE',
     CODE_OPERATOR: 'CODE_OPERATOR',

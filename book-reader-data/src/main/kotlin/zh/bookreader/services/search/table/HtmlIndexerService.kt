@@ -112,7 +112,10 @@ class HtmlIndexerService(
                 .asSequence()
                 .map { (word, entry) -> "\n$word=>${entry}" }
                 .forEach {
-                    println("Writing in index [${count.incrementAndGet()}/${index.size}]")
+                    val count = count.incrementAndGet()
+                    val shouldPrintUpdate = count % 1000 == 0 || count == index.size
+                    if (shouldPrintUpdate)
+                        println("Writing in index [$count/${index.size}]")
                     write(it).flush()
                 }
     }

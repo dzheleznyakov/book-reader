@@ -4,6 +4,7 @@ public enum DocumentFormatting {
     ITALIC,
     BOLD,
     EMPH,
+    STRIKE,
 
     SIMPLE,
 

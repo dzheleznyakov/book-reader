@@ -58,6 +58,7 @@ figure => FIGURE
 aside[sidebar]  => SIDEBAR
 
 blockquote[epigraph] => EPIGRAPH
+blockquote => EPIGRAPH
 
 caption      => CAPTION
 thead        => TABLE_HEADER
@@ -75,6 +76,8 @@ em.hyperlink => EMPH
 
 strong => BOLD
 b => BOLD
+
+s => STRIKE
 
 a.totri-footnote[noteref] => FOOTNOTE_REF
 a.totri-footnote          => FOOTNOTE

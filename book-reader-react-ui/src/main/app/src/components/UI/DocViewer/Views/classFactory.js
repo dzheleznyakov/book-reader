@@ -15,6 +15,7 @@ const classlessLiterals = new Set([
     `${types.INLINED}.${styles.CODE}`,
     `${types.INLINED}.${styles.BOLD}`,
     `${types.INLINED}.${styles.EMPH}`,
+    `${types.INLINED}.${styles.STRIKE}`,
     `${types.INLINED}.${styles.SUP}`,
 ]);
 

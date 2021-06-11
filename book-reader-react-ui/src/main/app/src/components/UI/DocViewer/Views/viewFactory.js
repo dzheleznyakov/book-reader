@@ -97,6 +97,8 @@ const mapInlined = formatting => {
         return getView('strong');
     if (formatting.hasOnly(styles.EMPH))
         return getView('em');
+    if (formatting.hasOnly(styles.STRIKE))
+        return getView('s');
     if (formatting.hasOnly(styles.TITLE))
         return getView('h1');
     if (formatting.has(styles.CODE))
