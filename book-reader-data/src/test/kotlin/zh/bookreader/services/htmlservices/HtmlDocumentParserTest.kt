@@ -51,6 +51,7 @@ internal class HtmlDocumentParserTest {
             "<span>some text</span>                         ,   ->   , some text,  _",
             "<span class=\"keep-together\">some text</span> ,   ->   , some text,  _",
             "<span class=\"label\">some text</span>         ,   ->   , some text,  _",
+            "<nobr>some text</nobr>                         ,   ->   , some text,  _",
             "<em>some text</em>                             ,   ->   , some text,  EMPH",
             "<i>some text</i>                               ,   ->   , some text,  EMPH",
             "<strong>some text</strong>                     ,   ->   , some text,  BOLD",
