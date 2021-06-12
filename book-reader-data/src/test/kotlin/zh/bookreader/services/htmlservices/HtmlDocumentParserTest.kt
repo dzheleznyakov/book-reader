@@ -121,6 +121,16 @@ internal class HtmlDocumentParserTest {
         assertThat(doc, isOfType(DocType.RAW))
     }
 
+    @Test
+    @DisplayName("Test parsing a MathML node")
+    internal fun testParsingMathML() {
+        val doc = parser.parseFileContent("<math>some math</math>")
+
+        assertThat(doc, isOfType(DocType.RAW))
+        assertThat(doc, hasFormatting("_"))
+        assertThat(doc, hasTextContent("<math>\n some math\n</math>"))
+    }
+
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test parsing a link node")
     @CsvSource(
