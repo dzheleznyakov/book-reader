@@ -11,6 +11,7 @@ h5          => INLINED
 h6          => INLINED
 h2.title    => INLINED
 sup         => INLINED
+sub         => INLINED
 
 math  => RAW
 

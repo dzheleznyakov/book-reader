@@ -60,6 +60,7 @@ internal class HtmlDocumentParserTest {
             "<b>some text</b>                               ,   ->   , some text,  BOLD",
             "<s>some text</s>                               ,   ->   , some text,  STRIKE",
             "<sup>some text</sup>                           ,   ->   , some text,  SUP",
+            "<sub>some text</sub>                           ,   ->   , some text,  SUB",
             "<span data-type=\"index-term\">some text</span>,   ->   , some text,  INDEX_TERM"
     )
     internal fun testParsingInlinedNode(htmlString: String, _d: String,

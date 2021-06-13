@@ -69,6 +69,7 @@ th           => TABLE_HEADER_CELL
 td           => TABLE_CELL
 
 sup          => SUP
+sub          => SUB
 
 i => EMPH
 em => EMPH

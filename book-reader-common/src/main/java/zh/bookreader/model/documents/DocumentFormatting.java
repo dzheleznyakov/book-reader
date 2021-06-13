@@ -55,6 +55,7 @@ public enum DocumentFormatting {
 
     FRAMED,
     SUP,
+    SUB,
 
     TIP,
     NOTE,

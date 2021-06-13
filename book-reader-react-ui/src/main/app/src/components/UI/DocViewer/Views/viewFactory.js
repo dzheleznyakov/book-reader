@@ -109,6 +109,8 @@ const mapInlined = formatting => {
         return getView('caption');
     if (formatting.hasOnly(styles.SUP))
         return getView('sup');
+    if (formatting.hasOnly(styles.SUB))
+        return getView('sub');
     return mapByDefault(types.INLINED, formatting, 'span');
 };
 
@@ -181,7 +183,7 @@ const mapTable = formatting => {
 
 const mapBreak = () => ({ key }) => <br key={key} />;
 
-const mapHorizontal = () => ({ key }) => <hr key={key}  />;
+const mapHorizontal = () => ({ key }) => <hr key={key} />;
 
 const mapRaw = () => getView('div');
 
