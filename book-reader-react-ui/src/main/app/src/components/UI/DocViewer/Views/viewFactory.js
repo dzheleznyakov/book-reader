@@ -179,9 +179,9 @@ const mapTable = formatting => {
     return mapByDefault(types.TABLE, formatting, 'span');
 };
 
-const mapBreak = () => props => <br {...props} />;
+const mapBreak = () => ({ key }) => <br key={key} />;
 
-const mapHorizontal = () => props => <hr {...props} />;
+const mapHorizontal = () => ({ key }) => <hr key={key}  />;
 
 const mapRaw = () => getView('div');
 
