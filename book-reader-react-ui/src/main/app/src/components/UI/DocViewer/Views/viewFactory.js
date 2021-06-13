@@ -179,7 +179,9 @@ const mapTable = formatting => {
     return mapByDefault(types.TABLE, formatting, 'span');
 };
 
-const mapBreak = () => () => <br />;
+const mapBreak = () => props => <br {...props} />;
+
+const mapHorizontal = () => props => <hr {...props} />;
 
 const mapRaw = () => getView('div');
 
@@ -195,6 +197,7 @@ const mapper = (type, formatting) => {
         case types.IMAGE: return mapImage(formatting);
         case types.TABLE: return mapTable(formatting);
         case types.BREAK: return mapBreak(formatting);
+        case types.HORIZONTAL: return mapHorizontal(formatting);
         case types.RAW: return mapRaw(formatting);
         default: return mapByDefault(type, formatting);
     }    

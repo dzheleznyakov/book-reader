@@ -1,5 +1,6 @@
 package zh.bookreader.api.converters;
 
+import com.google.common.collect.ImmutableSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,11 @@ class BookToBookMainCommandConverterTest {
         TextDocumentToTextDocumentCommandConverter textConverter = new TextDocumentToTextDocumentCommandConverter();
         ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
         EnclosingDocumentToEnclosingDocumentCommandConverter enclosingConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(
-                textConverter, imageDocConverter, new BreakRuleDocumentToBreakRuleDocumentCommandConverter(), new RawDocumentToRawDocumentCommandConverter());
+                ImmutableSet.of(
+                        textConverter,
+                        imageDocConverter,
+                        new BreakRuleDocumentToBreakRuleDocumentCommandConverter(),
+                        new RawDocumentToRawDocumentCommandConverter()));
         converter = new BookToBookMainCommandConverter(textConverter, enclosingConverter);
     }
 

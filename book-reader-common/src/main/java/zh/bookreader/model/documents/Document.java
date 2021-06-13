@@ -14,7 +14,7 @@ public interface Document<CONTENT_TYPE> {
     @Nonnull String getId();
     @Nonnull Map<String, String> getMetadata();
 
-    Document<Class<Void>> NULL = new Document<Class<Void>>() {
+    Document<Class<Void>> NULL = new Document<>() {
         @Nonnull
         @Override
         public DocumentType getDocumentType() {

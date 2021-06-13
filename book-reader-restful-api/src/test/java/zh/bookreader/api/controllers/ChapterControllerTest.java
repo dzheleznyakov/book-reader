@@ -69,7 +69,7 @@ class ChapterControllerTest {
         TextDocumentToTextDocumentCommandConverter textDocConverter = new TextDocumentToTextDocumentCommandConverter();
         ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
         EnclosingDocumentToEnclosingDocumentCommandConverter enclosingDocConverter = new EnclosingDocumentToEnclosingDocumentCommandConverter(
-                textDocConverter, imageDocConverter, new BreakRuleDocumentToBreakRuleDocumentCommandConverter(), new RawDocumentToRawDocumentCommandConverter());
+                ImmutableSet.of(textDocConverter, imageDocConverter, new BreakRuleDocumentToBreakRuleDocumentCommandConverter(), new RawDocumentToRawDocumentCommandConverter()));
         ChapterToChapterCommand chapterConverter = new ChapterToChapterCommand(enclosingDocConverter);
         ChapterListToChapterNavigationConverter navigationConverter = new ChapterListToChapterNavigationConverter();
         chapterController = new ChapterController(chapterConverter, bookService, navigationConverter);

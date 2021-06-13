@@ -1,16 +1,17 @@
 package zh.bookreader.api.converters;
 
 import com.google.common.collect.ImmutableSet;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import zh.bookreader.api.commands.ImageDocumentCommand;
 import zh.bookreader.model.documents.ImageDocument;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Set;
 
 @Component
-public class ImageDocumentToImageDocumentCommandConverter implements Converter<ImageDocument, ImageDocumentCommand> {
+public class ImageDocumentToImageDocumentCommandConverter
+        implements BaseDocumentConverter<ImageDocument, ImageDocumentCommand> {
     private static final String METADATA_WIDTH_KEY = "@width";
     private static final String METADATA_HEIGHT_KEY = "@height";
 
@@ -40,5 +41,11 @@ public class ImageDocumentToImageDocumentCommandConverter implements Converter<I
 
     private String getHeight(ImageDocument doc) {
         return doc.getMetadata().get(METADATA_HEIGHT_KEY);
+    }
+
+    @Nonnull
+    @Override
+    public Class<ImageDocument> getSourceClass() {
+        return ImageDocument.class;
     }
 }

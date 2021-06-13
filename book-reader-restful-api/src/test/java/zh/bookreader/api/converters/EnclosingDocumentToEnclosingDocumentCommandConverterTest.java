@@ -1,6 +1,7 @@
 package zh.bookreader.api.converters;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import zh.bookreader.api.commands.RawDocumentCommand;
 import zh.bookreader.model.documents.BreakRuleDocument;
 import zh.bookreader.model.documents.DocumentType;
 import zh.bookreader.model.documents.EnclosingDocument;
+import zh.bookreader.model.documents.HorizontalRuleDocument;
 import zh.bookreader.model.documents.ImageDocument;
 import zh.bookreader.model.documents.RawDocument;
 
@@ -38,9 +40,14 @@ class EnclosingDocumentToEnclosingDocumentCommandConverterTest {
 
     @BeforeEach
     void setUpConverter() {
-        TextDocumentToTextDocumentCommandConverter textDocConverter = new TextDocumentToTextDocumentCommandConverter();
-        ImageDocumentToImageDocumentCommandConverter imageDocConverter = new ImageDocumentToImageDocumentCommandConverter();
-        converter = new EnclosingDocumentToEnclosingDocumentCommandConverter(textDocConverter, imageDocConverter, new BreakRuleDocumentToBreakRuleDocumentCommandConverter(), new RawDocumentToRawDocumentCommandConverter());
+        converter = new EnclosingDocumentToEnclosingDocumentCommandConverter(
+                ImmutableSet.of(
+                        new TextDocumentToTextDocumentCommandConverter(),
+                        new ImageDocumentToImageDocumentCommandConverter(),
+                        new BreakRuleDocumentToBreakRuleDocumentCommandConverter(),
+                        new RawDocumentToRawDocumentCommandConverter(),
+                        new HorizontalRuleDocumentToHorizontalRuleDocumentCommandConverter())
+        );
     }
 
     @Test
@@ -81,6 +88,22 @@ class EnclosingDocumentToEnclosingDocumentCommandConverterTest {
         assertThat(content, is(notNullValue()));
         assertThat(content, hasSize(1));
         assertThat(content.get(0).getDocumentType(), is(DocumentType.BREAK.toString()));
+    }
+
+    @Test
+    @DisplayName("Test converting Enclosing Document containing one HorizontalRule Document")
+    void testDocumentConversion_ContentIsHorizontalRuleDocument() {
+        EnclosingDocument doc = EnclosingDocument.builder(DocumentType.SECTION)
+                .withContent(new HorizontalRuleDocument())
+                .build();
+
+        EnclosingDocumentCommand command = converter.convert(doc);
+
+        List<? extends DocumentCommand> content = command.getContent();
+
+        assertThat(content, is(notNullValue()));
+        assertThat(content, hasSize(1));
+        assertThat(content.get(0).getDocumentType(), is(DocumentType.HORIZONTAL.toString()));
     }
 
     @Test

@@ -1,44 +1,37 @@
 package zh.bookreader.api.converters;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import zh.bookreader.api.commands.DocumentCommand;
 import zh.bookreader.api.commands.EnclosingDocumentCommand;
-import zh.bookreader.model.documents.BreakRuleDocument;
 import zh.bookreader.model.documents.Document;
 import zh.bookreader.model.documents.DocumentFormatting;
 import zh.bookreader.model.documents.EnclosingDocument;
-import zh.bookreader.model.documents.ImageDocument;
-import zh.bookreader.model.documents.RawDocument;
-import zh.bookreader.model.documents.TextDocument;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.function.Function;
 
 @Component
 @Slf4j
-public class EnclosingDocumentToEnclosingDocumentCommandConverter implements Converter<EnclosingDocument, EnclosingDocumentCommand> {
-    private final TextDocumentToTextDocumentCommandConverter textDocConverter;
-    private final ImageDocumentToImageDocumentCommandConverter imageDocConverter;
-    private final BreakRuleDocumentToBreakRuleDocumentCommandConverter breakRuleDocumentConverter;
-    private final RawDocumentToRawDocumentCommandConverter rawDocumentConverter;
+public class EnclosingDocumentToEnclosingDocumentCommandConverter
+        implements Converter<EnclosingDocument, EnclosingDocumentCommand> {
+    private final Map<
+            Class<?>,
+            BaseDocumentConverter<?, ?>
+    > convertersByDocClass;
 
-    public EnclosingDocumentToEnclosingDocumentCommandConverter(
-            TextDocumentToTextDocumentCommandConverter textDocConverter,
-            ImageDocumentToImageDocumentCommandConverter imageDocConverter,
-            BreakRuleDocumentToBreakRuleDocumentCommandConverter breakRuleDocumentConverter,
-            RawDocumentToRawDocumentCommandConverter rawDocumentConverter
-    ) {
-        this.textDocConverter = textDocConverter;
-        this.imageDocConverter = imageDocConverter;
-        this.breakRuleDocumentConverter = breakRuleDocumentConverter;
-        this.rawDocumentConverter = rawDocumentConverter;
+    public EnclosingDocumentToEnclosingDocumentCommandConverter(Set<BaseDocumentConverter<? extends Document<?>, ?>> converters) {
+        this.convertersByDocClass = converters.stream()
+                .collect(ImmutableMap.toImmutableMap(BaseDocumentConverter::getSourceClass, Function.identity()));
     }
 
     @Override
@@ -74,18 +67,16 @@ public class EnclosingDocumentToEnclosingDocumentCommandConverter implements Con
     }
 
     private <D extends Document<?>> DocumentCommand convert(D doc) {
-        if (doc instanceof RawDocument)
-            return rawDocumentConverter.convert((RawDocument) doc);
-        if (doc instanceof TextDocument)
-            return textDocConverter.convert((TextDocument) doc);
-        if (doc instanceof ImageDocument)
-            return imageDocConverter.convert((ImageDocument) doc);
-        if (doc instanceof EnclosingDocument)
+        if (doc.getClass() == EnclosingDocument.class)
             return this.convert((EnclosingDocument) doc);
-        if (doc instanceof BreakRuleDocument)
-            return breakRuleDocumentConverter.convert((BreakRuleDocument) doc);
-        log.warn("Document type is not supported: [{}]", doc.getClass());
-        return null;
+
+        Class<? extends Document> docClass = doc.getClass();
+        BaseDocumentConverter<D, ?> converter = (BaseDocumentConverter<D, ?>) convertersByDocClass.get(docClass);
+        if (converter == null) {
+            log.warn("Document type is not supported: [{}]", doc.getClass());
+            return null;
+        }
+        return (DocumentCommand) converter.convert(doc);
     }
 
     private String getHref(EnclosingDocument doc) {

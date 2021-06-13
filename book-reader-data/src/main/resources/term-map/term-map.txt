@@ -48,6 +48,7 @@ blockquote[epigraph] => BLOCK
 blockquote => BLOCK
 
 br => BREAK
+hr => HORIZONTAL
 
 caption => INLINED
 table   => TABLE

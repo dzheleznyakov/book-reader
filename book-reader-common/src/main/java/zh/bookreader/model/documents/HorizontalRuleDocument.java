@@ -2,8 +2,12 @@ package zh.bookreader.model.documents;
 
 import javax.annotation.Nonnull;
 
-public class BreakRuleDocument extends BaseDocument<Void> {
-    private BreakRuleDocument(DocumentBuilder<Void> builder) {
+public class HorizontalRuleDocument extends BaseDocument<Void> {
+    public HorizontalRuleDocument() {
+        this(HorizontalRuleDocument.builder());
+    }
+
+    private HorizontalRuleDocument(DocumentBuilder<Void> builder) {
         super(builder);
     }
 
@@ -14,22 +18,22 @@ public class BreakRuleDocument extends BaseDocument<Void> {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return obj instanceof BreakRuleDocument;
-    }
-
-    @Override
     public int hashCode() {
         return 1;
     }
 
-    public static DocumentBuilder<Void> builder() {
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof HorizontalRuleDocument;
+    }
+
+    public static Builder builder() {
         return new Builder();
     }
 
     public static class Builder extends DocumentBuilder<Void> {
         protected Builder() {
-            super(DocumentType.BREAK);
+            super(DocumentType.HORIZONTAL);
         }
 
         @Override
@@ -43,8 +47,8 @@ public class BreakRuleDocument extends BaseDocument<Void> {
         }
 
         @Override
-        public BreakRuleDocument build() {
-            return new BreakRuleDocument(this);
+        public HorizontalRuleDocument build() {
+            return new HorizontalRuleDocument(this);
         }
     }
 }

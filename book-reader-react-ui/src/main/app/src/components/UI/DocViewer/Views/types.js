@@ -9,5 +9,6 @@ export default {
     IMAGE: 'IMAGE',
     TABLE: 'TABLE',
     BREAK: 'BREAK',
+    HORIZONTAL: 'HORIZONTAL',
     RAW: 'RAW',
 }

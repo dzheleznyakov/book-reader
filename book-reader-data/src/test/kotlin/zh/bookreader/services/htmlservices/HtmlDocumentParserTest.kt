@@ -18,6 +18,7 @@ import zh.bookreader.services.htmlservices.hamcrest.hasImage
 import zh.bookreader.services.htmlservices.hamcrest.hasMetadata
 import zh.bookreader.services.htmlservices.hamcrest.hasTextContent
 import zh.bookreader.services.htmlservices.hamcrest.isBreakRule
+import zh.bookreader.services.htmlservices.hamcrest.isHorizontalRule
 import zh.bookreader.services.htmlservices.hamcrest.isNull
 import zh.bookreader.services.htmlservices.hamcrest.isOfType
 import java.net.URI
@@ -360,6 +361,16 @@ internal class HtmlDocumentParserTest {
         val doc = parser.parseFileContent(htmlString)
 
         assertThat(doc, isBreakRule())
+    }
+
+    @Test
+    @DisplayName("Test parsing a horizontal rule")
+    internal fun testHorizontalRule() {
+        val htmlString = "<hr />"
+
+        val doc = parser.parseFileContent(htmlString)
+
+        assertThat(doc, isHorizontalRule())
     }
 
     @Test
