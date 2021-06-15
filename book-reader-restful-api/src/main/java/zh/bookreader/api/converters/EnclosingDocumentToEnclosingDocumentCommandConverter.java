@@ -42,6 +42,7 @@ public class EnclosingDocumentToEnclosingDocumentCommandConverter
                 .id(doc.getId())
                 .formatting(convertFormatting(doc))
                 .href(getHref(doc))
+                .metadata(convertMetadata(doc))
                 .build();
 
     }
@@ -87,5 +88,12 @@ public class EnclosingDocumentToEnclosingDocumentCommandConverter
         return Objects.equals(metadata.get("type"), "xref")
                 ? href.replace(".html", "")
                 : href;
+    }
+
+    private Map<String, String> convertMetadata(EnclosingDocument doc) {
+        Map<String, String> metadata = doc.getMetadata();
+        final String COLSPAN_KEY = "@colspan";
+        String colspan = metadata.get(COLSPAN_KEY);
+        return colspan == null ? null : ImmutableMap.of(COLSPAN_KEY, colspan);
     }
 }

@@ -17,6 +17,7 @@ import zh.bookreader.model.documents.ImageDocument;
 import zh.bookreader.model.documents.RawDocument;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -35,6 +36,7 @@ class EnclosingDocumentToEnclosingDocumentCommandConverterTest {
     private static final String METADATA_HREF_KEY = "@href";
     private static final String METADATA_DATA_TYPE_KEY = "type";
     private static final String METADATA_XREF_DATA_TYPE = "xref";
+    private static final String METADATA_COLSPAN_KEY = "@colspan";
 
     private EnclosingDocumentToEnclosingDocumentCommandConverter converter;
 
@@ -175,5 +177,23 @@ class EnclosingDocumentToEnclosingDocumentCommandConverterTest {
 
         List<? extends DocumentCommand> content = command.getContent();
         assertThat(content.get(0), is(instanceOf(ImageDocumentCommand.class)));
+    }
+
+    @Test
+    @DisplayName("Test converting a table cell with colspan attribute")
+    void testConvertingTableDataCellWithColspan() {
+        String colspanValue = "42";
+        EnclosingDocument tableCellDoc = EnclosingDocument.builder(DocumentType.TABLE)
+                .withContent(TEXT_DOC_1)
+                .withMetadata(ImmutableMap.of(
+                        METADATA_COLSPAN_KEY, colspanValue))
+                .build();
+
+        EnclosingDocumentCommand command = converter.convert(tableCellDoc);
+        Map<String, String> metadata = command.getMetadata();
+
+        String actualColspanValue = metadata.get(METADATA_COLSPAN_KEY);
+        assertThat(actualColspanValue, is(notNullValue()));
+        assertThat(actualColspanValue, is(colspanValue));
     }
 }

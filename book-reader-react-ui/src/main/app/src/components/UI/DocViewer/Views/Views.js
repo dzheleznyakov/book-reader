@@ -11,7 +11,16 @@ const Views = props => {
     const { docs } = props;
 
     const views = docs.map((doc, i) => {
-        const { id, documentType: type, content: docContent, formatting = [], href, width, height } = doc;
+        const { 
+            id, 
+            documentType: type, 
+            content: docContent, 
+            formatting = [], 
+            href, 
+            width, 
+            height,
+            metadata,
+        } = doc;
         const View = viewMapper(type, formatting);
         const content = contentMapper(type, docContent);
 
@@ -20,13 +29,15 @@ const Views = props => {
             image = docContent;
         }
 
+        const colspan = metadata && metadata['@colspan'];
+
         const viewProps = { 
             key: i, 
-            // children: content, 
             id: id || undefined,
             href,
             width: width || undefined,
             height: height || undefined,
+            colSpan: colspan || undefined,
             image,
             className: classFactory(type, formatting).toString(),
         }

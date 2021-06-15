@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Getter
@@ -20,4 +21,5 @@ public class EnclosingDocumentCommand implements DocumentCommand {
     private String id;
     private Set<String> formatting;
     private String href;
+    private Map<String, String> metadata;
 }
