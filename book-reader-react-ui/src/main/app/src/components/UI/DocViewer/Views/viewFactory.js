@@ -25,7 +25,7 @@ const getView = Tag => props => {
     const hash = useHash();
 
     useEffect(() => {
-        if (hash && hash.substring(1) === id && ref)
+        if (hash && id && hash.substring(1) === id && ref && ref.current)
             ref.current.scrollIntoView({ behavior: 'smooth' });
     }, [hash, id, ref]);
 
