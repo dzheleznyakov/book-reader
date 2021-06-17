@@ -70,6 +70,7 @@ td           => TABLE_CELL
 
 sup          => SUP
 sub          => SUB
+small        => SMALL
 
 i => EMPH
 em => EMPH

@@ -19,6 +19,7 @@ const classlessLiterals = new Set([
     `${types.INLINED}.${styles.STRIKE}`,
     `${types.INLINED}.${styles.SUP}`,
     `${types.INLINED}.${styles.SUB}`,
+    `${types.INLINED}.${styles.SMALL}`,
 ]);
 
 export const CssClasses = function () {

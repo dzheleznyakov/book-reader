@@ -27,6 +27,7 @@ i => INLINED
 strong => INLINED
 b => INLINED
 s => INLINED
+small => INLINED
 
 p => PARAGRAPH
 

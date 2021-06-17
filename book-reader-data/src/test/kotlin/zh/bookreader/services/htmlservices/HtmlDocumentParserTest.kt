@@ -56,6 +56,7 @@ internal class HtmlDocumentParserTest {
             "<cite>some text</cite>                         ,   ->   , some text,  CITE",
             "<em>some text</em>                             ,   ->   , some text,  EMPH",
             "<i>some text</i>                               ,   ->   , some text,  EMPH",
+            "<small>some text</small>                       ,   ->   , some text,  SMALL",
             "<strong>some text</strong>                     ,   ->   , some text,  BOLD",
             "<b>some text</b>                               ,   ->   , some text,  BOLD",
             "<s>some text</s>                               ,   ->   , some text,  STRIKE",

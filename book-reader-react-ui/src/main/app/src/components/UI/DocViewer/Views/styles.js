@@ -55,6 +55,7 @@ export default {
 
     SUP: 'SUP',
     SUB: 'SUB',
+    SMALL: 'SMALL',
 
     FOOTNOTE_REF: 'FOOTNOTE_REF',
     FOOTNOTE: 'FOOTNOTE',
