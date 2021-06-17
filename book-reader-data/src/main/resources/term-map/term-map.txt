@@ -58,6 +58,7 @@ thead   => TABLE
 th      => TABLE
 td      => TABLE
 tr      => TABLE
+colgroup => NULL
 
 a            => HREF
 a[xref]      => HREF

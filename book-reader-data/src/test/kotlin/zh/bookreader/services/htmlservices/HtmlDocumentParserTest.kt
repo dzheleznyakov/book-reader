@@ -266,6 +266,14 @@ internal class HtmlDocumentParserTest {
         assertThat(doc, hasFormatting(eFormatting))
     }
 
+    @Test
+    @DisplayName("Colgroup tag is parsed as NULL document")
+    internal fun testParsingColgroup() {
+        val doc = parser.parseFileContent("<colgroup><col /></colgroup>")
+
+        assertThat(doc, isNull())
+    }
+
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test parsing a table node")
     @CsvSource(
