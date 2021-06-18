@@ -41,6 +41,8 @@ h6 => TITLE
 
 h2.title => TITLE
 
+header => BANNER
+
 pre                                  => LISTING
 pre[programlisting]                  => LISTING; CODE
 pre.pagebreak-before[programlisting] => LISTING; CODE

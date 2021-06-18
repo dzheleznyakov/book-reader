@@ -103,6 +103,8 @@ const mapInlined = formatting => {
         return getView('small');
     if (formatting.hasOnly(styles.TITLE))
         return getView('h1');
+    if (formatting.hasOnly(styles.BANNER))
+        return getView('header');
     if (formatting.has(styles.CODE))
         return getView('code');
     if (formatting.has(styles.CITE))

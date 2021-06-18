@@ -20,6 +20,7 @@ public enum DocumentFormatting {
     DEFINITION_TERM,
     DEFINITION_DESCR,
 
+    BANNER,
     FIGURE,
     SIDEBAR,
 

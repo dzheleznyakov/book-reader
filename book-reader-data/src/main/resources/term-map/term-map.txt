@@ -3,6 +3,7 @@ code.option => INLINED
 code.nx     => INLINED
 code.o      => INLINED
 code.err    => INLINED
+header      => INLINED
 h1          => INLINED
 h2          => INLINED
 h3          => INLINED

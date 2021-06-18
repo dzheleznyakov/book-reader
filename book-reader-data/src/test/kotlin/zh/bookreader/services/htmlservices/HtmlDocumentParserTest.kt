@@ -42,6 +42,7 @@ internal class HtmlDocumentParserTest {
     @ParameterizedTest(name = "{0}")
     @DisplayName("Test parsing an inlined node")
     @CsvSource(
+            "<header>some title</header>                    ,   ->   , some title, BANNER",
             "<h1>some title</h1>                            ,   ->   , some title, TITLE",
             "<h2>some title</h2>                            ,   ->   , some title, TITLE",
             "<h3>some title</h3>                            ,   ->   , some title, TITLE",
