@@ -79,6 +79,7 @@ div.pagenumrestart[part] => SECTION
 div[part]    => SECTION
 
 section => SECTION
+article => SECTION
 
 img => IMAGE
 

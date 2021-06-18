@@ -172,6 +172,7 @@ internal class HtmlDocumentParserTest {
             "<div class=\"sect4\">mock text</div>,       ->   , SECTION,   mock text, LEVEL_4",
             "<div data-type=\"part\">mock text</div>,    ->   , SECTION,   mock text, _",
             "<div class=\"appendix\">mock text</div>,    ->   , SECTION,   mock text, _",
+            "<article>mock text</article>,               ->   , SECTION,   mock text, _",
             "<section>mock text</section>,               ->   , SECTION,   mock text, _",
             "<section data-type=\"appendix\">mock text</section>,   ->   , SECTION, mock text, LEVEL_0",
             "<section data-type=\"sect1\">mock text</section>,      ->   , SECTION, mock text, LEVEL_1",
