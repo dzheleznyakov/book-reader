@@ -16,6 +16,7 @@ sub         => INLINED
 
 math  => RAW
 
+kbd => INLINED
 
 span => INLINED
 nobr => INLINED

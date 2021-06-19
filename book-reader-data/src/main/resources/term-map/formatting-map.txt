@@ -26,6 +26,8 @@ code.kd  => CODE; CODE_KEYWORD
 code.kn  => CODE; CODE_KEYWORD
 code.classname => CODE; CODE_CLASSNAME
 
+kbd => KEYBOARD
+
 div[warning] => WARNING
 div[caution] => CAUTION
 div[note] => NOTE

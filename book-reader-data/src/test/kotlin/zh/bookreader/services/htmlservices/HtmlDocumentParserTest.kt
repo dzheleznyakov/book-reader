@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
 import zh.bookreader.model.documents.Document
+import zh.bookreader.model.documents.DocumentFormatting
 import zh.bookreader.model.documents.DocumentType.TABLE
 import zh.bookreader.model.documents.EnclosingDocument
 import zh.bookreader.services.htmlservices.hamcrest.containsMetadata
@@ -293,6 +294,16 @@ internal class HtmlDocumentParserTest {
         assertThat(doc, isOfType(eType))
         assertThat(doc, hasTextContent(eText))
         assertThat(doc, hasFormatting(eFormatting))
+    }
+
+    @Test
+    @DisplayName("Test parsing keyboard command node")
+    internal fun testParsingKeyboardNode() {
+        val doc = parser.parseFileContent("<kbd>blah</kbd>")
+
+        assertThat(doc, isOfType(DocType.INLINED))
+        assertThat(doc, hasFormatting(DocumentFormatting.KEYBOARD.toString()))
+        assertThat(doc, hasTextContent("blah"))
     }
 
     @ParameterizedTest(name = "{0}")

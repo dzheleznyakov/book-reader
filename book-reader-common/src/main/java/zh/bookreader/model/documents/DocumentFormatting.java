@@ -48,6 +48,8 @@ public enum DocumentFormatting {
     CODE_COMMENT,
     CODE_KEYWORD,
 
+    KEYBOARD,
+
     EPIGRAPH,
     CITE,
 

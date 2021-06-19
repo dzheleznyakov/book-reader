@@ -80,6 +80,8 @@ const mapBlock = formatting => {
         return getView('ul');
     if (formatting.has(styles.CODE) && formatting.has(styles.LISTING))
         return getView('pre');
+    if (formatting.has(styles.LISTING))
+        return getView('pre');
     if (formatting.hasOnly(styles.EPIGRAPH))
         return getView('blockquote');
     if (formatting.hasOnly(styles.SIDEBAR))
@@ -107,6 +109,8 @@ const mapInlined = formatting => {
         return getView('header');
     if (formatting.has(styles.CODE))
         return getView('code');
+    if (formatting.has(styles.KEYBOARD))
+        return getView('kbd');
     if (formatting.has(styles.CITE))
         return getView('cite');
     if (formatting.hasOnly(styles.CAPTION))
