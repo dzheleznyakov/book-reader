@@ -15,7 +15,7 @@ internal class TrieNodeEncoderTest : BaseEncoderTest<TrieNode<*>>() {
     @Test
     @DisplayName("Test encoding a null node")
     internal fun encodeNull() {
-        assertEncodedValue(null, -1)
+        assertEncodedValue(null, "")
     }
 
     @Test
@@ -23,7 +23,7 @@ internal class TrieNodeEncoderTest : BaseEncoderTest<TrieNode<*>>() {
     internal fun encodeEmptyNode() {
         assertEncodedValue(
             TrieNode<Int>('a'),
-            100, 104, -26, 101)
+            "<a>")
     }
 
     @Test
@@ -32,8 +32,7 @@ internal class TrieNodeEncoderTest : BaseEncoderTest<TrieNode<*>>() {
         val node = TrieNode<Int>('a')
         node.add(10)
 
-        assertEncodedValue(node,
-            100, 102, 0, 0, 0, 1, 0, 0, 0, 10, 103, -26, 101)
+        assertEncodedValue(node, "<a10#>")
     }
 
     @Test
@@ -44,17 +43,7 @@ internal class TrieNodeEncoderTest : BaseEncoderTest<TrieNode<*>>() {
         node.add(43)
         node.add(44)
 
-        assertEncodedValue(node,
-            100,
-            102,
-            0, 0, 0, 3,
-            0, 0, 0, 42,
-            0, 0, 0, 43,
-            0, 0, 0, 44,
-            103,
-            -26,
-            101
-        )
+        assertEncodedValue(node, "<a42,43,44#>")
     }
 
     @Test
@@ -64,12 +53,7 @@ internal class TrieNodeEncoderTest : BaseEncoderTest<TrieNode<*>>() {
         val childA = TrieNode<Int>('a')
         node.setChild('a', childA)
 
-        assertEncodedValue(node,
-            100,
-            104,
-            1, -25,
-            101
-        )
+        assertEncodedValue(node, "<-<a>>")
     }
 
     @Test
@@ -81,12 +65,7 @@ internal class TrieNodeEncoderTest : BaseEncoderTest<TrieNode<*>>() {
         node.setChild('a', childA)
         node.setChild('b', childB)
 
-        assertEncodedValue(node,
-            100,
-            104,
-            2, -24,
-            101
-        )
+        assertEncodedValue(node, "<-<a><b>>")
     }
 
     @Test
@@ -98,12 +77,7 @@ internal class TrieNodeEncoderTest : BaseEncoderTest<TrieNode<*>>() {
         node.setChild('c', childC)
         node.setChild('d', childD)
 
-        assertEncodedValue(node,
-            100,
-            104,
-            -2, 2, -22,
-            101
-        )
+        assertEncodedValue(node, "<-<c><d>>")
     }
 
     @Test
@@ -121,12 +95,7 @@ internal class TrieNodeEncoderTest : BaseEncoderTest<TrieNode<*>>() {
         node.setChild('m', childM)
         node.setChild('n', childN)
 
-        assertEncodedValue(node,
-            100,
-            104,
-            -2, 2, -7, 3, -12,
-            101
-        )
+        assertEncodedValue(node, "<-<c><d><l><m><n>>")
     }
 
     private fun ByteArray.concat(other: ByteArray): ByteArray {

@@ -15,15 +15,13 @@ internal class MapEncoderTest : BaseEncoderTest<Map<*, *>>() {
     @Test
     @DisplayName("Test encoding null")
     internal fun encodeNull() {
-        assertEncodedValue(null, 104)
+        assertEncodedValue(null, "")
     }
 
     @Test
     @DisplayName("Test encoding empty map")
     internal fun encodeEmptyMap() {
-        assertEncodedValue(mapOf<Int, Int>(),
-            102, 0, 0, 0, 0, 103
-        )
+        assertEncodedValue(mapOf<Int, Int>(), "")
     }
 
     @Test
@@ -31,13 +29,7 @@ internal class MapEncoderTest : BaseEncoderTest<Map<*, *>>() {
     internal fun encodeSingleEntryMap() {
         val map = mapOf(1 to 10)
 
-        assertEncodedValue(map,
-            102,
-            0, 0, 0, 1,
-            0, 0, 0, 1,
-            0, 0, 0, 10,
-            103
-        )
+        assertEncodedValue(map, "1,10#")
     }
 
     @Test
@@ -45,15 +37,7 @@ internal class MapEncoderTest : BaseEncoderTest<Map<*, *>>() {
     internal fun encodeMapWithTwoEntries() {
         val map = mapOf(1 to 10, 2 to 20)
 
-        assertEncodedValue(map,
-            102,
-            0, 0, 0, 2,
-            0, 0, 0, 1,
-            0, 0, 0, 10,
-            0, 0, 0, 2,
-            0, 0, 0, 20,
-            103
-        )
+        assertEncodedValue(map, "1,10,2,20#")
     }
 
     @Test
@@ -61,7 +45,7 @@ internal class MapEncoderTest : BaseEncoderTest<Map<*, *>>() {
     internal fun throwEncodingExcepitonIfKeyIsNull() {
         val map = mapOf<Int?, Int>(null to 10)
 
-        assertThrows<Encoder.EncodingException> { encoder.encode(out, map, encoders) }
+        assertThrows<Encoder.EncodingException> { encoder.encode(outPW, map, encoders) }
     }
 
     @Test
@@ -69,6 +53,6 @@ internal class MapEncoderTest : BaseEncoderTest<Map<*, *>>() {
     internal fun throwEncodingExceptionIfValueIsNull() {
         val map = mapOf<Int, Int?>(1 to null)
 
-        assertThrows<Encoder.EncodingException> { encoder.encode(out, map, encoders) }
+        assertThrows<Encoder.EncodingException> { encoder.encode(outPW, map, encoders) }
     }
 }

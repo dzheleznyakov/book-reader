@@ -50,8 +50,8 @@ class TrieIndexerService(
         books.buildIndex()
         log.info("Persisting the built index")
         val dataStream = DataOutputStream(output)
-        dataStream.writeIdMap()
-        dataStream.writeTrie()
+//        dataStream.writeIdMap()
+//        dataStream.writeTrie()
         dataStream.close()
         log.info("Finished persisting the library index")
     }

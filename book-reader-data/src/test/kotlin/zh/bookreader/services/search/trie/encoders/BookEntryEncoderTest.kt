@@ -14,11 +14,11 @@ internal class BookEntryEncoderTest : BaseEncoderTest<BookEntry>() {
 
     @Test
     @DisplayName("Test encoding null BookEntry")
-    internal fun encodeNull() = assertEncodedValue(null, 104)
+    internal fun encodeNull() = assertEncodedValue(null, "")
 
     @Test
     @DisplayName("Test encoding an empty BookEntry")
-    internal fun encodeEmptyBookEntry() = assertEncodedValue(BookEntry(), 100, 102, 0, 0, 0, 0, 103, 101)
+    internal fun encodeEmptyBookEntry() = assertEncodedValue(BookEntry(), "0|")
 
     @Test
     @DisplayName("Test encoding a BookEntry")
@@ -29,16 +29,6 @@ internal class BookEntryEncoderTest : BaseEncoderTest<BookEntry>() {
         bookEntry.increaseCount(1)
         bookEntry.increaseCount(2)
 
-        assertEncodedValue(bookEntry,
-            100,
-            102,
-            0, 0, 0, 2,
-            0, 0, 0, 1,
-            0, 0, 0, 3,
-            0, 0, 0, 2,
-            0, 0, 0, 1,
-            103,
-            101
-        )
+        assertEncodedValue(bookEntry, "4|1,3,2,1#")
     }
 }

@@ -14,11 +14,11 @@ internal class IndexEntryEncoderTest : BaseEncoderTest<IndexEntry>() {
 
     @Test
     @DisplayName("Test encoding null")
-    internal fun encodeNull() = assertEncodedValue(null, 104)
+    internal fun encodeNull() = assertEncodedValue(null, "")
 
     @Test
     @DisplayName("Test encoding an empty entry")
-    internal fun encodeEmptyIndexEntry() = assertEncodedValue(IndexEntry(), 100, 102, 0, 0, 0, 0, 103, 101)
+    internal fun encodeEmptyIndexEntry() = assertEncodedValue(IndexEntry(), "")
 
     @Test
     @DisplayName("Test encoding an entry")
@@ -26,20 +26,6 @@ internal class IndexEntryEncoderTest : BaseEncoderTest<IndexEntry>() {
         val entry = IndexEntry()
         entry.put(1, 42)
 
-        assertEncodedValue(entry,
-            100,
-            102,
-            0, 0, 0, 1,
-            0, 0, 0, 1,
-            100,
-            102,
-            0, 0, 0, 1,
-            0, 0, 0, 42,
-            0, 0, 0, 1,
-            103,
-            101,
-            103,
-            101
-        )
+        assertEncodedValue(entry, "1,1|42,1##")
     }
 }

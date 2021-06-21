@@ -22,6 +22,7 @@ public class TrieNode<T> {
 
     public TrieNode(char label) {
         this.label = label;
+        //noinspection unchecked
         this.children = (TrieNode<T>[]) Array.newInstance(TrieNode.class, 'z' - 'a' + 1);
     }
 

@@ -13,7 +13,7 @@ internal class StringEncoderTest : BaseEncoderTest<String>() {
 
     @Test
     @DisplayName("Test encoding null string")
-    internal fun encodeNull() = assertEncodedValue(null, 104)
+    internal fun encodeNull() = assertEncodedValue(null, "")
 
     @Test
     @DisplayName("Test encoding empty string")
@@ -21,5 +21,5 @@ internal class StringEncoderTest : BaseEncoderTest<String>() {
 
     @Test
     @DisplayName("Test encoding a string")
-    internal fun encodeString() = assertEncodedValue("abc", 97, 98, 99)
+    internal fun encodeString() = assertEncodedValue("abc", "abc")
 }

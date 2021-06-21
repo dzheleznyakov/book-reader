@@ -21,7 +21,7 @@ class TrieTest {
     }
 
     @Test
-    void testContains_throwIfPathContainsNotOnlyLowerCaseLetters() {
+    void testContains_throwIfPathContainsUpperCaseLetters() {
         assertThrows(Trie.InvalidPath.class, () -> trie.contains("abC"));
     }
 
@@ -31,7 +31,7 @@ class TrieTest {
     }
 
     @Test
-    void testGet_throwIfPathContainsNotOnlyLowerCaseLetters() {
+    void testGet_throwIfPathContainsUpperCaseLetters() {
         assertThrows(Trie.InvalidPath.class, () -> trie.get("abC"));
     }
 
@@ -41,7 +41,7 @@ class TrieTest {
     }
 
     @Test
-    void testPut_throwIfPathContainsNotOnlyLowerCaseLetters() {
+    void testPut_throwIfPathContainsUpperCaseLetters() {
         assertThrows(Trie.InvalidPath.class, () -> trie.put("abC", 1));
     }
 

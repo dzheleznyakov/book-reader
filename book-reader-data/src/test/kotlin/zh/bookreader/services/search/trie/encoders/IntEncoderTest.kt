@@ -13,9 +13,9 @@ internal class IntEncoderTest : BaseEncoderTest<Int?>() {
 
     @Test
     @DisplayName("Test encoding null")
-    internal fun encodeNull() = assertEncodedValue(null);
+    internal fun encodeNull() = assertEncodedValue(null, "");
 
     @Test
     @DisplayName("Test encoding not null value")
-    internal fun encodeValue() = assertEncodedValue(100, 0, 0, 0, 100)
+    internal fun encodeValue() = assertEncodedValue(100, "100")
 }

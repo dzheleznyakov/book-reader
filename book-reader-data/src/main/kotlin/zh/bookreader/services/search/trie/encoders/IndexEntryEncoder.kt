@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import zh.bookreader.services.search.IndexEntry
 import zh.bookreader.services.search.SEARCH_PERSISTENCE_TRIE_PROFILE
-import java.io.DataOutputStream
+import java.io.PrintWriter
 
 @Component
 @Profile(SEARCH_PERSISTENCE_TRIE_PROFILE)
@@ -15,14 +15,10 @@ class IndexEntryEncoder : Encoder<IndexEntry> {
         const val OBJECT_END_CODE = 101
     }
 
-    override fun encode(out: DataOutputStream, value: IndexEntry?, encoders: Encoders) {
-        if (value == null)
-            out.writeByte(NULL_VALUE)
-        else {
-            out.writeByte(OBJECT_START_CODE)
-            val mapEncoder = encoders.get(value.bookEntries::class.java) as Encoder<Map<*, *>>
-            mapEncoder.encode(out, value.bookEntries, encoders)
-            out.writeByte(OBJECT_END_CODE)
+    override fun encode(out: PrintWriter, value: IndexEntry?, encoders: Encoders) {
+        if (value != null) {
+            @Suppress("UNCHECKED_CAST") val encoder = encoders.get(value.bookEntries::class.java) as Encoder<Map<*, *>>
+            encoder.encode(out, value.bookEntries, encoders)
         }
         out.flush()
     }

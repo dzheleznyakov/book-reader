@@ -19,6 +19,10 @@ public class Trie<T> implements Iterable<TrieNode<T>> {
         root = new TrieNode<>();
     }
 
+    public TrieNode<T> getRoot() {
+        return root;
+    }
+
     public boolean contains(String path) {
         validatePath(path);
         return getDescendant(path).isPresent();
