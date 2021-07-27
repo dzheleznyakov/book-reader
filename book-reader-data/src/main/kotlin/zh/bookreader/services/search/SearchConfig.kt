@@ -1,6 +1,7 @@
-package zh.bookreader.services.search.table
+package zh.bookreader.services.search
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import zh.bookreader.services.utils.readLines
 import java.util.Scanner
@@ -13,8 +14,9 @@ interface SearchConfig {
     fun <E : Any> E.getStopWords(): Set<String>
 }
 
-@Component
-class SearchConfigImpl : SearchConfig {
+//@Component
+//class SearchConfigImpl : SearchConfig {
+abstract class BaseSearchConfig : SearchConfig {
     val USER_HOME_KEY = "user.home"
     val STOP_WORDS_LIST_PATH = "search-index/stopwords.txt"
 
@@ -31,9 +33,6 @@ class SearchConfigImpl : SearchConfig {
     override val userHomePath: String
         get() = System.getProperty(USER_HOME_KEY) ?: ""
 
-    override val indexFileName: String
-        get() = "index.zhi"
-
     @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     override fun <E : Any> E.getStopWords(): Set<String> {
         val stopWordsAsInputStream = this.javaClass.classLoader.getResourceAsStream(STOP_WORDS_LIST_PATH) ?: return setOf()
@@ -42,4 +41,18 @@ class SearchConfigImpl : SearchConfig {
                 .filter { it.isNotEmpty() }
                 .toSet()
     }
+}
+
+@Component
+@Profile(SEARCH_PERSISTENCE_TABLE_PROFILE)
+class SearchConfigImpl : BaseSearchConfig() {
+    override val indexFileName: String
+        get() = "index.zhi"
+}
+
+@Component
+@Profile(SEARCH_PERSISTENCE_TRIE_PROFILE)
+class TrieSearchConfigImpl : BaseSearchConfig() {
+    override val indexFileName: String
+        get() = "tr_index.zhi"
 }

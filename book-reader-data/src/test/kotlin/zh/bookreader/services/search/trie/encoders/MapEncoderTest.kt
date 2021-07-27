@@ -45,7 +45,7 @@ internal class MapEncoderTest : BaseEncoderTest<Map<*, *>>() {
     internal fun throwEncodingExcepitonIfKeyIsNull() {
         val map = mapOf<Int?, Int>(null to 10)
 
-        assertThrows<Encoder.EncodingException> { encoder.encode(outPW, map, encoders) }
+        assertThrows<Encoder.EncodingException> { encoder.encode(out, map, encoders) }
     }
 
     @Test
@@ -53,6 +53,6 @@ internal class MapEncoderTest : BaseEncoderTest<Map<*, *>>() {
     internal fun throwEncodingExceptionIfValueIsNull() {
         val map = mapOf<Int, Int?>(1 to null)
 
-        assertThrows<Encoder.EncodingException> { encoder.encode(outPW, map, encoders) }
+        assertThrows<Encoder.EncodingException> { encoder.encode(out, map, encoders) }
     }
 }

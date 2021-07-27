@@ -2,14 +2,16 @@ package zh.bookreader.services.search.table
 
 import com.google.common.annotations.VisibleForTesting
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import zh.bookreader.model.search.SearchHit
 import zh.bookreader.services.IndexerService
 import zh.bookreader.services.SearchService
 import zh.bookreader.services.search.BookEntry
 import zh.bookreader.services.search.IndexEntry
+import zh.bookreader.services.search.SEARCH_PERSISTENCE_TABLE_PROFILE
+import zh.bookreader.services.search.SearchConfig
 import java.io.InputStream
 import java.nio.file.Paths
 import java.util.Scanner
@@ -17,9 +19,10 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.regex.Pattern
 
 @Component
+@Profile(SEARCH_PERSISTENCE_TABLE_PROFILE)
 class SearchServiceImpl(
     searchConfig: SearchConfig,
-    @Qualifier("htmlIndexerService") private val indexer: IndexerService,
+    private val indexer: IndexerService,
     @Value("\${zh.bookreader.search}") private val searchIsOn: Boolean
 ) : SearchService {
     private val log = LoggerFactory.getLogger(this.javaClass)

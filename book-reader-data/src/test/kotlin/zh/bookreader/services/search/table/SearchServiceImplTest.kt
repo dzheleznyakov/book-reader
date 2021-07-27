@@ -16,6 +16,8 @@ import zh.bookreader.model.search.SearchHit
 import zh.bookreader.services.IndexerService
 import zh.bookreader.services.search.BookEntry
 import zh.bookreader.services.search.IndexEntry
+import zh.bookreader.services.search.SearchConfig
+import zh.bookreader.services.search.SearchConfigImpl
 
 @DisplayName("Test SearchServiceImpl")
 @ExtendWith(MockitoExtension::class)

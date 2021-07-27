@@ -4,7 +4,6 @@ import com.google.common.annotations.VisibleForTesting
 import zh.bookreader.model.documents.Book
 import zh.bookreader.services.BookService
 import zh.bookreader.services.IndexerService
-import zh.bookreader.services.search.table.SearchConfig
 import java.io.OutputStream
 import java.nio.file.Paths
 

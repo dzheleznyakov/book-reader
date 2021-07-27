@@ -12,14 +12,14 @@ import zh.bookreader.services.IndexerService
 import zh.bookreader.services.search.AbstractIndexerService
 import zh.bookreader.services.search.IndexEntry
 import zh.bookreader.services.search.SEARCH_PERSISTENCE_TRIE_PROFILE
-import zh.bookreader.services.search.table.SearchConfig
+import zh.bookreader.services.search.SearchConfig
 import zh.bookreader.services.search.table.TRIE_INDEX_FILE_NAME
 import zh.bookreader.services.search.table.getStopWords
 import zh.bookreader.services.search.trie.encoders.Encoder
 import zh.bookreader.services.search.trie.encoders.Encoders
 import zh.bookreader.utils.collections.Trie
-import java.io.DataOutputStream
 import java.io.OutputStream
+import java.io.PrintWriter
 import java.util.LinkedList
 import javax.annotation.PostConstruct
 
@@ -49,10 +49,12 @@ class TrieIndexerService(
         log.info("Staring building index from the library")
         books.buildIndex()
         log.info("Persisting the built index")
-        val dataStream = DataOutputStream(output)
-//        dataStream.writeIdMap()
-//        dataStream.writeTrie()
-        dataStream.close()
+        val writer = PrintWriter(output)
+//        val dataStream = DataOutputStream(output)
+        writer.writeIdMap()
+        writer.writeTrie()
+//        dataStream.close()
+        writer.close()
         log.info("Finished persisting the library index")
     }
 
@@ -103,13 +105,13 @@ class TrieIndexerService(
         entry.put(bookNum, chNum)
     }
 
-    private fun DataOutputStream.writeIdMap() {
+    private fun PrintWriter.writeIdMap() {
         (encoders.get(idMap::class.java) as Encoder<Map<*, *>>)
             .encode(this, idMap, encoders)
         flush()
     }
 
-    private fun DataOutputStream.writeTrie() {
+    private fun PrintWriter.writeTrie() {
         (encoders.get(trie::class.java) as Encoder<Trie<*>>)
             .encode(this, trie, encoders)
         flush()

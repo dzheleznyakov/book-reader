@@ -17,6 +17,8 @@ import zh.bookreader.services.htmlservices.getChapter
 import zh.bookreader.services.htmlservices.getHeader
 import zh.bookreader.services.htmlservices.getParagraph
 import zh.bookreader.services.htmlservices.getText
+import zh.bookreader.services.search.SearchConfig
+import zh.bookreader.services.search.SearchConfigImpl
 import zh.bookreader.services.search.hamcrest.matchesIndexMap
 import java.io.ByteArrayOutputStream
 import java.nio.file.Paths

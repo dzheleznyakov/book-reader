@@ -2,6 +2,7 @@ package zh.bookreader.services.search.table
 
 import com.google.common.annotations.VisibleForTesting
 import org.slf4j.LoggerFactory
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import zh.bookreader.model.documents.Book
 import zh.bookreader.model.documents.Document
@@ -11,12 +12,15 @@ import zh.bookreader.services.BookService
 import zh.bookreader.services.IndexerService
 import zh.bookreader.services.search.AbstractIndexerService
 import zh.bookreader.services.search.IndexEntry
+import zh.bookreader.services.search.SEARCH_PERSISTENCE_TABLE_PROFILE
+import zh.bookreader.services.search.SearchConfig
 import java.io.OutputStream
 import java.nio.file.Paths
 import java.util.LinkedList
 import java.util.concurrent.atomic.AtomicInteger
 
-@Component("htmlIndexerService")
+@Component
+@Profile(SEARCH_PERSISTENCE_TABLE_PROFILE)
 class HtmlIndexerService(
         bookService: BookService,
         searchConfig: SearchConfig
