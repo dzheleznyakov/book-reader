@@ -11,6 +11,7 @@
 		<module>book-reader-data</module>
 		<module>book-reader-react-ui</module>
 		<module>book-reader-common</module>
+		<module>book-reader-onboarding-tool</module>
 	</modules>
 
 	<packaging>pom</packaging>
