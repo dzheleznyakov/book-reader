@@ -20,7 +20,7 @@ HELP.md
 **/.DS_Store
 
 # dependencies
-book-reader-react-ui/**/node_modules
+**/node_modules
 book-reader-react-ui/**/.pnp
 book-reader-react-ui/**/.pnp.js
 
@@ -29,6 +29,7 @@ book-reader-react-ui/**/coverage
 
 # production
 book-reader-react-ui/**/build
+book-reader-onboarding-tool/**/build
 
 # misc
 book-reader-react-ui/**/.env.local

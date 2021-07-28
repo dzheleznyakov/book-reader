@@ -11,6 +11,7 @@
 		<module>book-reader-data</module>
 		<module>book-reader-react-ui</module>
 		<module>book-reader-common</module>
+		<module>book-reader-onboarding-tool</module>
 	</modules>
 
 	<packaging>pom</packaging>
@@ -35,6 +36,9 @@
 		<groovy-all.version>3.0.5</groovy-all.version>
 		<maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
 		<logback.version>1.2.3</logback.version>
+		<node.version>v14.9.0</node.version>
+		<npm.version>v6.14.7</npm.version>
+		<frontend-maven-plugin.version>1.10.0</frontend-maven-plugin.version>
 		<maven.javadoc.skip>true</maven.javadoc.skip>
 	</properties>
 
