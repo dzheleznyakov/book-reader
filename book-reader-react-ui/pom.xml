@@ -11,10 +11,7 @@
     <artifactId>book-reader-react-ui</artifactId>
 
     <properties>
-        <node.version>v14.9.0</node.version>
-        <npm.version>v6.14.7</npm.version>
         <frontend-src-dir>${project.basedir}/src/main/app</frontend-src-dir>
-        <frontend-maven-plugin.version>1.10.0</frontend-maven-plugin.version>
         <start-class>zh.bookreader.reactui.ReactUiApplication</start-class>
     </properties>
 
