@@ -76,6 +76,11 @@
 				<artifactId>book-reader-data</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>zh.op.bookreader</groupId>
+				<artifactId>book-reader-onboarding-tool</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

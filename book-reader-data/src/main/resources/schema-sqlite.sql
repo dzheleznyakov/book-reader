@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS document (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    oid VARCHAR UNIQUE,
+    type INTEGER,
+    content VARCHAR,
+    binary BLOB
+);

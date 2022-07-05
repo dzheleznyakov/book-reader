@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    database-platform: zh.spring.datajpa.sqlite.SQLiteDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    initialization-mode: always
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:zh_bookreader_test.db
+    username: admin
+    password: admin
+    platform: sqlite
